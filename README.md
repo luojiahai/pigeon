@@ -1,6 +1,6 @@
 # ESSOS-ALPHA
 
-##Requirements
+## Requirements
 
 This project requires iOS 11, and supports the following devices:
 * iPhone 6S and upwards
@@ -8,5 +8,5 @@ This project requires iOS 11, and supports the following devices:
 * iPad (2017)
 * All iPad Pro models
 
-##Usage
+## Usage
 Build and run on XCode 9 Beta 5
