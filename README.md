@@ -12,4 +12,5 @@ Build and run on XCode and target on one of the following devices:
 * iPhone SE
 * iPad (2017)
 * All iPad Pro models
+
 Note: Do not target on XCode simulators, which may not support some functionalities such as ARKit camera component.
