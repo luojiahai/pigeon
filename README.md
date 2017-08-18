@@ -2,11 +2,14 @@
 
 ## Requirements
 
-OS: macOS Sierra 10.12.4 or later
+Operating System: macOS Sierra 10.12.4 or later
+
 IDE: XCode 9.0 beta 5
+
 Development Target: iOS 11 Developer beta 6
 
 ## Usage
+
 Build and run on XCode and target on one of the following devices:
 * iPhone 6S or later
 * iPhone SE
