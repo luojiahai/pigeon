@@ -7,6 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00052B931F502D4300E9A27B /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052B921F502D4300E9A27B /* NotificationService.swift */; };
+		00052B971F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 00052B901F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052B9F1F5032BF00E9A27B /* CGPoint+Extensions.swift */; };
+		00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA01F5032BF00E9A27B /* CLLocation+Extensions.swift */; };
+		00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA11F5032BF00E9A27B /* FloatingPoint+Radians.swift */; };
+		00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA21F5032BF00E9A27B /* LocationManager.swift */; };
+		00052BAD1F5032EC00E9A27B /* LocationNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA31F5032BF00E9A27B /* LocationNode.swift */; };
+		00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA41F5032BF00E9A27B /* SceneLocationEstimate+Extensions.swift */; };
+		00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA51F5032BF00E9A27B /* SceneLocationEstimate.swift */; };
+		00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA61F5032BF00E9A27B /* SceneLocationView.swift */; };
+		00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA71F5032BF00E9A27B /* SCNNode+Extensions.swift */; };
+		00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */; };
+		00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00052B9D1F50310B00E9A27B /* GoogleService-Info.plist */; };
 		006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F41F3DA27D004C20B3 /* AppDelegate.swift */; };
 		006F19F71F3DA27F004C20B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F61F3DA27F004C20B3 /* ViewController.swift */; };
 		006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F19F81F3DA280004C20B3 /* Main.storyboard */; };
@@ -15,9 +28,20 @@
 		006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */; };
 		006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */; };
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
+		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
+		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
+		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
+		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00052B951F502D4300E9A27B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 006F19E91F3DA27A004C20B3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00052B8F1F502D4300E9A27B;
+			remoteInfo = OneSignalNotificationServiceExtension;
+		};
 		006F1A091F3DA288004C20B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 006F19E91F3DA27A004C20B3 /* Project object */;
@@ -34,7 +58,36 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		00052B9B1F502D4300E9A27B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				00052B971F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		00052B901F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		00052B921F502D4300E9A27B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		00052B941F502D4300E9A27B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		00052B9C1F50306800E9A27B /* Pigeon.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Pigeon.entitlements; sourceTree = "<group>"; };
+		00052B9D1F50310B00E9A27B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		00052B9F1F5032BF00E9A27B /* CGPoint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Extensions.swift"; sourceTree = "<group>"; };
+		00052BA01F5032BF00E9A27B /* CLLocation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CLLocation+Extensions.swift"; sourceTree = "<group>"; };
+		00052BA11F5032BF00E9A27B /* FloatingPoint+Radians.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FloatingPoint+Radians.swift"; sourceTree = "<group>"; };
+		00052BA21F5032BF00E9A27B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		00052BA31F5032BF00E9A27B /* LocationNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationNode.swift; sourceTree = "<group>"; };
+		00052BA41F5032BF00E9A27B /* SceneLocationEstimate+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SceneLocationEstimate+Extensions.swift"; sourceTree = "<group>"; };
+		00052BA51F5032BF00E9A27B /* SceneLocationEstimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationEstimate.swift; sourceTree = "<group>"; };
+		00052BA61F5032BF00E9A27B /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
+		00052BA71F5032BF00E9A27B /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
+		00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		006F19F11F3DA27B004C20B3 /* Pigeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pigeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F19F41F3DA27D004C20B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006F19F61F3DA27F004C20B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,13 +102,34 @@
 		006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonUITests.swift; sourceTree = "<group>"; };
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
+		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
+		26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
+		29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.release.xcconfig"; sourceTree = "<group>"; };
+		66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
+		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.release.xcconfig"; sourceTree = "<group>"; };
+		E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pigeon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		00052B8D1F502D4300E9A27B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		006F19EE1F3DA27B004C20B3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +137,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,19 +145,49 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00052B911F502D4300E9A27B /* OneSignalNotificationServiceExtension */ = {
+			isa = PBXGroup;
+			children = (
+				00052B921F502D4300E9A27B /* NotificationService.swift */,
+				00052B941F502D4300E9A27B /* Info.plist */,
+			);
+			path = OneSignalNotificationServiceExtension;
+			sourceTree = "<group>";
+		};
+		00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */ = {
+			isa = PBXGroup;
+			children = (
+				00052B9F1F5032BF00E9A27B /* CGPoint+Extensions.swift */,
+				00052BA01F5032BF00E9A27B /* CLLocation+Extensions.swift */,
+				00052BA11F5032BF00E9A27B /* FloatingPoint+Radians.swift */,
+				00052BA21F5032BF00E9A27B /* LocationManager.swift */,
+				00052BA31F5032BF00E9A27B /* LocationNode.swift */,
+				00052BA41F5032BF00E9A27B /* SceneLocationEstimate+Extensions.swift */,
+				00052BA51F5032BF00E9A27B /* SceneLocationEstimate.swift */,
+				00052BA61F5032BF00E9A27B /* SceneLocationView.swift */,
+				00052BA71F5032BF00E9A27B /* SCNNode+Extensions.swift */,
+				00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */,
+			);
+			path = "ARKit+CoreLocationSource";
+			sourceTree = "<group>";
+		};
 		006F19E81F3DA27A004C20B3 = {
 			isa = PBXGroup;
 			children = (
 				006F19F31F3DA27B004C20B3 /* Pigeon */,
 				006F1A0B1F3DA288004C20B3 /* PigeonTests */,
 				006F1A161F3DA28A004C20B3 /* PigeonUITests */,
+				00052B911F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 				006F19F21F3DA27B004C20B3 /* Products */,
+				8CA86DE5DA9DEE66A6F0F184 /* Pods */,
+				657584C0AD11FE3EE2F67BB0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -92,6 +197,7 @@
 				006F19F11F3DA27B004C20B3 /* Pigeon.app */,
 				006F1A081F3DA288004C20B3 /* PigeonTests.xctest */,
 				006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */,
+				00052B901F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,8 +205,10 @@
 		006F19F31F3DA27B004C20B3 /* Pigeon */ = {
 			isa = PBXGroup;
 			children = (
+				00052B9C1F50306800E9A27B /* Pigeon.entitlements */,
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
 				006F19F61F3DA27F004C20B3 /* ViewController.swift */,
+				00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */,
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
 			);
 			path = Pigeon;
@@ -131,25 +239,76 @@
 				006F19FE1F3DA284004C20B3 /* Assets.xcassets */,
 				006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */,
 				006F1A031F3DA287004C20B3 /* Info.plist */,
+				00052B9D1F50310B00E9A27B /* GoogleService-Info.plist */,
 				006F19FB1F3DA282004C20B3 /* Pigeon.xcdatamodeld */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		657584C0AD11FE3EE2F67BB0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */,
+				F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */,
+				29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */,
+				E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8CA86DE5DA9DEE66A6F0F184 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */,
+				26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
+				1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */,
+				939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */,
+				0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */,
+				32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */,
+				94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */,
+				A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		006F19F01F3DA27B004C20B3 /* Pigeon */ = {
+		00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 006F1A1C1F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "Pigeon" */;
+			buildConfigurationList = 00052B9A1F502D4300E9A27B /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */;
 			buildPhases = (
-				006F19ED1F3DA27B004C20B3 /* Sources */,
-				006F19EE1F3DA27B004C20B3 /* Frameworks */,
-				006F19EF1F3DA27B004C20B3 /* Resources */,
+				3A540EDD8FEE786CF1EFB42E /* [CP] Check Pods Manifest.lock */,
+				00052B8C1F502D4300E9A27B /* Sources */,
+				00052B8D1F502D4300E9A27B /* Frameworks */,
+				00052B8E1F502D4300E9A27B /* Resources */,
+				705076F409F579C4A03B9965 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+			);
+			name = OneSignalNotificationServiceExtension;
+			productName = OneSignalNotificationServiceExtension;
+			productReference = 00052B901F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		006F19F01F3DA27B004C20B3 /* Pigeon */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 006F1A1C1F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "Pigeon" */;
+			buildPhases = (
+				5DA33D5FDF17B9BB8B11F905 /* [CP] Check Pods Manifest.lock */,
+				006F19ED1F3DA27B004C20B3 /* Sources */,
+				006F19EE1F3DA27B004C20B3 /* Frameworks */,
+				006F19EF1F3DA27B004C20B3 /* Resources */,
+				00052B9B1F502D4300E9A27B /* Embed App Extensions */,
+				E5B81B08FE6936007BF9991D /* [CP] Embed Pods Frameworks */,
+				5A84566CE7DD6CCC897129E4 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				00052B961F502D4300E9A27B /* PBXTargetDependency */,
 			);
 			name = Pigeon;
 			productName = Pigeon;
@@ -160,9 +319,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 006F1A1F1F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "PigeonTests" */;
 			buildPhases = (
+				0B5FEE9C0721B82F02212729 /* [CP] Check Pods Manifest.lock */,
 				006F1A041F3DA288004C20B3 /* Sources */,
 				006F1A051F3DA288004C20B3 /* Frameworks */,
 				006F1A061F3DA288004C20B3 /* Resources */,
+				DE0B73E7A6DBE56CC45FC79E /* [CP] Embed Pods Frameworks */,
+				31AB50B212E120FCF917CEC5 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -178,9 +340,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 006F1A221F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "PigeonUITests" */;
 			buildPhases = (
+				7534177D71A82A7A227B8DBB /* [CP] Check Pods Manifest.lock */,
 				006F1A0F1F3DA28A004C20B3 /* Sources */,
 				006F1A101F3DA28A004C20B3 /* Frameworks */,
 				006F1A111F3DA28A004C20B3 /* Resources */,
+				D4F4AB9151FBDEA79C30E612 /* [CP] Embed Pods Frameworks */,
+				7F50EF0C21B0619CF1E5F9E7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -202,8 +367,20 @@
 				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "El Root";
 				TargetAttributes = {
+					00052B8F1F502D4300E9A27B = {
+						CreatedOnToolsVersion = 9.0;
+						ProvisioningStyle = Automatic;
+					};
 					006F19F01F3DA27B004C20B3 = {
 						CreatedOnToolsVersion = 9.0;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					006F1A071F3DA288004C20B3 = {
 						CreatedOnToolsVersion = 9.0;
@@ -231,16 +408,25 @@
 				006F19F01F3DA27B004C20B3 /* Pigeon */,
 				006F1A071F3DA288004C20B3 /* PigeonTests */,
 				006F1A121F3DA28A004C20B3 /* PigeonUITests */,
+				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		00052B8E1F502D4300E9A27B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		006F19EF1F3DA27B004C20B3 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */,
+				00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */,
 				006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */,
 				006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */,
 			);
@@ -262,11 +448,222 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0B5FEE9C0721B82F02212729 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PigeonTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		31AB50B212E120FCF917CEC5 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		3A540EDD8FEE786CF1EFB42E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-OneSignalNotificationServiceExtension-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A84566CE7DD6CCC897129E4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5DA33D5FDF17B9BB8B11F905 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Pigeon-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		705076F409F579C4A03B9965 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7534177D71A82A7A227B8DBB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PigeonUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7F50EF0C21B0619CF1E5F9E7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D4F4AB9151FBDEA79C30E612 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE0B73E7A6DBE56CC45FC79E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E5B81B08FE6936007BF9991D /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaLumberjack/CocoaLumberjack.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaLumberjack.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		00052B8C1F502D4300E9A27B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00052B931F502D4300E9A27B /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		006F19ED1F3DA27B004C20B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
+				00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */,
+				00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */,
+				00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */,
+				00052BAD1F5032EC00E9A27B /* LocationNode.swift in Sources */,
+				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
+				00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */,
+				00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */,
+				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
+				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* ViewController.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
@@ -292,6 +689,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00052B961F502D4300E9A27B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */;
+			targetProxy = 00052B951F502D4300E9A27B /* PBXContainerItemProxy */;
+		};
 		006F1A0A1F3DA288004C20B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 006F19F01F3DA27B004C20B3 /* Pigeon */;
@@ -324,6 +726,38 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		00052B981F502D4300E9A27B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.Pigeon.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		00052B991F502D4300E9A27B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
+				INFOPLIST_FILE = OneSignalNotificationServiceExtension/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.Pigeon.OneSignalNotificationServiceExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		006F1A1A1F3DA28E004C20B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -433,8 +867,11 @@
 		};
 		006F1A1D1F3DA28E004C20B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pigeon/Pigeon.entitlements;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
 				INFOPLIST_FILE = "$(SRCROOT)/Pigeon/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -447,8 +884,11 @@
 		};
 		006F1A1E1F3DA28E004C20B3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Pigeon/Pigeon.entitlements;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
 				INFOPLIST_FILE = "$(SRCROOT)/Pigeon/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -461,6 +901,7 @@
 		};
 		006F1A201F3DA28E004C20B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -477,6 +918,7 @@
 		};
 		006F1A211F3DA28E004C20B3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -493,6 +935,7 @@
 		};
 		006F1A231F3DA28E004C20B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
@@ -508,6 +951,7 @@
 		};
 		006F1A241F3DA28E004C20B3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
@@ -524,6 +968,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00052B9A1F502D4300E9A27B /* Build configuration list for PBXNativeTarget "OneSignalNotificationServiceExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00052B981F502D4300E9A27B /* Debug */,
+				00052B991F502D4300E9A27B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		006F19EC1F3DA27A004C20B3 /* Build configuration list for PBXProject "Pigeon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -1,0 +1,6 @@
+framework module Pods_PigeonUITests {
+  umbrella header "Pods-PigeonUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
