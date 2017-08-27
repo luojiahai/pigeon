@@ -73,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         window?.tintColor = .black
-        window?.rootViewController = ViewController()
+        window?.rootViewController = MainController()
         
         return true
     }

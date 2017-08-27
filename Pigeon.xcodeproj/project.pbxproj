@@ -21,7 +21,7 @@
 		00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */; };
 		00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00052B9D1F50310B00E9A27B /* GoogleService-Info.plist */; };
 		006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F41F3DA27D004C20B3 /* AppDelegate.swift */; };
-		006F19F71F3DA27F004C20B3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F61F3DA27F004C20B3 /* ViewController.swift */; };
+		006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F61F3DA27F004C20B3 /* MainController.swift */; };
 		006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F19F81F3DA280004C20B3 /* Main.storyboard */; };
 		006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 006F19FB1F3DA282004C20B3 /* Pigeon.xcdatamodeld */; };
 		006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006F19FE1F3DA284004C20B3 /* Assets.xcassets */; };
@@ -30,6 +30,11 @@
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
+		7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FA1F5290770018A715 /* HomeViewController.swift */; };
+		7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FC1F5290D20018A715 /* ChatsViewController.swift */; };
+		7A4877FF1F5292E10018A715 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FE1F5292E10018A715 /* ContactsViewController.swift */; };
+		7A4878011F5293990018A715 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878001F5293990018A715 /* MeViewController.swift */; };
+		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -90,7 +95,7 @@
 		00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
 		006F19F11F3DA27B004C20B3 /* Pigeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pigeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F19F41F3DA27D004C20B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		006F19F61F3DA27F004C20B3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		006F19F61F3DA27F004C20B3 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
 		006F19F91F3DA280004C20B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		006F19FC1F3DA282004C20B3 /* Pigeon.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pigeon.xcdatamodel; sourceTree = "<group>"; };
 		006F19FE1F3DA284004C20B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -108,6 +113,11 @@
 		29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.release.xcconfig"; sourceTree = "<group>"; };
 		66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
+		7A4877FA1F5290770018A715 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		7A4877FC1F5290D20018A715 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		7A4877FE1F5292E10018A715 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
+		7A4878001F5293990018A715 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
+		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -207,7 +217,12 @@
 			children = (
 				00052B9C1F50306800E9A27B /* Pigeon.entitlements */,
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
-				006F19F61F3DA27F004C20B3 /* ViewController.swift */,
+				006F19F61F3DA27F004C20B3 /* MainController.swift */,
+				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
+				7A4877FC1F5290D20018A715 /* ChatsViewController.swift */,
+				7A4877FE1F5292E10018A715 /* ContactsViewController.swift */,
+				7A4878001F5293990018A715 /* MeViewController.swift */,
+				7A4878021F5295380018A715 /* LoginViewController.swift */,
 				00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */,
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
 			);
@@ -654,17 +669,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A4878031F5295380018A715 /* LoginViewController.swift in Sources */,
+				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
 				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
 				00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */,
 				00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */,
 				00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */,
 				00052BAD1F5032EC00E9A27B /* LocationNode.swift in Sources */,
+				7A4877FF1F5292E10018A715 /* ContactsViewController.swift in Sources */,
+				7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */,
 				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
+				7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */,
 				00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */,
 				00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
-				006F19F71F3DA27F004C20B3 /* ViewController.swift in Sources */,
+				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
 			);
