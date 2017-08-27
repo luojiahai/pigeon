@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +20,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         setupViews()
     }
     
+    @objc fileprivate func dismissKeyboard() {
+        emailTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+    }
+    
     fileprivate func setupViews() {
         view.addSubview(cancelButton)
         
@@ -28,7 +33,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         cancelButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
         cancelButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
         
-//        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         
         view.addSubview(logo)
         logo.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -141,6 +146,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         })
     }
     
+    @objc fileprivate func toggleRegister() {
+        let registerVC = RegisterViewController()
+        registerVC.delegate = self
+        present(registerVC, animated: true, completion: nil)
+    
+        self.emailTextField.text = ""
+        self.passwordTextField.text = ""
+    }
+    
     lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -207,7 +221,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         button.backgroundColor = .white
         button.setTitle("No account？Sign up", for: .normal)
         button.setTitleColor(.black, for: .normal)
-//        button.addTarget(self, action: #selector(toggleRegister), for: .touchUpInside)
+        button.addTarget(self, action: #selector(toggleRegister), for: .touchUpInside)
         return button
     }()
     
