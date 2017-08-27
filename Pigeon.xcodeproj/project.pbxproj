@@ -35,6 +35,7 @@
 		7A4877FF1F5292E10018A715 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FE1F5292E10018A715 /* ContactsViewController.swift */; };
 		7A4878011F5293990018A715 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878001F5293990018A715 /* MeViewController.swift */; };
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
+		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -118,6 +119,7 @@
 		7A4877FE1F5292E10018A715 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		7A4878001F5293990018A715 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +227,7 @@
 				7A4878021F5295380018A715 /* LoginViewController.swift */,
 				00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */,
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
+				7A4878041F529B540018A715 /* Extensions.swift */,
 			);
 			path = Pigeon;
 			sourceTree = "<group>";
@@ -676,6 +679,7 @@
 				00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */,
 				00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */,
 				00052BAD1F5032EC00E9A27B /* LocationNode.swift in Sources */,
+				7A4878051F529B540018A715 /* Extensions.swift in Sources */,
 				7A4877FF1F5292E10018A715 /* ContactsViewController.swift in Sources */,
 				7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */,
 				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
