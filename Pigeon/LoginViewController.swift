@@ -118,7 +118,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     func login(email: String, password: String) {
         
-        // The completion closure will be 
+        // The completion closure will be
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: "Failed to login\n" + String(describing: error), preferredStyle: .alert)
