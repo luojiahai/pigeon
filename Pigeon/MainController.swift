@@ -19,7 +19,7 @@ class MainController: UITabBarController {
         
         // Singleton
         let loginVC = LoginViewController.sharedInstance
-        loginVC.delegates = [MainDataDelegate]()
+        loginVC.delegates = [LoginViewControllerDelegate]()
         
         // Home
         let homeVC = HomeViewController()

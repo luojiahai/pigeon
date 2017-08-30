@@ -24,7 +24,7 @@ class ContactsViewController: UIViewController {
 }
 
 
-// MARK: - MainDataDelegate
+// MARK: - LoginViewControllerDelegate
 // ContactsViewController is a delegate for LoginViewController. 
 // It provides the functionality of cleaning and reloading data in the HomeViewController itself.
 extension ContactsViewController: LoginViewControllerDelegate {

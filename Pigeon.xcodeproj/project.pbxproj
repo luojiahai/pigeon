@@ -28,6 +28,7 @@
 		006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */; };
 		006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */; };
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
+		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
 		7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FA1F5290770018A715 /* HomeViewController.swift */; };
@@ -111,6 +112,7 @@
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
+		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
 		29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				00052B9C1F50306800E9A27B /* Pigeon.entitlements */,
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
 				006F19F61F3DA27F004C20B3 /* MainController.swift */,
+				260C73CF1F56D4460032E26E /* LoginView.swift */,
 				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
 				7A4877FC1F5290D20018A715 /* ChatsViewController.swift */,
 				7A4877FE1F5292E10018A715 /* ContactsViewController.swift */,
@@ -690,6 +693,7 @@
 				7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */,
 				00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */,
 				00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */,
+				260C73D01F56D4470032E26E /* LoginView.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
