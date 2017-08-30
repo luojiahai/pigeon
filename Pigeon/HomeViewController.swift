@@ -78,9 +78,9 @@ class HomeViewController: UIViewController {
 }
 
 // MARK: - MainDataDelegate
-// HomeViewController is a MainDataDelegate for LoginViewController. 
-// It provides the functionality of cleaning the data in the HomeViewController itself.
-extension HomeViewController: MainDataDelegate {
+// HomeViewController is a delegate for LoginViewController. 
+// It provides the functionality of cleaning the data and reloading data in the HomeViewController itself.
+extension HomeViewController: LoginViewControllerDelegate {
     func reloadData() {
         //...
     }

@@ -13,21 +13,21 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
 }
 
 
 // MARK: - MainDataDelegate
-// ContactsViewController is a MainDataDelegate for LoginViewController. 
-// It provides the functionality of cleaning the data in the HomeViewController itself.
-extension ContactsViewController: MainDataDelegate {
+// ContactsViewController is a delegate for LoginViewController. 
+// It provides the functionality of cleaning and reloading data in the HomeViewController itself.
+extension ContactsViewController: LoginViewControllerDelegate {
     func reloadData() {
         //...
     }

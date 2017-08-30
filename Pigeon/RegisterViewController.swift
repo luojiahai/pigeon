@@ -105,16 +105,17 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         loginText.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
-    fileprivate func isValidEmail(_ testStr: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
-        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailTest.evaluate(with: testStr)
-    }
-    
     fileprivate func isValidUsername(_ testStr: String) -> Bool {
         let usernameRegEx = "[a-z0-9]*"
         let usernameTest = NSPredicate(format:"SELF MATCHES %@", usernameRegEx)
         return usernameTest.evaluate(with: testStr) && testStr.characters.count <= 16
+    }
+    
+    func isValidEmail(_ testStr: String) -> Bool {
+        // Test if the email address satisfies the regular express
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+        let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailTest.evaluate(with: testStr)
     }
     
     fileprivate func isValidPassword(_ testStr: String) -> Bool {

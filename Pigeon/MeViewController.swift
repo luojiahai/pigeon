@@ -24,9 +24,9 @@ class MeViewController: UIViewController {
 
 
 // MARK: - MainDataDelegate
-// MeViewController is a MainDataDelegate for LoginViewController. 
-// It provides the functionality of cleaning the data in the HomeViewController itself.
-extension MeViewController: MainDataDelegate {
+// MeViewController is a delegate for LoginViewController. 
+// It provides the functionality of cleaning and reloading data in the HomeViewController itself.
+extension MeViewController: LoginViewControllerDelegate {
     func reloadData() {
         //...
     }

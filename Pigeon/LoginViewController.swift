@@ -10,7 +10,13 @@ import UIKit
 import Firebase
 
 class LoginViewController: UIViewController, RegisterViewControllerDelegate, UITextFieldDelegate {
-
+	
+    // Singleton
+    static let sharedInstance = LoginViewController()
+    
+    // All delegates for LoginViewController
+    var delegates: [LoginViewControllerDelegate]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,7 +45,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         logo.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
         
         setupInputsContainerView()
-        setupLoginButton()
+        setupLoginAndRegisterButton()
     }
     
     fileprivate func setupInputsContainerView() {
@@ -71,7 +77,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         
     }
     
-    fileprivate func setupLoginButton() {
+    fileprivate func setupLoginAndRegisterButton() {
         view.addSubview(loginButton)
         loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         loginButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12).isActive = true
@@ -89,29 +95,36 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         dismiss(animated: true, completion: nil)
     }
     
-    fileprivate func isValidEmail(_ testStr: String) -> Bool {
+    func isValidEmail(_ testStr: String) -> Bool {
+        // Test if the email address satisfies the regular express
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
         let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailTest.evaluate(with: testStr)
     }
     
+    // When the login button has been touched up
     @objc fileprivate func handleLogin() {
         loginButton.isEnabled = false
         registerButton.isEnabled = false
         
-        guard let email = emailTextField.text, let password = passwordTextField.text, email != "", password != "" else {
+        guard let email = emailTextField.text, let password = passwordTextField.text, email != "", password != "" 
+        else {
+            // Send an alert
             let alert = UIAlertController(title: "Error", message: "Invalid input", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
+            
             loginButton.isEnabled = true
             registerButton.isEnabled = true
             return
         }
         
         if !isValidEmail(email) {
+            // Send an alert
             let alert = UIAlertController(title: "Error", message: "Invalid email address format", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
+            
             loginButton.isEnabled = true
             registerButton.isEnabled = true
             return
@@ -122,7 +135,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
     
     func loginToDatabase(email: String, password: String) {
         
-        // The completion closure will be
+        // The completion closure will be handled by the background thread
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: "Failed to login\n" + String(describing: error), preferredStyle: .alert)
@@ -133,7 +146,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
                 return
             }
             
-            // allocate main thread to deal with the closure below
+            // Allocate main thread to deal with the closure below
             DispatchQueue.main.async(execute: {
                 self.dismiss(animated: true, completion: nil)
                 
@@ -145,6 +158,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         })
     }
     
+    // When the register button has been touched up
     @objc fileprivate func switchToRegister() {
         let registerVC = RegisterViewController()
         registerVC.delegate = self
@@ -187,6 +201,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         return button
     }()
     
+    // The line between the email text field and password text field
     let emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false

@@ -15,21 +15,19 @@ class ChatsViewController: UIViewController {
         
         view.backgroundColor = .red
 
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
 
 }
 
 // MARK: - MainDataDelegate
-// ChatsViewController is a MainDataDelegate for LoginViewController. 
-// It provides the functionality of cleaning the data in the HomeViewController itself.
-extension ChatsViewController: MainDataDelegate {
+// ChatsViewController is a delegate for LoginViewController. 
+// It provides the functionality of cleaning and reloading data in the HomeViewController itself.
+extension ChatsViewController: LoginViewControllerDelegate {
     func reloadData() {
         //...
     }
