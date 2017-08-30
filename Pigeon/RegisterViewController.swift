@@ -9,13 +9,13 @@
 import UIKit
 import Firebase
 
-protocol RegisterViewControllerDegalte {
-    func login(email: String, password: String)
+protocol RegisterViewControllerDelegate {
+    func loginToDatabase(email: String, password: String)
 }
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
     
-    var delegate: RegisterViewControllerDegalte?
+    var delegate: RegisterViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -234,14 +234,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 }
                 
                 DispatchQueue.main.async(execute: {
-                    self.delegate?.login(email: email, password: password)
+                    self.delegate?.loginToDatabase(email: email, password: password)
                     self.dismiss(animated: true, completion: nil)
                 })
             })
         })
     }
     
-    @objc func toggleLogin() {
+    @objc func switchToLogin() {
         dismiss(animated: true, completion: nil)
     }
     
@@ -339,7 +339,7 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         button.backgroundColor = .white
         button.setTitle("Already have an account？Sign in", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(toggleLogin), for: .touchUpInside)
+        button.addTarget(self, action: #selector(switchToLogin), for: .touchUpInside)
         return button
     }()
     

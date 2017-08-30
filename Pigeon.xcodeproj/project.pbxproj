@@ -228,9 +228,9 @@
 				7A4878001F5293990018A715 /* MeViewController.swift */,
 				7A4878021F5295380018A715 /* LoginViewController.swift */,
 				7A4878061F52AE0C0018A715 /* RegisterViewController.swift */,
+				7A4878041F529B540018A715 /* Extensions.swift */,
 				00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */,
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
-				7A4878041F529B540018A715 /* Extensions.swift */,
 			);
 			path = Pigeon;
 			sourceTree = "<group>";

@@ -34,7 +34,6 @@ class HomeViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     @objc fileprivate func auth() {
@@ -75,16 +74,14 @@ class HomeViewController: UIViewController {
         button.addTarget(self, action: #selector(signOut), for: .touchUpInside)
         return button
     }()
-    
 
-    /*
-    // MARK: - Navigation
+}
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+// MARK: - MainDataDelegate
+// HomeViewController is a MainDataDelegate for LoginViewController. 
+// It provides the functionality of cleaning the data in the HomeViewController itself.
+extension HomeViewController: MainDataDelegate {
+    func reloadData() {
+        //...
     }
-    */
-
 }

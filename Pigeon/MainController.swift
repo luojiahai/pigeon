@@ -20,29 +20,29 @@ class MainController: UITabBarController {
         // Home
         let homeVC = HomeViewController()
         
-        let firstTab = UINavigationController(rootViewController: homeVC)
-        firstTab.tabBarItem.title = "Home"
+        let homeNC = UINavigationController(rootViewController: homeVC)
+        homeNC.tabBarItem.title = "Home"
         
         // Chats
         let chatsVC = ChatsViewController()
         
-        let secondTab = UINavigationController(rootViewController: chatsVC)
-        secondTab.tabBarItem.title = "Chats"
+        let chatsNC = UINavigationController(rootViewController: chatsVC)
+        chatsNC.tabBarItem.title = "Chats"
         
         // Contacts
         let contactsVC = ContactsViewController()
         
-        let thirdTab = UINavigationController(rootViewController: contactsVC)
-        thirdTab.tabBarItem.title = "Contacts"
+        let contactsNC = UINavigationController(rootViewController: contactsVC)
+        contactsNC.tabBarItem.title = "Contacts"
         
         // Me
         let meVC = MeViewController()
         
-        let fourthTab = UINavigationController(rootViewController: meVC)
-        fourthTab.tabBarItem.title = "Me"
+        let meNC = UINavigationController(rootViewController: meVC)
+        meNC.tabBarItem.title = "Me"
         
         // Add all tabs
-        viewControllers = [firstTab, secondTab, thirdTab, fourthTab]
+        viewControllers = [homeNC, chatsNC, contactsNC, meNC]
     }
     
     required init?(coder aDecoder: NSCoder) {

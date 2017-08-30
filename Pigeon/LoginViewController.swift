@@ -9,13 +9,12 @@
 import UIKit
 import Firebase
 
-class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITextFieldDelegate {
+class LoginViewController: UIViewController, RegisterViewControllerDelegate, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        // Do any additional setup after loading the view.
         
         setupViews()
     }
@@ -79,11 +78,11 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
         loginButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         loginButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
-        view.addSubview(registerText)
-        registerText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        registerText.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 12).isActive = true
-        registerText.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        registerText.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        view.addSubview(registerButton)
+        registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        registerButton.topAnchor.constraint(equalTo: loginButton.bottomAnchor, constant: 12).isActive = true
+        registerButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
+        registerButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
     @objc fileprivate func cancel() {
@@ -98,14 +97,14 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
     
     @objc fileprivate func handleLogin() {
         loginButton.isEnabled = false
-        registerText.isEnabled = false
+        registerButton.isEnabled = false
         
         guard let email = emailTextField.text, let password = passwordTextField.text, email != "", password != "" else {
             let alert = UIAlertController(title: "Error", message: "Invalid input", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
             loginButton.isEnabled = true
-            registerText.isEnabled = true
+            registerButton.isEnabled = true
             return
         }
         
@@ -114,14 +113,14 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
             loginButton.isEnabled = true
-            registerText.isEnabled = true
+            registerButton.isEnabled = true
             return
         }
         
-        login(email: email, password: password)
+        loginToDatabase(email: email, password: password)
     }
     
-    func login(email: String, password: String) {
+    func loginToDatabase(email: String, password: String) {
         
         // The completion closure will be
         Auth.auth().signIn(withEmail: email, password: password, completion: { (user, error) in
@@ -130,7 +129,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
                 self.loginButton.isEnabled = true
-                self.registerText.isEnabled = true
+                self.registerButton.isEnabled = true
                 return
             }
             
@@ -141,12 +140,12 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
                 self.emailTextField.text = ""
                 self.passwordTextField.text = ""
                 self.loginButton.isEnabled = true
-                self.registerText.isEnabled = true
+                self.registerButton.isEnabled = true
             })
         })
     }
     
-    @objc fileprivate func toggleRegister() {
+    @objc fileprivate func switchToRegister() {
         let registerVC = RegisterViewController()
         registerVC.delegate = self
         present(registerVC, animated: true, completion: nil)
@@ -215,13 +214,13 @@ class LoginViewController: UIViewController, RegisterViewControllerDegalte, UITe
         return textField
     }()
     
-    lazy var registerText: UIButton = {
+    lazy var registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
         button.setTitle("No account？Sign up", for: .normal)
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(toggleRegister), for: .touchUpInside)
+        button.addTarget(self, action: #selector(switchToRegister), for: .touchUpInside)
         return button
     }()
     

@@ -11,3 +11,7 @@ import UIKit
 
 let linePixel = 1 / UIScreen.main.scale
 let lineColor = UITableView().separatorColor!
+
+protocol MainDataDelegate {
+    func reloadData() 
+}
