@@ -17,32 +17,39 @@ class MainController: UITabBarController {
         tabBar.barTintColor = .white
         tabBar.isTranslucent = false
         
+        // Singleton
+        let loginVC = LoginViewController.sharedInstance
+        loginVC.delegates = [LoginViewControllerDelegate]()
+        
         // Home
         let homeVC = HomeViewController()
-        
-        let firstTab = UINavigationController(rootViewController: homeVC)
-        firstTab.tabBarItem.title = "Home"
+        // homeVC is one of the delegates for loginVC. It performs reloading data on itself
+        loginVC.delegates?.append(homeVC)
+        // homeVC has a navigation
+        let homeNC = UINavigationController(rootViewController: homeVC)
+        // tabBarItem is accessible from homeNC because homeNC is created in UITabBarController
+        homeNC.tabBarItem.title = "Home"
         
         // Chats
         let chatsVC = ChatsViewController()
-        
-        let secondTab = UINavigationController(rootViewController: chatsVC)
-        secondTab.tabBarItem.title = "Chats"
+	    loginVC.delegates?.append(chatsVC)
+        let chatsNC = UINavigationController(rootViewController: chatsVC)
+        chatsNC.tabBarItem.title = "Chats"
         
         // Contacts
         let contactsVC = ContactsViewController()
-        
-        let thirdTab = UINavigationController(rootViewController: contactsVC)
-        thirdTab.tabBarItem.title = "Contacts"
+        loginVC.delegates?.append(contactsVC)
+        let contactsNC = UINavigationController(rootViewController: contactsVC)
+        contactsNC.tabBarItem.title = "Contacts"
         
         // Me
         let meVC = MeViewController()
+        loginVC.delegates?.append(meVC)
+        let meNC = UINavigationController(rootViewController: meVC)
+        meNC.tabBarItem.title = "Me"
         
-        let fourthTab = UINavigationController(rootViewController: meVC)
-        fourthTab.tabBarItem.title = "Me"
-        
-        // Add all tabs
-        viewControllers = [firstTab, secondTab, thirdTab, fourthTab]
+        // Add all navigations
+        viewControllers = [homeNC, chatsNC, contactsNC, meNC]
     }
     
     required init?(coder aDecoder: NSCoder) {
