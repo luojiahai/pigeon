@@ -224,14 +224,12 @@
 				00052B9C1F50306800E9A27B /* Pigeon.entitlements */,
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
 				006F19F61F3DA27F004C20B3 /* MainController.swift */,
-				260C73CF1F56D4460032E26E /* LoginView.swift */,
-				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
-				7A4877FC1F5290D20018A715 /* ChatsViewController.swift */,
-				7A4877FE1F5292E10018A715 /* ContactsViewController.swift */,
-				7A4878001F5293990018A715 /* MeViewController.swift */,
-				7A4878021F5295380018A715 /* LoginViewController.swift */,
-				7A4878061F52AE0C0018A715 /* RegisterViewController.swift */,
 				7A4878041F529B540018A715 /* Extensions.swift */,
+				00BED2CA1F57E988000FEBD3 /* Authentication */,
+				00BED2CB1F57E9BA000FEBD3 /* Home */,
+				00BED2CC1F57E9D1000FEBD3 /* Chats */,
+				00BED2CD1F57E9DC000FEBD3 /* Contacts */,
+				00BED2CE1F57E9E7000FEBD3 /* Me */,
 				00052B9E1F5032BF00E9A27B /* ARKit+CoreLocationSource */,
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
 			);
@@ -267,6 +265,48 @@
 				006F19FB1F3DA282004C20B3 /* Pigeon.xcdatamodeld */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		00BED2CA1F57E988000FEBD3 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				260C73CF1F56D4460032E26E /* LoginView.swift */,
+				7A4878021F5295380018A715 /* LoginViewController.swift */,
+				7A4878061F52AE0C0018A715 /* RegisterViewController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		00BED2CB1F57E9BA000FEBD3 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		00BED2CC1F57E9D1000FEBD3 /* Chats */ = {
+			isa = PBXGroup;
+			children = (
+				7A4877FC1F5290D20018A715 /* ChatsViewController.swift */,
+			);
+			path = Chats;
+			sourceTree = "<group>";
+		};
+		00BED2CD1F57E9DC000FEBD3 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				7A4877FE1F5292E10018A715 /* ContactsViewController.swift */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		00BED2CE1F57E9E7000FEBD3 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				7A4878001F5293990018A715 /* MeViewController.swift */,
+			);
+			path = Me;
 			sourceTree = "<group>";
 		};
 		657584C0AD11FE3EE2F67BB0 /* Frameworks */ = {

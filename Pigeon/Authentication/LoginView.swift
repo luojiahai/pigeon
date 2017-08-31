@@ -23,15 +23,6 @@ class LoginView: UIView {
     }
     
     fileprivate func setupViews() {
-        addSubview(cancelButton)
-        
-        cancelButton.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
-        cancelButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
-        cancelButton.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        cancelButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        
-
-        
         addSubview(logo)
         logo.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         logo.topAnchor.constraint(equalTo: topAnchor, constant: 80).isActive = true
@@ -81,14 +72,6 @@ class LoginView: UIView {
         registerButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
         registerButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
-    let cancelButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Cancel", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        
-        return button
-    }()
     
     let inputsContainerView: UIView = {
         let view = UIView()

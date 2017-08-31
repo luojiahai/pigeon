@@ -13,14 +13,11 @@ class ContactsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationController?.navigationBar.isTranslucent = false
         
+        view.backgroundColor = .groupTableViewBackground
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-    
 }
 
 

@@ -9,6 +9,10 @@
 import UIKit
 import Firebase
 
+protocol LoginViewControllerDelegate {
+    func reloadData()
+}
+
 class LoginViewController: UIViewController, RegisterViewControllerDelegate, UITextFieldDelegate {
 	
     // Singleton
@@ -35,14 +39,11 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
     
     
     fileprivate func supportViews() {
-        
 	    loginView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         
-        loginView.cancelButton.addTarget(self, action: #selector(cancel), for: .touchUpInside)
         loginView.loginButton.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         loginView.passwordTextField.delegate = self
         loginView.registerButton.addTarget(self, action: #selector(switchToRegister), for: .touchUpInside)
-
     }
     
     
@@ -103,6 +104,10 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
             
             // Allocate main thread to deal with the closure below
             DispatchQueue.main.async(execute: {
+                self.delegates?.forEach({ (delegate) in
+                    delegate.reloadData()
+                })
+                
                 self.dismiss(animated: true, completion: nil)
                 
                 self.loginView.emailTextField.text = ""

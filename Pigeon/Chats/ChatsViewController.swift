@@ -13,14 +13,10 @@ class ChatsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .red
-
+        navigationController?.navigationBar.isTranslucent = false
+        
+        view.backgroundColor = .groupTableViewBackground
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
 
 }
 

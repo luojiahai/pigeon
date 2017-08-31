@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class MainController: UITabBarController {
 
@@ -54,6 +55,20 @@ class MainController: UITabBarController {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // Authenticate user
+        authenticate()
+    }
+    
+    func authenticate() {
+        guard let currentUser = Auth.auth().currentUser else {
+            self.present(LoginViewController.sharedInstance, animated: false, completion: nil)
+            return
+        }
     }
     
 }
