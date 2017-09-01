@@ -161,8 +161,6 @@ class PendingFriendsViewController: UITableViewController {
         }
     }
     
-    
-    
     fileprivate func sendApproveNotification(sender: String, receiver: String) {
         // notification here
     }
