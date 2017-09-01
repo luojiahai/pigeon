@@ -1,5 +1,5 @@
 //
-//  ContactsTableViewCell.swift
+//  PendingFriendsTableViewCell.swift
 //  Pigeon
 //
 //  Created by Geoffrey Ka-Hoi Law on 1/9/17.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ContactsTableViewCell: UITableViewCell {
-    
-    var contact: User? {
+class PendingFriendsTableViewCell: UITableViewCell {
+
+    var user: User? {
         didSet {
             setupUser()
         }
@@ -18,7 +18,6 @@ class ContactsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupViews()
     }
     
@@ -27,9 +26,9 @@ class ContactsTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupUser() {
-        nameLabel.text = contact?.name
-        usernameLabel.text = contact?.username
-        if let url = contact?.profilePhotoURL {
+        nameLabel.text = user?.name
+        usernameLabel.text = user?.username
+        if let url = user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
     }
@@ -38,6 +37,7 @@ class ContactsTableViewCell: UITableViewCell {
         addSubview(nameLabel)
         addSubview(usernameLabel)
         addSubview(profilePhotoImageView)
+        addSubview(approveButton)
         
         profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 12).isActive = true
         profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
@@ -49,6 +49,11 @@ class ContactsTableViewCell: UITableViewCell {
         
         usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
+        
+        approveButton.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        approveButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -16).isActive = true
+        approveButton.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        approveButton.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     let nameLabel: UILabel = {
@@ -75,5 +80,18 @@ class ContactsTableViewCell: UITableViewCell {
         imageView.layer.borderColor = lineColor.cgColor
         return imageView
     }()
-
+    
+    let approveButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.isEnabled = false
+        button.backgroundColor = .black
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.setTitle("Approve", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        return button
+    }()
+    
 }

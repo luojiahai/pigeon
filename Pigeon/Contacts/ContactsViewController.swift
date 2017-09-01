@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class ContactsViewController: UITableViewController {
 
@@ -24,7 +25,7 @@ class ContactsViewController: UITableViewController {
         setupTableView()
         setupRefreshControl()
         
-        fetchFriends()
+        fetchContacts()
     }
     
     fileprivate func setupNavigation() {
@@ -58,8 +59,8 @@ class ContactsViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
     }
     
-    fileprivate func fetchFriends() {
-        // back-end database here
+    fileprivate func fetchContacts() {
+        // back-end here
     }
     
     @objc fileprivate func addContacts() {
@@ -86,8 +87,7 @@ extension ContactsViewController {
         if !searchController.isActive && section == 0 {
             return 1
         }
-//        return contacts.count
-        return 20
+        return contacts.count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -104,19 +104,17 @@ extension ContactsViewController {
         } else {
             if !searchController.isActive && indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-                cell.textLabel?.text = "Pending Contacts"
+                cell.textLabel?.text = "Pending Friends"
                 return cell
             } else {
-//                contact = contacts[indexPath.row]
+                contact = contacts[indexPath.row]
             }
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath)
         
         if let cell = cell as? ContactsTableViewCell {
-//            cell.contact = contact
-            cell.nameLabel.text = "nameLabel"
-            cell.usernameLabel.text = "usernameLabel"
+            cell.contact = contact
         }
         
         return cell
@@ -133,7 +131,7 @@ extension ContactsViewController {
             return
         } else {
             if !searchController.isActive && indexPath.section == 0 {
-                let vc = PendingContactsViewController()
+                let vc = PendingFriendsViewController()
                 vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
                 return
@@ -172,7 +170,7 @@ extension ContactsViewController: LoginViewControllerDelegate {
         filteredContacts.removeAll()
         tableView.reloadData()
         
-        fetchFriends()
+        fetchContacts()
     }
     
 }
