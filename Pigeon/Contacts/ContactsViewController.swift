@@ -30,8 +30,8 @@ class ContactsViewController: UITableViewController {
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.title = "Friends"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "findFriends", style: .plain, target: self, action: #selector(findFriends))
+        navigationItem.title = "Contacts"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "addContacts", style: .plain, target: self, action: #selector(addContacts))
     }
     
     fileprivate func setupViews() {
@@ -41,15 +41,15 @@ class ContactsViewController: UITableViewController {
     fileprivate func setupTableView() {
         tableView.tableFooterView = UIView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-        tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: "FriendsCell")
+        tableView.register(ContactsTableViewCell.self, forCellReuseIdentifier: "ContactsCell")
     }
     
     fileprivate func setupSearchController() {
-//        searchController = UISearchController(searchResultsController: nil)
-//        searchController.searchResultsUpdater = self
-//        searchController.dimsBackgroundDuringPresentation = false
-//        definesPresentationContext = true
-//        tableView.tableHeaderView = searchController.searchBar
+        searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
     }
     
     fileprivate func setupRefreshControl() {
@@ -62,9 +62,15 @@ class ContactsViewController: UITableViewController {
         
     }
     
-    @objc fileprivate func findFriends() {
-        
+    @objc fileprivate func addContacts() {
+        let vc = AddContactsViewController()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
+
+}
+
+extension ContactsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         if !searchController.isActive {
@@ -87,7 +93,7 @@ class ContactsViewController: UITableViewController {
         if searchController.isActive {
             return nil
         }
-        return section == 0 ? nil : "All Friends"
+        return section == 0 ? nil : "All Contacts"
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +110,7 @@ class ContactsViewController: UITableViewController {
             }
         }
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FriendsCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath)
         
         if let cell = cell as? ContactsTableViewCell {
             cell.contact = contact
@@ -124,14 +130,32 @@ class ContactsViewController: UITableViewController {
             return
         } else {
             if !searchController.isActive && indexPath.section == 0 {
-                let vc = PendingFriendsViewController()
+                let vc = PendingContactsViewController()
                 vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
                 return
             }
         }
     }
+    
+}
 
+extension ContactsViewController: UISearchResultsUpdating {
+    
+    func filterContent(for searchText: String, scope: String = "All") {
+        filteredContacts = contacts.filter { contact in
+            return (contact.name?.lowercased().contains(searchText.lowercased()))! ||
+                (contact.username?.lowercased().contains(searchText.lowercased()))!
+        }
+        
+        tableView.reloadData()
+    }
+    
+    @available(iOS 8.0, *)
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContent(for: searchController.searchBar.text!)
+    }
+    
 }
 
 

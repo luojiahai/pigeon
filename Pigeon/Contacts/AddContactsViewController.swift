@@ -1,5 +1,5 @@
 //
-//  PendingFriendsViewController.swift
+//  AddContactsViewController.swift
 //  Pigeon
 //
 //  Created by Geoffrey Ka-Hoi Law on 1/9/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PendingFriendsViewController: UIViewController {
+class AddContactsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

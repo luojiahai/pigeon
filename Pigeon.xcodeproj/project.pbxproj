@@ -30,7 +30,8 @@
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
 		00962C691F58E62D00B4B7C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C681F58E62D00B4B7C0 /* User.swift */; };
 		00962C6C1F58E6F800B4B7C0 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C6B1F58E6F800B4B7C0 /* ContactsTableViewCell.swift */; };
-		00962C6E1F58E7DF00B4B7C0 /* PendingFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C6D1F58E7DF00B4B7C0 /* PendingFriendsViewController.swift */; };
+		00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C711F58E8A700B4B7C0 /* AddContactsViewController.swift */; };
+		00962C741F58E8B600B4B7C0 /* PendingContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C731F58E8B600B4B7C0 /* PendingContactsViewController.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -115,7 +116,8 @@
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00962C681F58E62D00B4B7C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		00962C6B1F58E6F800B4B7C0 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
-		00962C6D1F58E7DF00B4B7C0 /* PendingFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsViewController.swift; sourceTree = "<group>"; };
+		00962C711F58E8A700B4B7C0 /* AddContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactsViewController.swift; sourceTree = "<group>"; };
+		00962C731F58E8B600B4B7C0 /* PendingContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingContactsViewController.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -313,7 +315,8 @@
 			children = (
 				7A4877FE1F5292E10018A715 /* ContactsViewController.swift */,
 				00962C6B1F58E6F800B4B7C0 /* ContactsTableViewCell.swift */,
-				00962C6D1F58E7DF00B4B7C0 /* PendingFriendsViewController.swift */,
+				00962C711F58E8A700B4B7C0 /* AddContactsViewController.swift */,
+				00962C731F58E8B600B4B7C0 /* PendingContactsViewController.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -747,7 +750,6 @@
 				7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */,
 				00962C691F58E62D00B4B7C0 /* User.swift in Sources */,
 				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
-				00962C6E1F58E7DF00B4B7C0 /* PendingFriendsViewController.swift in Sources */,
 				7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */,
 				7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */,
 				00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */,
@@ -757,8 +759,10 @@
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
+				00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
+				00962C741F58E8B600B4B7C0 /* PendingContactsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
