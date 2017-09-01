@@ -59,7 +59,7 @@ class ContactsViewController: UITableViewController {
     }
     
     fileprivate func fetchFriends() {
-        
+        // back-end database here
     }
     
     @objc fileprivate func addContacts() {
@@ -86,7 +86,8 @@ extension ContactsViewController {
         if !searchController.isActive && section == 0 {
             return 1
         }
-        return contacts.count
+//        return contacts.count
+        return 20
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -103,17 +104,19 @@ extension ContactsViewController {
         } else {
             if !searchController.isActive && indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-                cell.textLabel?.text = "Pending Friends"
+                cell.textLabel?.text = "Pending Contacts"
                 return cell
             } else {
-                contact = contacts[indexPath.row]
+//                contact = contacts[indexPath.row]
             }
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactsCell", for: indexPath)
         
         if let cell = cell as? ContactsTableViewCell {
-            cell.contact = contact
+//            cell.contact = contact
+            cell.nameLabel.text = "nameLabel"
+            cell.usernameLabel.text = "usernameLabel"
         }
         
         return cell
