@@ -70,12 +70,98 @@ class PendingFriendsViewController: UITableViewController {
     }
     
     fileprivate func fetchPendingFriends() {
-        // back-end here
+        var senders = [String]()
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        Database.database().reference().child("pending-friends").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for snapshot in snapshots {
+                if snapshot.childSnapshot(forPath: "to").value as? String == currentUser.uid {
+                    guard let sender = snapshot.childSnapshot(forPath: "from").value as? String else { return }
+                    senders.append(sender)
+                }
+            }
+        }
+        
+        Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for sender in senders {
+                for snapshot in snapshots {
+                    if sender == snapshot.key {
+                        if let dictionary = snapshot.value as? [String: AnyObject] {
+                            let pendingFriend = User(uid: snapshot.key, dictionary)
+                            self.pendingFriends.append(pendingFriend)
+                        }
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        })
+        
+        Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
+            guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for friendship in friendships {
+                if friendship.childSnapshot(forPath: "to").value as? String != currentUser.uid {
+                    continue
+                }
+                
+                for pendingFriend in self.pendingFriends {
+                    if friendship.childSnapshot(forPath: "from").value as? String == pendingFriend.uid {
+                        pendingFriend.isApproved = true
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        })
     }
     
     @objc fileprivate func handleApprove(sender: UIButton) {
-        // back-end here
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["from": pendingFriends[sender.tag].uid!, "to": currentUser.uid, "timestamp": timestamp] as [String : Any]
+        Database.database().reference().child("friends").childByAutoId().updateChildValues(values) { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            self.sendApproveNotification(sender: currentUser.uid, receiver: self.pendingFriends[sender.tag].uid!)
+            
+            let values = [ref.key: timestamp]
+            Database.database().reference().child("users").child(currentUser.uid).child("friends").updateChildValues(values, withCompletionBlock: { (err, _) in
+                if let err = err {
+                    let alert = UIAlertController(title: "Error", message: String(describing: err), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+            })
+            Database.database().reference().child("users").child(self.pendingFriends[sender.tag].uid!).child("friends").updateChildValues(values, withCompletionBlock: { (err, _) in
+                if let err = err {
+                    let alert = UIAlertController(title: "Error", message: String(describing: err), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+            })
+            
+            DispatchQueue.main.async(execute: {
+                sender.isEnabled = false
+                sender.setTitle("Approved", for: .disabled)
+                sender.backgroundColor = .lightGray
+            })
+        }
     }
+    
+    
     
     fileprivate func sendApproveNotification(sender: String, receiver: String) {
         // notification here

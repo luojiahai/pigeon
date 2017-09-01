@@ -51,11 +51,63 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
     }
     
     fileprivate func fetchUsers() {
-        // back-end here
+        guard let currentUser = Auth.auth().currentUser else { return }
+        Database.database().reference().child("users").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for snapshot in snapshots {
+                if currentUser.uid == snapshot.key {
+                    continue
+                }
+                
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    let user = User(uid: snapshot.key, dictionary)
+                    self.users.append(user)
+                }
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        }
+        
+        Database.database().reference().child("pending-contacts").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
+            guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for friendship in friendships {
+                for user in self.users {
+                    if (friendship.childSnapshot(forPath: "from").value as? String == currentUser.uid && friendship.childSnapshot(forPath: "to").value as? String == user.uid) ||
+                        (friendship.childSnapshot(forPath: "from").value as? String == user.uid &&
+                            friendship.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
+                        user.isPending = true
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.tableView.reloadData()
+            })
+        })
     }
     
     @objc fileprivate func handleRequest(sender: UIButton) {
-        // back-end here
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["from": currentUser.uid, "to": users[sender.tag].uid!, "timestamp": timestamp] as [String : Any]
+        Database.database().reference().child("pending-contacts").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            self.sendRequestNotification(sender: currentUser.uid, receiver: self.users[sender.tag].uid!)
+            
+            DispatchQueue.main.async(execute: {
+                sender.isEnabled = false
+                sender.setTitle("Sent", for: .disabled)
+                sender.backgroundColor = .lightGray
+            })
+        })
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

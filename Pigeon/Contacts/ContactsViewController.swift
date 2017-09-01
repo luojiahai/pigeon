@@ -60,7 +60,50 @@ class ContactsViewController: UITableViewController {
     }
     
     fileprivate func fetchContacts() {
-        // back-end here
+        var friendIds = [String]()
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        Database.database().reference().child("users").child(currentUser.uid).child("friends").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for snapshot in snapshots {
+                friendIds.append(snapshot.key)
+            }
+            
+            var uids = [String]()
+            
+            Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let friends = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                for id in friendIds {
+                    for friend in friends {
+                        if id == friend.key {
+                            if let uid = friend.childSnapshot(forPath: "from").value as? String, uid != currentUser.uid {
+                                uids.append(uid)
+                            } else if let uid = friend.childSnapshot(forPath: "to").value as? String, uid != currentUser.uid {
+                                uids.append(uid)
+                            }
+                        }
+                    }
+                }
+            })
+            
+            Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let users = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                for uid in uids {
+                    for user in users {
+                        if user.key == uid {
+                            guard let dictionary = user.value as? [String: AnyObject] else { return }
+                            let contact = User(uid: user.key, dictionary)
+                            self.contacts.append(contact)
+                        }
+                    }
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    self.tableView.reloadData()
+                    self.refreshControl?.endRefreshing()
+                })
+            })
+        }
     }
     
     @objc fileprivate func addContacts() {
