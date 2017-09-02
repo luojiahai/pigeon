@@ -15,94 +15,31 @@ protocol RegisterViewControllerDelegate {
 
 class RegisterViewController: UIViewController, UITextFieldDelegate {
     
+    // View
+    let registerView = RegisterView()
+    
     var delegate: RegisterViewControllerDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view = registerView
         
-        setupViews()
+        supportViews()
+    }
+    
+    fileprivate func supportViews() {
+        registerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
+        registerView.loginText.addTarget(self, action: #selector(switchToLogin), for: .touchUpInside)
+        registerView.confirmPasswordTextField.delegate = self
+        registerView.registerButton.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
     }
     
     @objc fileprivate func dismissKeyboard() {
-        usernameTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-        confirmPasswordTextField.resignFirstResponder()
-    }
-    
-    fileprivate func setupViews() {
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
-        
-        setupInputsContainerView()
-        setupRegisterButton()
-    }
-    
-    fileprivate func setupInputsContainerView() {
-        view.addSubview(inputsContainerView)
-        inputsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        inputsContainerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 150).isActive
-            = true
-        inputsContainerView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -24).isActive = true
-        inputsContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        inputsContainerView.addSubview(emailTextField)
-        inputsContainerView.addSubview(emailSeparatorView)
-        inputsContainerView.addSubview(usernameTextField)
-        inputsContainerView.addSubview(usernameSeparatorView)
-        inputsContainerView.addSubview(passwordTextField)
-        inputsContainerView.addSubview(passwordSeparatorView)
-        inputsContainerView.addSubview(confirmPasswordTextField)
-        
-        usernameTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        usernameTextField.topAnchor.constraint(equalTo: inputsContainerView.topAnchor).isActive = true
-        usernameTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        usernameTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4).isActive = true
-        
-        usernameSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        usernameSeparatorView.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor).isActive = true
-        usernameSeparatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        usernameSeparatorView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-        
-        emailTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        emailTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor).isActive = true
-        emailTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        emailTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4).isActive = true
-        
-        emailSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        emailSeparatorView.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
-        emailSeparatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        emailSeparatorView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-        
-        passwordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor).isActive = true
-        passwordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        passwordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4).isActive = true
-        
-        passwordSeparatorView.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor).isActive = true
-        passwordSeparatorView.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
-        passwordSeparatorView.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        passwordSeparatorView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-        
-        confirmPasswordTextField.leftAnchor.constraint(equalTo: inputsContainerView.leftAnchor, constant: 12).isActive = true
-        confirmPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor).isActive = true
-        confirmPasswordTextField.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        confirmPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4).isActive = true
-    }
-    
-    fileprivate func setupRegisterButton() {
-        view.addSubview(registerButton)
-        registerButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        registerButton.topAnchor.constraint(equalTo: inputsContainerView.bottomAnchor, constant: 12).isActive = true
-        registerButton.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        registerButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        view.addSubview(loginText)
-        loginText.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginText.topAnchor.constraint(equalTo: registerButton.bottomAnchor, constant: 12).isActive = true
-        loginText.widthAnchor.constraint(equalTo: inputsContainerView.widthAnchor).isActive = true
-        loginText.heightAnchor.constraint(equalToConstant: 25).isActive = true
+        registerView.usernameTextField.resignFirstResponder()
+        registerView.emailTextField.resignFirstResponder()
+        registerView.passwordTextField.resignFirstResponder()
+        registerView.confirmPasswordTextField.resignFirstResponder()
     }
     
     fileprivate func isValidUsername(_ testStr: String) -> Bool {
@@ -123,15 +60,15 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
     }
     
     @objc fileprivate func handleRegister() {
-        registerButton.isEnabled = false
-        loginText.isEnabled = false
+        registerView.registerButton.isEnabled = false
+        registerView.loginText.isEnabled = false
         
-        guard let email = emailTextField.text, let password = passwordTextField.text, let confirmPassword = confirmPasswordTextField.text, let username = usernameTextField.text, email != "", password != "", confirmPassword != "", username != "" else {
+        guard let email = registerView.emailTextField.text, let password = registerView.passwordTextField.text, let confirmPassword = registerView.confirmPasswordTextField.text, let username = registerView.usernameTextField.text, email != "", password != "", confirmPassword != "", username != "" else {
             let alert = UIAlertController(title: "Error", message: "Please fill in all text fields", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            registerButton.isEnabled = true
-            loginText.isEnabled = true
+            registerView.registerButton.isEnabled = true
+            registerView.loginText.isEnabled = true
             return
         }
         
@@ -139,8 +76,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "Error", message: "Invalid username format\nformat: less than 16 lowercase English characters or numbers", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            registerButton.isEnabled = true
-            loginText.isEnabled = true
+            registerView.registerButton.isEnabled = true
+            registerView.loginText.isEnabled = true
             return
         }
         
@@ -148,8 +85,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "Error", message: "Invalid email address format", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            registerButton.isEnabled = true
-            loginText.isEnabled = true
+            registerView.registerButton.isEnabled = true
+            registerView.loginText.isEnabled = true
             return
         }
         
@@ -157,15 +94,15 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
             let alert = UIAlertController(title: "Error", message: "Invalid password format\nformat: greater than or equal to 6 numbers or characters", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            registerButton.isEnabled = true
-            loginText.isEnabled = true
+            registerView.registerButton.isEnabled = true
+            registerView.loginText.isEnabled = true
             return
         } else if password != confirmPassword {
             let alert = UIAlertController(title: "Error", message: "Password is not confirmed", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
-            registerButton.isEnabled = true
-            loginText.isEnabled = true
+            registerView.registerButton.isEnabled = true
+            registerView.loginText.isEnabled = true
             return
         }
         
@@ -175,8 +112,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     let alert = UIAlertController(title: "Error", message: "Username already exist", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
-                    self.registerButton.isEnabled = true
-                    self.loginText.isEnabled = true
+                    self.registerView.registerButton.isEnabled = true
+                    self.registerView.loginText.isEnabled = true
                 } else {
                     self.register(username: username, email: email, password: password)
                 }
@@ -200,14 +137,14 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                 let alert = UIAlertController(title: "Error", message: "Failed to register\n" + String(describing: error), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
-                self.registerButton.isEnabled = true
-                self.loginText.isEnabled = true
+                self.registerView.registerButton.isEnabled = true
+                self.registerView.loginText.isEnabled = true
                 return
             }
             
             guard let uid = user?.uid else {
-                self.registerButton.isEnabled = true
-                self.loginText.isEnabled = true
+                self.registerView.registerButton.isEnabled = true
+                self.registerView.loginText.isEnabled = true
                 return
             }
             
@@ -217,8 +154,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: err), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
-                    self.registerButton.isEnabled = true
-                    self.loginText.isEnabled = true
+                    self.registerView.registerButton.isEnabled = true
+                    self.registerView.loginText.isEnabled = true
                     return
                 }
             })
@@ -229,8 +166,8 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: err), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
-                    self.registerButton.isEnabled = true
-                    self.loginText.isEnabled = true
+                    self.registerView.registerButton.isEnabled = true
+                    self.registerView.loginText.isEnabled = true
                     return
                 }
                 
@@ -250,98 +187,4 @@ class RegisterViewController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
         return true
     }
-    
-    let inputsContainerView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.layer.masksToBounds = true
-        view.layer.borderColor = UIColor.black.cgColor
-        view.layer.borderWidth = linePixel
-        return view
-    }()
-    
-    lazy var registerButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("Register", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
-        button.layer.borderColor = UIColor.black.cgColor
-        button.layer.borderWidth = linePixel
-        button.setTitleColor(.lightGray, for: .disabled)
-        button.addTarget(self, action: #selector(handleRegister), for: .touchUpInside)
-        return button
-    }()
-    
-    let usernameTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Username"
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.spellCheckingType = .no
-        return textField
-    }()
-    
-    let usernameSeparatorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    let emailTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Email address"
-        textField.keyboardType = .emailAddress
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.spellCheckingType = .no
-        return textField
-    }()
-    
-    let emailSeparatorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    let passwordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Password"
-        textField.isSecureTextEntry = true
-        return textField
-    }()
-    
-    let passwordSeparatorView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    lazy var confirmPasswordTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "Confirm Password"
-        textField.isSecureTextEntry = true
-        textField.delegate = self
-        return textField
-    }()
-    
-    lazy var loginText: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("Already have an account？Sign in", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(switchToLogin), for: .touchUpInside)
-        return button
-    }()
-    
 }
