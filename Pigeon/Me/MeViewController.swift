@@ -13,12 +13,15 @@ class MeViewController: UIViewController {
     
     var completion: (() -> Void)?
     
+    let meView = MeView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupNavigation()
-        setupViews()
+        view = meView;
         
+        setupNavigation()
+
         fetchUser()
     }
     
@@ -26,38 +29,12 @@ class MeViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Me"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "signOut", style: .plain, target: self, action: #selector(handleSignOut))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "signOut", style: .plain, target: self, action: #selector(.))
     }
     
-    fileprivate func setupViews() {
-        view.backgroundColor = .groupTableViewBackground
+    fileprivate func supportViews() {
         
-        view.addSubview(nameCardView)
-        view.addSubview(nameLabel)
-        view.addSubview(usernameLabel)
-        view.addSubview(profilePhotoImageView)
-        view.addSubview(editProfileButton)
-        
-        nameCardView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        nameCardView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        nameCardView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        nameCardView.heightAnchor.constraint(equalToConstant: 150).isActive = true
-        
-        profilePhotoImageView.topAnchor.constraint(equalTo: nameCardView.topAnchor, constant: 16).isActive = true
-        profilePhotoImageView.leftAnchor.constraint(equalTo: nameCardView.leftAnchor, constant: 16).isActive = true
-        profilePhotoImageView.bottomAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: -16).isActive = true
-        profilePhotoImageView.widthAnchor.constraint(equalTo: profilePhotoImageView.heightAnchor).isActive = true
-        
-        nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 20).isActive = true
-        
-        usernameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8).isActive = true
-        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.leftAnchor).isActive = true
-        
-        editProfileButton.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 20).isActive = true
-        editProfileButton.rightAnchor.constraint(equalTo: nameCardView.rightAnchor, constant: -20).isActive = true
-        editProfileButton.bottomAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: -16).isActive = true
-        editProfileButton.heightAnchor.constraint(equalToConstant: 24)
+        meView.editProfileButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
     }
     
     fileprivate func fetchUser() {
@@ -66,9 +43,9 @@ class MeViewController: UIViewController {
             guard let name = dataSnapshot.childSnapshot(forPath: "name").value as? String else { return }
             guard let username = dataSnapshot.childSnapshot(forPath: "username").value as? String else { return }
             guard let url = dataSnapshot.childSnapshot(forPath: "profilePhotoURL").value as? String else { return }
-            self.nameLabel.text = name
-            self.usernameLabel.text = username
-            self.profilePhotoImageView.loadImageUsingCache(with: url)
+            self.meView.nameLabel.text = name
+            self.meView.usernameLabel.text = username
+            self.meView.profilePhotoImageView.loadImageUsingCache(with: url)
         }
     }
     
@@ -89,56 +66,7 @@ class MeViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    let nameCardView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.layer.borderColor = lineColor.cgColor
-        view.layer.borderWidth = linePixel
-        return view
-    }()
     
-    let nameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 1
-        label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 32)
-        return label
-    }()
-    
-    let usernameLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 1
-        label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 21)
-        label.textColor = .gray
-        return label
-    }()
-    
-    let profilePhotoImageView: CustomImageView = {
-        let imageView = CustomImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.borderWidth = linePixel
-        imageView.layer.borderColor = lineColor.cgColor
-        return imageView
-    }()
-    
-    let editProfileButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Edit Profile", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = lineColor.cgColor
-        button.layer.borderWidth = linePixel
-        button.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
-        return button
-    }()
-
 }
 
 // MARK: - LoginViewControllerDelegate
