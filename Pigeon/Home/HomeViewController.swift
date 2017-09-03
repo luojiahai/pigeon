@@ -16,7 +16,6 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.isTranslucent = false
         
-        view.backgroundColor = .groupTableViewBackground
     }
     
 }
