@@ -29,7 +29,7 @@ class MeViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Me"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "signOut", style: .plain, target: self, action: #selector(.))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "signOut", style: .plain, target: self, action: #selector(handleSignOut))
     }
     
     fileprivate func supportViews() {
