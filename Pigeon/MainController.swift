@@ -23,7 +23,7 @@ class MainController: UITabBarController {
         loginVC.delegates = [LoginViewControllerDelegate]()
         
         // Home
-        let homeVC = HomeViewController()
+        let homeVC = HomeViewController(collectionViewLayout: UICollectionViewLayout())
         // homeVC is one of the delegates for loginVC. It performs reloading data on itself
         loginVC.delegates?.append(homeVC)
         // homeVC has a navigation
