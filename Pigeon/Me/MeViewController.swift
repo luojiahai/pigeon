@@ -66,7 +66,6 @@ class MeViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
-    
 }
 
 // MARK: - LoginViewControllerDelegate

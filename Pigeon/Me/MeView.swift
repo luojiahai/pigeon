@@ -20,7 +20,6 @@ class MeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     fileprivate func setupViews() {
         backgroundColor = .groupTableViewBackground
         
@@ -100,4 +99,5 @@ class MeView: UIView {
         //button.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
         return button
     }()
+    
 }

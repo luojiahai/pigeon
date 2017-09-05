@@ -131,6 +131,4 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         self.loginView.passwordTextField.text = ""
     }
     
-    
-    
 }

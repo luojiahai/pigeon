@@ -181,4 +181,5 @@ class RegisterView: UIView {
         button.setTitleColor(.black, for: .normal)
         return button
     }()
+    
 }
