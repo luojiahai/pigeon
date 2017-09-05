@@ -145,25 +145,21 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
             return
         }
         
-        Database.database().reference().child("user-messages").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
-            
-            let messageID = snapshot.key
-            Database.database().reference().child("messages").child(messageID).observeSingleEvent(of: .value, with: { (snapshot) in
-                
+        Database.database().reference().child("user-conversations").child(currentUser.uid).child((user?.uid)!).observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let cID = dataSnapshot.value as? String else { return }
+            Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (snapshot) in
                 guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
                 
                 let message = Message(dictionary)
                 
-                if message.chatTargetID() == self.user?.uid {
-                    self.messages.append(message)
-                }
+                self.messages.append(message)
                 
                 DispatchQueue.main.async(execute: {
                     self.collectionView?.reloadData()
                     self.scrollToBottom(animated: false)
                 })
             })
-        })
+        }
     }
     
     fileprivate func scrollToBottom(animated: Bool) {
@@ -301,27 +297,55 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
             let fromUID = Auth.auth().currentUser!.uid
             let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
             let values: [String: AnyObject] = ["text": text as AnyObject, "toUID": toUID as AnyObject, "fromUID": fromUID as AnyObject, "timestamp": timestamp as AnyObject]
-            
-            Database.database().reference().child("messages").childByAutoId().updateChildValues(values) { (error, ref) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    self.sendButton.isEnabled = true
-                    return
+           
+            Database.database().reference().child("user-conversations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                var ref: DatabaseReference?
+                if dataSnapshot.hasChild(fromUID) && dataSnapshot.childSnapshot(forPath: fromUID).hasChild(toUID) {
+                    let conversationID = dataSnapshot.childSnapshot(forPath: fromUID).childSnapshot(forPath: toUID).value as! String
+                    ref = Database.database().reference().child("conversations").child(conversationID)
+                } else {
+                    ref = Database.database().reference().child("conversations").childByAutoId()
+                    let fromValues = [toUID: (ref?.key)!]
+                    let toValues = [fromUID: (ref?.key)!]
+                    Database.database().reference().child("user-conversations").child(fromUID).updateChildValues(fromValues, withCompletionBlock: { (error, ref) in
+                        if let error = error {
+                            let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                            self.sendButton.isEnabled = true
+                            return
+                        }
+                    })
+                    Database.database().reference().child("user-conversations").child(toUID).updateChildValues(toValues, withCompletionBlock: { (error, ref) in
+                        if let error = error {
+                            let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                            self.sendButton.isEnabled = true
+                            return
+                        }
+                    })
                 }
                 
-                self.sendMessageNotification(sender: fromUID, receiver: toUID)
-                
-                self.inputTextField.text = nil
-                
-                Database.database().reference().child("user-messages").child(fromUID).updateChildValues([ref.key: 1])
-                Database.database().reference().child("user-messages").child(toUID).updateChildValues([ref.key: 1])
-                
-                DispatchQueue.main.async(execute: {
-                    self.sendButton.isEnabled = true
-                })
-            }
+                ref!.childByAutoId().updateChildValues(values) { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        self.sendButton.isEnabled = true
+                        return
+                    }
+                    
+                    self.sendMessageNotification(sender: fromUID, receiver: toUID)
+                    
+                    self.inputTextField.text = nil
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.sendButton.isEnabled = true
+                    })
+                }
+            })
+            
         }
     }
     

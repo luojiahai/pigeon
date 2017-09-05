@@ -70,13 +70,13 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
             })
         }
         
-        Database.database().reference().child("pending-contacts").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
-            guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for friendship in friendships {
+        Database.database().reference().child("pending-friends").observeSingleEvent(of: .value, with: { (friendDataSnapshot) in
+            guard let friends = friendDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for friend in friends {
                 for user in self.users {
-                    if (friendship.childSnapshot(forPath: "from").value as? String == currentUser.uid && friendship.childSnapshot(forPath: "to").value as? String == user.uid) ||
-                        (friendship.childSnapshot(forPath: "from").value as? String == user.uid &&
-                            friendship.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
+                    if (friend.childSnapshot(forPath: "from").value as? String == currentUser.uid && friend.childSnapshot(forPath: "to").value as? String == user.uid) ||
+                        (friend.childSnapshot(forPath: "from").value as? String == user.uid &&
+                            friend.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
                         user.isPending = true
                     }
                 }
@@ -92,7 +92,7 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         let values = ["from": currentUser.uid, "to": users[sender.tag].uid!, "timestamp": timestamp] as [String : Any]
-        Database.database().reference().child("pending-contacts").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+        Database.database().reference().child("pending-friends").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

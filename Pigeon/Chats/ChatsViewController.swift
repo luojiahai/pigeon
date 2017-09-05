@@ -64,9 +64,9 @@ class ChatsViewController: UITableViewController, NewChatTableViewControllerDele
     fileprivate func fetchChats() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
-        Database.database().reference().child("user-messages").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
-            let messageID = snapshot.key
-            Database.database().reference().child("messages").child(messageID).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+        Database.database().reference().child("user-conversations").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
+            let cID = snapshot.value as! String
+            Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in
                 guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
                 let message = Message(dictionary)
                 guard let chatTargetID = message.chatTargetID() else { return }
@@ -84,9 +84,9 @@ class ChatsViewController: UITableViewController, NewChatTableViewControllerDele
                         self.timer?.invalidate()
                         self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
                     })
-                }, withCancel: nil)
-            }, withCancel: nil)
-        }, withCancel: nil)
+                })
+            })
+        })
     }
     
     @objc fileprivate func handleReloadTable() {

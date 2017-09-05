@@ -52,7 +52,7 @@ class NewChatTableViewController: UITableViewController {
         var friendshipIds = [String]()
         
         guard let currentUser = Auth.auth().currentUser else { return }
-        Database.database().reference().child("users").child(currentUser.uid).child("friendships").observeSingleEvent(of: .value) { (dataSnapshot) in
+        Database.database().reference().child("users").child(currentUser.uid).child("friends").observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
             for snapshot in snapshots {
                 friendshipIds.append(snapshot.key)
@@ -60,7 +60,7 @@ class NewChatTableViewController: UITableViewController {
             
             var uids = [String]()
             
-            Database.database().reference().child("friendships").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (dataSnapshot) in
                 guard let friendships = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
                 for id in friendshipIds {
                     for friendship in friendships {
