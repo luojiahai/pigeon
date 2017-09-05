@@ -400,7 +400,7 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        handleSend()
+        
         return true
     }
     
