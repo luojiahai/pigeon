@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import OneSignal
 
 class MainController: UITabBarController {
 
@@ -77,6 +78,8 @@ class MainController: UITabBarController {
             self.present(LoginViewController.sharedInstance, animated: false, completion: nil)
             return
         }
+        
+        OneSignal.sendTag("uid", value: currentUser.uid)
     }
     
 }

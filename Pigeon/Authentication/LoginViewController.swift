@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import OneSignal
 
 protocol LoginViewControllerDelegate {
     func reloadData()
@@ -104,6 +105,8 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
             
             // Allocate main thread to deal with the closure below
             DispatchQueue.main.async(execute: {
+                OneSignal.sendTag("uid", value: user?.uid)
+                
                 self.delegates?.forEach({ (delegate) in
                     delegate.reloadData()
                 })
