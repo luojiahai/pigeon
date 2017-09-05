@@ -144,10 +144,10 @@ class LocateTableViewController: UITableViewController {
     }
     
     fileprivate func presentMap() {
-//        let mapVC = MapViewController()
-//        mapVC.user = user
-//        let vc = UINavigationController(rootViewController: mapVC)
-//        present(vc, animated: true, completion: nil)
+        let mapVC = MapViewController()
+        mapVC.user = user
+        let vc = UINavigationController(rootViewController: mapVC)
+        present(vc, animated: true, completion: nil)
     }
     
 }

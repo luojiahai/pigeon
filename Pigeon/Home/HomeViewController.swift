@@ -33,7 +33,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.title = "MyApp"
+        navigationItem.title = "Pigeon"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "presentMap", style: .plain, target: self, action: #selector(handlePresentMap))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "postFootprint", style: .plain, target: self, action: #selector(handlePostFootprint))
     }

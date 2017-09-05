@@ -341,13 +341,13 @@
 		00BED2CC1F57E9D1000FEBD3 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
-				0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */,
-				0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */,
 				0086628D1F5E513A00705787 /* ChatsViewController.swift */,
 				0086628B1F5E513700705787 /* ChatsTableViewCell.swift */,
-				0086628E1F5E513A00705787 /* LocateTableViewController.swift */,
 				0086628C1F5E513900705787 /* NewChatTableViewController.swift */,
 				008662901F5E513A00705787 /* NewChatTableViewCell.swift */,
+				0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */,
+				0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */,
+				0086628E1F5E513A00705787 /* LocateTableViewController.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
