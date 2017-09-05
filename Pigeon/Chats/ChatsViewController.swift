@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatsViewController: UITableViewController, NewChatTableViewControllerDelegate, MainDataDelegate {
+class ChatsViewController: UITableViewController, NewChatTableViewControllerDelegate, LoginViewControllerDelegate {
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
