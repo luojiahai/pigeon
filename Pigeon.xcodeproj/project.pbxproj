@@ -28,6 +28,15 @@
 		006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */; };
 		006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */; };
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
+		008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */; };
+		008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628B1F5E513700705787 /* ChatsTableViewCell.swift */; };
+		008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628C1F5E513900705787 /* NewChatTableViewController.swift */; };
+		008662941F5E513A00705787 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628D1F5E513A00705787 /* ChatsViewController.swift */; };
+		008662951F5E513A00705787 /* LocateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628E1F5E513A00705787 /* LocateTableViewController.swift */; };
+		008662961F5E513A00705787 /* ChatLogCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */; };
+		008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008662901F5E513A00705787 /* NewChatTableViewCell.swift */; };
+		008662991F5E516600705787 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008662981F5E516600705787 /* RegisterView.swift */; };
+		0086629B1F5E51E400705787 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086629A1F5E51E400705787 /* Message.swift */; };
 		00962C691F58E62D00B4B7C0 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C681F58E62D00B4B7C0 /* User.swift */; };
 		00962C6C1F58E6F800B4B7C0 /* ContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C6B1F58E6F800B4B7C0 /* ContactsTableViewCell.swift */; };
 		00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C711F58E8A700B4B7C0 /* AddContactsViewController.swift */; };
@@ -38,12 +47,16 @@
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
 		7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FA1F5290770018A715 /* HomeViewController.swift */; };
-		7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FC1F5290D20018A715 /* ChatsViewController.swift */; };
 		7A4877FF1F5292E10018A715 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4877FE1F5292E10018A715 /* ContactsViewController.swift */; };
 		7A4878011F5293990018A715 /* MeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878001F5293990018A715 /* MeViewController.swift */; };
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
+		7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B1D1F5E3BE900A60E6D /* MeView.swift */; };
+		7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */; };
+		7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B311F5EA04300A60E6D /* ARViewController.swift */; };
+		7C488B341F5EA07400A60E6D /* FootprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B331F5EA07400A60E6D /* FootprintViewController.swift */; };
+		7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -116,6 +129,15 @@
 		006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonUITests.swift; sourceTree = "<group>"; };
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogCollectionViewCell.swift; sourceTree = "<group>"; };
+		0086628B1F5E513700705787 /* ChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsTableViewCell.swift; sourceTree = "<group>"; };
+		0086628C1F5E513900705787 /* NewChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatTableViewController.swift; sourceTree = "<group>"; };
+		0086628D1F5E513A00705787 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		0086628E1F5E513A00705787 /* LocateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateTableViewController.swift; sourceTree = "<group>"; };
+		0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogCollectionViewController.swift; sourceTree = "<group>"; };
+		008662901F5E513A00705787 /* NewChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatTableViewCell.swift; sourceTree = "<group>"; };
+		008662981F5E516600705787 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		0086629A1F5E51E400705787 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		00962C681F58E62D00B4B7C0 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		00962C6B1F58E6F800B4B7C0 /* ContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsTableViewCell.swift; sourceTree = "<group>"; };
 		00962C711F58E8A700B4B7C0 /* AddContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactsViewController.swift; sourceTree = "<group>"; };
@@ -130,12 +152,16 @@
 		32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.release.xcconfig"; sourceTree = "<group>"; };
 		66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4877FA1F5290770018A715 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		7A4877FC1F5290D20018A715 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		7A4877FE1F5292E10018A715 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		7A4878001F5293990018A715 /* MeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeViewController.swift; sourceTree = "<group>"; };
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		7C488B1D1F5E3BE900A60E6D /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
+		7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		7C488B311F5EA04300A60E6D /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
+		7C488B331F5EA07400A60E6D /* FootprintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintViewController.swift; sourceTree = "<group>"; };
+		7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintCollectionViewCell.swift; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -284,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				00962C681F58E62D00B4B7C0 /* User.swift */,
+				0086629A1F5E51E400705787 /* Message.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -293,6 +320,7 @@
 			children = (
 				260C73CF1F56D4460032E26E /* LoginView.swift */,
 				7A4878021F5295380018A715 /* LoginViewController.swift */,
+				008662981F5E516600705787 /* RegisterView.swift */,
 				7A4878061F52AE0C0018A715 /* RegisterViewController.swift */,
 			);
 			path = Authentication;
@@ -302,6 +330,10 @@
 			isa = PBXGroup;
 			children = (
 				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
+				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
+				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
+				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
+				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -309,7 +341,13 @@
 		00BED2CC1F57E9D1000FEBD3 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
-				7A4877FC1F5290D20018A715 /* ChatsViewController.swift */,
+				0086628D1F5E513A00705787 /* ChatsViewController.swift */,
+				0086628B1F5E513700705787 /* ChatsTableViewCell.swift */,
+				0086628C1F5E513900705787 /* NewChatTableViewController.swift */,
+				008662901F5E513A00705787 /* NewChatTableViewCell.swift */,
+				0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */,
+				0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */,
+				0086628E1F5E513A00705787 /* LocateTableViewController.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -330,6 +368,7 @@
 		00BED2CE1F57E9E7000FEBD3 /* Me */ = {
 			isa = PBXGroup;
 			children = (
+				7C488B1D1F5E3BE900A60E6D /* MeView.swift */,
 				7A4878001F5293990018A715 /* MeViewController.swift */,
 			);
 			path = Me;
@@ -744,11 +783,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */,
+				008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */,
+				008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */,
 				00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */,
 				00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */,
 				7A4878031F5295380018A715 /* LoginViewController.swift in Sources */,
 				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
+				008662941F5E513A00705787 /* ChatsViewController.swift in Sources */,
 				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
+				008662951F5E513A00705787 /* LocateTableViewController.swift in Sources */,
 				00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */,
 				00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */,
 				00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */,
@@ -760,16 +804,24 @@
 				00962C691F58E62D00B4B7C0 /* User.swift in Sources */,
 				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
 				7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */,
-				7A4877FD1F5290D20018A715 /* ChatsViewController.swift in Sources */,
+				0086629B1F5E51E400705787 /* Message.swift in Sources */,
 				00052BAF1F5032EC00E9A27B /* SceneLocationEstimate.swift in Sources */,
 				00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */,
+				7C488B341F5EA07400A60E6D /* FootprintViewController.swift in Sources */,
 				00962C6C1F58E6F800B4B7C0 /* ContactsTableViewCell.swift in Sources */,
 				260C73D01F56D4470032E26E /* LoginView.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
+				7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
 				00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */,
+				7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */,
+				008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
+				7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */,
+				008662991F5E516600705787 /* RegisterView.swift in Sources */,
+				008662961F5E513A00705787 /* ChatLogCollectionViewController.swift in Sources */,
+				008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

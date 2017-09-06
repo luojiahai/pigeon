@@ -70,13 +70,13 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
             })
         }
         
-        Database.database().reference().child("pending-contacts").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
-            guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for friendship in friendships {
+        Database.database().reference().child("pending-friends").observeSingleEvent(of: .value, with: { (friendDataSnapshot) in
+            guard let friends = friendDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for friend in friends {
                 for user in self.users {
-                    if (friendship.childSnapshot(forPath: "from").value as? String == currentUser.uid && friendship.childSnapshot(forPath: "to").value as? String == user.uid) ||
-                        (friendship.childSnapshot(forPath: "from").value as? String == user.uid &&
-                            friendship.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
+                    if (friend.childSnapshot(forPath: "from").value as? String == currentUser.uid && friend.childSnapshot(forPath: "to").value as? String == user.uid) ||
+                        (friend.childSnapshot(forPath: "from").value as? String == user.uid &&
+                            friend.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
                         user.isPending = true
                     }
                 }
@@ -92,7 +92,7 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         let values = ["from": currentUser.uid, "to": users[sender.tag].uid!, "timestamp": timestamp] as [String : Any]
-        Database.database().reference().child("pending-contacts").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+        Database.database().reference().child("pending-friends").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -174,7 +174,53 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
     }
     
     fileprivate func sendRequestNotification(sender: String, receiver: String) {
-        // notification here
+        Database.database().reference().child("users").child(sender).child("username").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let username = dataSnapshot.value as? String else { return }
+            
+            guard let url = URL(string: "https://onesignal.com/api/v1/notifications") else { return }
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("Basic ZTliOGU2ZTItNzllYS00MDA4LWI1ZGQtYmI5YWU1ZGNjMWI2", forHTTPHeaderField: "Authorization")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let jsonObject: [String: Any] = [
+                "app_id": "e7881ec9-db20-4f40-b21b-791a5efb058f",
+                "filters": [
+                    [
+                        "field": "tag",
+                        "key": "uid",
+                        "relation": "=",
+                        "value": receiver
+                    ]
+                ],
+                "contents": [
+                    "en": "[\(String(describing: username))]: You've got a new friend request."
+                ]
+            ]
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+                request.httpBody = jsonData
+            } catch {
+                print("Error JSON")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(String(describing: response))")
+                }
+                
+                let responseString = String(data: data!, encoding: .utf8)
+                print("responseString = \(String(describing: responseString))")
+            }
+            task.resume()
+        }
     }
 
 }

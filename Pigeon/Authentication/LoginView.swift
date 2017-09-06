@@ -142,4 +142,5 @@ class LoginView: UIView {
         label.sizeToFit()
         return label
     }()
+    
 }
