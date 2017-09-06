@@ -1,19 +1,24 @@
 //
-//  PigeonTests.swift
+//  testLogin.swift
 //  PigeonTests
 //
-//  Created by Geoffrey Ka-Hoi Law on 11/8/17.
+//  Created by Meng Yuan on 6/9/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
 
 import XCTest
+//import Firebase
+
+//@testable import Pigeon
+//TODO unable to run with Firebase
 
 
-class PigeonTests: XCTestCase {
+class testLogin: XCTestCase {
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
     }
     
     override func tearDown() {
@@ -31,6 +36,11 @@ class PigeonTests: XCTestCase {
         self.measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+    func testEmail() {
+        //should be false
+        
     }
     
 }
