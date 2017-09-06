@@ -43,6 +43,7 @@
 		00962C761F59420D00B4B7C0 /* AddContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C751F59420D00B4B7C0 /* AddContactsTableViewCell.swift */; };
 		00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */; };
 		00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */; };
+		00C49F6A1F6017AF006508EA /* testLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testLogin.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -52,7 +53,6 @@
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
-		7A9BBB521F5FC04C004579FA /* testLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9BBB511F5FC04C004579FA /* testLogin.swift */; };
 		7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B1D1F5E3BE900A60E6D /* MeView.swift */; };
 		7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */; };
 		7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B311F5EA04300A60E6D /* ARViewController.swift */; };
@@ -145,6 +145,7 @@
 		00962C751F59420D00B4B7C0 /* AddContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactsTableViewCell.swift; sourceTree = "<group>"; };
 		00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsViewController.swift; sourceTree = "<group>"; };
 		00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsTableViewCell.swift; sourceTree = "<group>"; };
+		00C49F691F6017AF006508EA /* testLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testLogin.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -158,7 +159,6 @@
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		7A9BBB511F5FC04C004579FA /* testLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testLogin.swift; sourceTree = "<group>"; };
 		7C488B1D1F5E3BE900A60E6D /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7C488B311F5EA04300A60E6D /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
@@ -280,7 +280,7 @@
 		006F1A0B1F3DA288004C20B3 /* PigeonTests */ = {
 			isa = PBXGroup;
 			children = (
-				7A9BBB511F5FC04C004579FA /* testLogin.swift */,
+				00C49F691F6017AF006508EA /* testLogin.swift */,
 				006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */,
 				006F1A0E1F3DA28A004C20B3 /* Info.plist */,
 			);
@@ -834,7 +834,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */,
-				7A9BBB521F5FC04C004579FA /* testLogin.swift in Sources */,
+				00C49F6A1F6017AF006508EA /* testLogin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1033,28 +1033,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Pigeon/Pigeon.entitlements;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
-				HEADER_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"$(SRCROOT)/Pods/**",
-				);
-				"HEADER_SEARCH_PATHS[arch=*]" = (
-					"$(inherited)",
-					"${PODS_ROOT}/Firebase/Core/Sources",
-					"\"${PODS_ROOT}/leveldb-library/\"",
-					"\"${PODS_ROOT}/leveldb-library/include\"",
-					"$(inherited)",
-					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAnalytics\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseAuth\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseDatabase\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseInstanceID\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseMessaging\"",
-					"\"${PODS_ROOT}/Headers/Public/FirebaseStorage\"",
-					"\"${PODS_ROOT}/Headers/Public/OneSignal\"\"$(inherited)${SRCROOT}/Pods\"",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Pigeon/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.Pigeon;
@@ -1072,11 +1050,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Pigeon/Pigeon.entitlements;
 				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
-				HEADER_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"$(SRCROOT)/Pods/**",
-				);
 				INFOPLIST_FILE = "$(SRCROOT)/Pigeon/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.Pigeon;

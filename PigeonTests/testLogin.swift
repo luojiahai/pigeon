@@ -7,7 +7,7 @@
 //
 
 import XCTest
-//import Firebase
+import Firebase
 
 //@testable import Pigeon
 //TODO unable to run with Firebase
