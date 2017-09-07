@@ -13,7 +13,6 @@ target 'Pigeon' do
   pod 'Firebase/Storage'
   pod 'Firebase/Messaging'
   pod 'OneSignal', '>= 2.5.2', '< 3.0'
-  pod 'CocoaLumberjack/Swift', :git => 'https://github.com/CocoaLumberjack/CocoaLumberjack', :branch => 'master'
 
   target 'PigeonTests' do
     inherit! :search_paths

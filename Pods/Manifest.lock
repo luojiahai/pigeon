@@ -1,7 +1,4 @@
 PODS:
-  - CocoaLumberjack/Default (3.2.1)
-  - CocoaLumberjack/Swift (3.2.1):
-    - CocoaLumberjack/Default
   - Firebase (4.1.1):
     - Firebase/Core (= 4.1.1)
   - Firebase/Auth (4.1.1):
@@ -70,7 +67,6 @@ PODS:
   - Protobuf (3.4.0)
 
 DEPENDENCIES:
-  - CocoaLumberjack/Swift (from `https://github.com/CocoaLumberjack/CocoaLumberjack`, branch `master`)
   - Firebase
   - Firebase/Auth
   - Firebase/Core
@@ -79,18 +75,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - OneSignal (< 3.0, >= 2.5.2)
 
-EXTERNAL SOURCES:
-  CocoaLumberjack:
-    :branch: master
-    :git: https://github.com/CocoaLumberjack/CocoaLumberjack
-
-CHECKOUT OPTIONS:
-  CocoaLumberjack:
-    :commit: 3a27c2611702f85b29557e2b51eaaf6326b15f39
-    :git: https://github.com/CocoaLumberjack/CocoaLumberjack
-
 SPEC CHECKSUMS:
-  CocoaLumberjack: 520616f8e72226ca2c729b43981b66bc483745ce
   Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
   FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
   FirebaseAuth: f8b07aa83de60d606b4eadd81484b3ac2097ea3e
@@ -106,6 +91,6 @@ SPEC CHECKSUMS:
   OneSignal: da994bcf6a2efbdceaf71e389e1d05245c562899
   Protobuf: 03eef2ee0b674770735cf79d9c4d3659cf6908e8
 
-PODFILE CHECKSUM: f1ec0d9fcf76b8a7df0f1348812f846ca9093c4a
+PODFILE CHECKSUM: 7eda27df36726db0bd7007ba6c582352bc883490
 
 COCOAPODS: 1.3.1
