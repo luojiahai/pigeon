@@ -198,11 +198,11 @@ class PendingFriendsViewController: UITableViewController {
             guard let url = URL(string: "https://onesignal.com/api/v1/notifications") else { return }
             var request = URLRequest(url: url)
             request.httpMethod = "POST"
-            request.setValue("Basic ZTliOGU2ZTItNzllYS00MDA4LWI1ZGQtYmI5YWU1ZGNjMWI2", forHTTPHeaderField: "Authorization")
+            request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
             let jsonObject: [String: Any] = [
-                "app_id": "e7881ec9-db20-4f40-b21b-791a5efb058f",
+                "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
                     [
                         "field": "tag",

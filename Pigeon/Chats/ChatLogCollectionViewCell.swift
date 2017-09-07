@@ -45,9 +45,9 @@ class ChatLogCollectionViewCell: UICollectionViewCell {
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
         
-        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 12).isActive = true
+        textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 11).isActive = true
         textView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -10).isActive = true
+        textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -9).isActive = true
         textView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
     }
     
