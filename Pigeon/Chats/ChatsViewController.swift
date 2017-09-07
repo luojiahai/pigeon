@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class ChatsViewController: UITableViewController, NewChatTableViewControllerDelegate, LoginViewControllerDelegate {
+class ChatsViewController: UITableViewController {
     
     var messages = [Message]()
     var messagesDictionary = [String: Message]()
@@ -26,13 +26,7 @@ class ChatsViewController: UITableViewController, NewChatTableViewControllerDele
         fetchChats()
     }
     
-    @objc func reloadData() {
-        messages.removeAll()
-        messagesDictionary.removeAll()
-        tableView.reloadData()
-        
-        fetchChats()
-    }
+    
     
     fileprivate func setupNavigation() {
         //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
@@ -96,12 +90,6 @@ class ChatsViewController: UITableViewController, NewChatTableViewControllerDele
         })
     }
     
-    func showChatLog(for user: User) {
-        let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
-        vc.user = user
-        vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
-    }
     
     @objc fileprivate func handleNewChat() {
         let vc = NewChatTableViewController()
@@ -142,4 +130,23 @@ class ChatsViewController: UITableViewController, NewChatTableViewControllerDele
         }, withCancel: nil)
     }
     
+}
+
+extension ChatsViewController: NewChatTableViewControllerDelegate {
+    func showChatLog(for user: User) {
+        let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.user = user
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+}
+
+extension ChatsViewController: LoginViewControllerDelegate {
+    @objc func reloadData() {
+        messages.removeAll()
+        messagesDictionary.removeAll()
+        tableView.reloadData()
+        
+        fetchChats()
+    }
 }
