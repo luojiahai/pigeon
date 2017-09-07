@@ -18,9 +18,10 @@ class MeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view = meView;
+        view = meView
         
         setupNavigation()
+        supportViews()
 
         fetchUser()
     }
@@ -33,7 +34,6 @@ class MeViewController: UIViewController {
     }
     
     fileprivate func supportViews() {
-        
         meView.editProfileButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
     }
     
@@ -50,20 +50,26 @@ class MeViewController: UIViewController {
     }
     
     @objc fileprivate func handleSignOut() {
-        do {
-            try Auth.auth().signOut()
-            present(LoginViewController.sharedInstance, animated: true, completion: nil)
-        } catch let logoutError {
-            let alert = UIAlertController(title: "Error", message: String(describing: logoutError), preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        let alert = UIAlertController(title: "Warning", message: "Are you sure want to sign out?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            do {
+                try Auth.auth().signOut()
+                self.present(LoginViewController.sharedInstance, animated: true, completion: nil)
+            } catch let logoutError {
+                let alert = UIAlertController(title: "Error", message: String(describing: logoutError), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc fileprivate func handleEditProfile() {
-        let alert = UIAlertController(title: "Edit Profile", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        let vc = EditProfileTableViewController(style: .grouped)
+        vc.hidesBottomBarWhenPushed = true
+        vc.meVC = self
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -75,4 +81,59 @@ extension MeViewController: LoginViewControllerDelegate {
     func reloadData() {
         fetchUser()
     }
+}
+
+extension MeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func handleChangeProfilePhoto(completion: (() -> Void)? = nil) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.allowsEditing = true
+        present(picker, animated: true, completion: nil)
+        self.completion = completion
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        var selectedImageFromPicker: UIImage?
+        
+        if let editedImage = info["UIImagePickerControllerEditedImage"] as? UIImage {
+            selectedImageFromPicker = editedImage
+        } else if let originalImage = info["UIImagePickerControllerOriginalImage"] as? UIImage {
+            selectedImageFromPicker = originalImage
+        }
+        
+        if let selectedImage = selectedImageFromPicker {
+            meView.profilePhotoImageView.image = selectedImage
+        }
+        
+        let imageName = NSUUID().uuidString
+        if let profileImage = meView.profilePhotoImageView.image, let uploadData = UIImageJPEGRepresentation(profileImage, 0.25) {
+            Storage.storage().reference().child("profile_images").child("\(imageName).png").putData(uploadData, metadata: nil, completion: { (metadata, error) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                
+                if let url = metadata?.downloadURL()?.absoluteString {
+                    guard let uid = Auth.auth().currentUser?.uid else { return }
+                    Database.database().reference().child("users").child(uid).updateChildValues(["profilePhotoURL": url])
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    if let completion = self.completion {
+                        completion()
+                    }
+                })
+            })
+        }
+        
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }

@@ -10,7 +10,7 @@ import UIKit
 import CoreLocation
 import Firebase
 
-class ChatLogCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, CLLocationManagerDelegate, LocationSharingStateDelegate {
+class ChatLogCollectionViewController: UICollectionViewController {
     
     var manager: CLLocationManager!
     
@@ -132,74 +132,34 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
         })
     }
     
-    func change(state: Bool) {
-        if state {
-            manager.startUpdatingLocation()
-        } else {
-            manager.stopUpdatingLocation()
-        }
-    }
-    
     fileprivate func observeMessages() {
         guard let currentUser = Auth.auth().currentUser else {
             return
         }
         
-        Database.database().reference().child("user-conversations").child(currentUser.uid).child((user?.uid)!).observeSingleEvent(of: .value) { (dataSnapshot) in
+        Database.database().reference().child("user-conversations").child(currentUser.uid).child((user?.uid)!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
             guard let cID = dataSnapshot.value as? String else { return }
             Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (snapshot) in
+                if snapshot.key == "timestamp" { return }
                 guard let dictionary = snapshot.value as? [String: AnyObject] else { return }
-                
+
                 let message = Message(dictionary)
-                
+
                 self.messages.append(message)
-                
+
                 DispatchQueue.main.async(execute: {
                     self.collectionView?.reloadData()
+
+                    // Show the messege bubbles from the latest ones (bottom)
                     self.scrollToBottom(animated: false)
                 })
             })
-        }
+        })
     }
     
     fileprivate func scrollToBottom(animated: Bool) {
-        view.layoutIfNeeded()
-        collectionView?.collectionViewLayout.invalidateLayout()
-        
-        if collectionView?.numberOfSections == 0 {
-            return
-        }
-        
-        let lastCell = IndexPath(item: (collectionView?.numberOfItems(inSection: 0))! - 1, section: 0)
-        scrollToIndexPath(lastCell, animated: animated)
-    }
-    
-    fileprivate func scrollToIndexPath(_ indexPath: IndexPath, animated: Bool) {
-        if (collectionView?.numberOfSections)! <= indexPath.section {
-            return
-        }
-        
-        let numberOfItems = collectionView?.numberOfItems(inSection: indexPath.section)
-        if numberOfItems == 0 {
-            return
-        }
-        
-        let collectionViewContentHeight = collectionView?.collectionViewLayout.collectionViewContentSize.height
-        let isContentTooSmall = collectionViewContentHeight! < (collectionView?.bounds.height)!
-        if isContentTooSmall {
-            collectionView?.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight! - 1, width: 1, height: 1), animated: animated)
-            return
-        }
-        
-        
-        let item = max(min(indexPath.item, numberOfItems! - 1), 0)
-        let indexPath = IndexPath(item: item, section: 0)
-        
-        let cellSize = collectionView(collectionView!, layout: collectionViewLayout, sizeForItemAt: indexPath)
-        let maxHeightForVisibleMessage = collectionView?.bounds.height
-        let scrollPosition = (cellSize.height > maxHeightForVisibleMessage!) ? UICollectionViewScrollPosition.bottom : UICollectionViewScrollPosition.top
-        
-        collectionView?.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
+        let indexPath = NSIndexPath(item: self.messages.count - 1, section: 0)
+        self.collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: animated)  
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -219,17 +179,6 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
-    }
-    
-    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        var height: CGFloat = 80
-        
-        // get estimated height somehow????
-        if let text = messages[indexPath.item].text {
-            height = estimateFrameForText(text).height + 20
-        }
-        
-        return CGSize(width: view.frame.width, height: height)
     }
     
     fileprivate func setupCell(_ cell: ChatLogCollectionViewCell, _ message: Message) {
@@ -267,13 +216,18 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     
     @objc fileprivate func handleKeyboardWillShow(_ notification: Notification) {
         let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = -keyboardFrame!.height
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
+ 
+        let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
+        
+        UIView.animate(withDuration: 0, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {self.view.layoutIfNeeded()}, completion: { (completed) in
+            if isKeyboardShowing {
+                // Move the msg bubbles in the bottom to the top of textField and keyboard
+                self.scrollToBottom(animated: false)
+            }
         })
-        scrollToBottom(animated: true)
+        
     }
     
     @objc fileprivate func handleKeyboardWillHide(_ notification: Notification) {
@@ -299,35 +253,8 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
             let values: [String: AnyObject] = ["text": text as AnyObject, "toUID": toUID as AnyObject, "fromUID": fromUID as AnyObject, "timestamp": timestamp as AnyObject]
            
             Database.database().reference().child("user-conversations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                var ref: DatabaseReference?
-                if dataSnapshot.hasChild(fromUID) && dataSnapshot.childSnapshot(forPath: fromUID).hasChild(toUID) {
-                    let conversationID = dataSnapshot.childSnapshot(forPath: fromUID).childSnapshot(forPath: toUID).value as! String
-                    ref = Database.database().reference().child("conversations").child(conversationID)
-                } else {
-                    ref = Database.database().reference().child("conversations").childByAutoId()
-                    let fromValues = [toUID: (ref?.key)!]
-                    let toValues = [fromUID: (ref?.key)!]
-                    Database.database().reference().child("user-conversations").child(fromUID).updateChildValues(fromValues, withCompletionBlock: { (error, ref) in
-                        if let error = error {
-                            let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
-                            self.sendButton.isEnabled = true
-                            return
-                        }
-                    })
-                    Database.database().reference().child("user-conversations").child(toUID).updateChildValues(toValues, withCompletionBlock: { (error, ref) in
-                        if let error = error {
-                            let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                            self.present(alert, animated: true, completion: nil)
-                            self.sendButton.isEnabled = true
-                            return
-                        }
-                    })
-                }
-                
-                ref!.childByAutoId().updateChildValues(values) { (error, ref) in
+            let conversationID = dataSnapshot.childSnapshot(forPath: fromUID).childSnapshot(forPath: toUID).value as! String
+            Database.database().reference().child("conversations").child(conversationID).childByAutoId().updateChildValues(values) { (error, ref) in
                     if let error = error {
                         let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -335,17 +262,16 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
                         self.sendButton.isEnabled = true
                         return
                     }
-                    
+                
                     self.sendMessageNotification(sender: fromUID, receiver: toUID)
-                    
+                
                     self.inputTextField.text = nil
-                    
+                
                     DispatchQueue.main.async(execute: {
                         self.sendButton.isEnabled = true
                     })
                 }
             })
-            
         }
     }
     
@@ -399,11 +325,6 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
         }
     }
     
-    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        
-        return true
-    }
-    
     @objc fileprivate func handleLocate(_ sender: UIBarButtonItem) {
         //        guard let currentUser = Auth.auth().currentUser else { return }
         //        guard let targetUserUID = user?.uid else { return }
@@ -418,27 +339,6 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
         locationVC.popoverPresentationController?.permittedArrowDirections = .any
         
         present(locationVC, animated: true, completion: nil)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        guard let latitude: Double = locations.first?.coordinate.latitude else { return }
-        guard let longitude: Double = locations.first?.coordinate.longitude else { return }
-        guard let altitude: Double = locations.first?.altitude else { return }
-        let values = ["latitude": latitude, "longitude": longitude, "altitude": altitude]
-        Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).child("location").updateChildValues(values, withCompletionBlock: { (error, ref) in
-            if let error = error {
-                let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                self.present(alert, animated: true, completion: nil)
-            }
-        })
-    }
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
     }
     
     lazy var inputTextField: UITextField = {
@@ -461,3 +361,70 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     }()
     
 }
+
+extension ChatLogCollectionViewController: LocationSharingStateDelegate {
+    
+    func change(state: Bool) {
+        if state {
+            manager.startUpdatingLocation()
+        } else {
+            manager.stopUpdatingLocation()
+        }
+    }
+    
+}
+
+extension ChatLogCollectionViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        guard let latitude: Double = locations.first?.coordinate.latitude else { return }
+        guard let longitude: Double = locations.first?.coordinate.longitude else { return }
+        guard let altitude: Double = locations.first?.altitude else { return }
+        let values = ["latitude": latitude, "longitude": longitude, "altitude": altitude]
+        Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).child("location").updateChildValues(values, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        })
+    }
+    
+}
+
+extension ChatLogCollectionViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
+    }
+    
+}
+
+extension ChatLogCollectionViewController: UITextFieldDelegate {
+    
+    internal func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        
+        return true
+    }
+    
+}
+
+extension ChatLogCollectionViewController: UICollectionViewDelegateFlowLayout {
+
+    internal func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        var height: CGFloat = 80
+        
+        // get estimated height somehow????
+        if let text = messages[indexPath.item].text {
+            height = estimateFrameForText(text).height + 20
+        }
+        
+        return CGSize(width: view.frame.width, height: height)
+    }
+    
+}
+
+

@@ -44,6 +44,8 @@
 		00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */; };
 		00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */; };
 		00C49F6A1F6017AF006508EA /* testLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testLogin.swift */; };
+		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
+		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -146,6 +148,8 @@
 		00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsViewController.swift; sourceTree = "<group>"; };
 		00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		00C49F691F6017AF006508EA /* testLogin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testLogin.swift; sourceTree = "<group>"; };
+		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
+		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 			children = (
 				7C488B1D1F5E3BE900A60E6D /* MeView.swift */,
 				7A4878001F5293990018A715 /* MeViewController.swift */,
+				00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */,
+				00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -790,6 +796,7 @@
 				00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */,
 				00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */,
 				7A4878031F5295380018A715 /* LoginViewController.swift in Sources */,
+				00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */,
 				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
 				008662941F5E513A00705787 /* ChatsViewController.swift in Sources */,
 				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
@@ -815,6 +822,7 @@
 				7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
+				00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */,
 				00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */,
 				7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */,
 				008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */,
