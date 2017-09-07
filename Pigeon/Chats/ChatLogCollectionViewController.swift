@@ -156,6 +156,8 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
                 
                 DispatchQueue.main.async(execute: {
                     self.collectionView?.reloadData()
+                    
+                    // Show the messege bubbles from the latest ones (bottom)
                     self.scrollToBottom(animated: false)
                 })
             })
@@ -163,43 +165,8 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     }
     
     fileprivate func scrollToBottom(animated: Bool) {
-        view.layoutIfNeeded()
-        collectionView?.collectionViewLayout.invalidateLayout()
-        
-        if collectionView?.numberOfSections == 0 {
-            return
-        }
-        
-        let lastCell = IndexPath(item: (collectionView?.numberOfItems(inSection: 0))! - 1, section: 0)
-        scrollToIndexPath(lastCell, animated: animated)
-    }
-    
-    fileprivate func scrollToIndexPath(_ indexPath: IndexPath, animated: Bool) {
-        if (collectionView?.numberOfSections)! <= indexPath.section {
-            return
-        }
-        
-        let numberOfItems = collectionView?.numberOfItems(inSection: indexPath.section)
-        if numberOfItems == 0 {
-            return
-        }
-        
-        let collectionViewContentHeight = collectionView?.collectionViewLayout.collectionViewContentSize.height
-        let isContentTooSmall = collectionViewContentHeight! < (collectionView?.bounds.height)!
-        if isContentTooSmall {
-            collectionView?.scrollRectToVisible(CGRect(x: 0, y: collectionViewContentHeight! - 1, width: 1, height: 1), animated: animated)
-            return
-        }
-        
-        
-        let item = max(min(indexPath.item, numberOfItems! - 1), 0)
-        let indexPath = IndexPath(item: item, section: 0)
-        
-        let cellSize = collectionView(collectionView!, layout: collectionViewLayout, sizeForItemAt: indexPath)
-        let maxHeightForVisibleMessage = collectionView?.bounds.height
-        let scrollPosition = (cellSize.height > maxHeightForVisibleMessage!) ? UICollectionViewScrollPosition.bottom : UICollectionViewScrollPosition.top
-        
-        collectionView?.scrollToItem(at: indexPath, at: scrollPosition, animated: animated)
+        let indexPath = NSIndexPath(item: self.messages.count - 1, section: 0)
+        self.collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: animated)  
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -267,13 +234,18 @@ class ChatLogCollectionViewController: UICollectionViewController, UICollectionV
     
     @objc fileprivate func handleKeyboardWillShow(_ notification: Notification) {
         let keyboardFrame = ((notification as NSNotification).userInfo?[UIKeyboardFrameEndUserInfoKey] as AnyObject).cgRectValue
-        let keyboardDuration = ((notification as NSNotification).userInfo?[UIKeyboardAnimationDurationUserInfoKey] as AnyObject).doubleValue
         
         containerViewBottomAnchor?.constant = -keyboardFrame!.height
-        UIView.animate(withDuration: keyboardDuration!, animations: {
-            self.view.layoutIfNeeded()
+ 
+        let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
+        
+        UIView.animate(withDuration: 0, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {self.view.layoutIfNeeded()}, completion: { (completed) in
+            if isKeyboardShowing {
+                // Move the msg bubbles in the bottom to the top of textField and keyboard
+                self.scrollToBottom(animated: false)
+            }
         })
-        scrollToBottom(animated: true)
+        
     }
     
     @objc fileprivate func handleKeyboardWillHide(_ notification: Notification) {
