@@ -7,9 +7,9 @@
 //
 
 import XCTest
-//import Firebase   // error: segfault
+import Firebase   // error: segfault
 
-//@testable import Pigeon
+@testable import Pigeon
 //TODO unable to run with Firebase
 
 
