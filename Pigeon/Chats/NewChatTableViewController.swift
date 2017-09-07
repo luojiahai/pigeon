@@ -49,25 +49,25 @@ class NewChatTableViewController: UITableViewController {
     }
     
     fileprivate func fetchUsers() {
-        var friendshipIds = [String]()
+        var friendIds = [String]()
         
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("users").child(currentUser.uid).child("friends").observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
             for snapshot in snapshots {
-                friendshipIds.append(snapshot.key)
+                friendIds.append(snapshot.key)
             }
             
             var uids = [String]()
             
             Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let friendships = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for id in friendshipIds {
-                    for friendship in friendships {
-                        if id == friendship.key {
-                            if let uid = friendship.childSnapshot(forPath: "from").value as? String, uid != currentUser.uid {
+                guard let friends = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                for id in friendIds {
+                    for friend in friends {
+                        if id == friend.key {
+                            if let uid = friend.childSnapshot(forPath: "from").value as? String, uid != currentUser.uid {
                                 uids.append(uid)
-                            } else if let uid = friendship.childSnapshot(forPath: "to").value as? String, uid != currentUser.uid {
+                            } else if let uid = friend.childSnapshot(forPath: "to").value as? String, uid != currentUser.uid {
                                 uids.append(uid)
                             }
                         }

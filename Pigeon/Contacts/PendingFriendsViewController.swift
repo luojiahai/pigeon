@@ -153,6 +153,36 @@ class PendingFriendsViewController: UITableViewController {
                 }
             })
             
+            let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+            Database.database().reference().child("conversations").childByAutoId().updateChildValues(["timestamp": timestamp], withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+                let toUID = self.pendingFriends[sender.tag].uid!
+                let fromUID = currentUser.uid
+                let fromValues = [toUID: ref.key]
+                let toValues = [fromUID: ref.key]
+                Database.database().reference().child("user-conversations").child(fromUID).updateChildValues(fromValues, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                })
+                Database.database().reference().child("user-conversations").child(toUID).updateChildValues(toValues, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                })
+            })
+            
             DispatchQueue.main.async(execute: {
                 sender.isEnabled = false
                 sender.setTitle("Approved", for: .disabled)

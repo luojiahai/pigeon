@@ -21,12 +21,10 @@ class ChatsViewController: UITableViewController {
         
         setupNavigation()
         setupTableView()
-        setupRefreshControl()
+//        setupRefreshControl()
         
         fetchChats()
     }
-    
-    
     
     fileprivate func setupNavigation() {
         //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
@@ -41,6 +39,7 @@ class ChatsViewController: UITableViewController {
         navigationItem.title = "Chats"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "newChat", style: .plain, target: self, action: #selector(handleNewChat))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
     fileprivate func setupTableView() {
@@ -61,6 +60,7 @@ class ChatsViewController: UITableViewController {
         Database.database().reference().child("user-conversations").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
             let cID = snapshot.value as! String
             Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in
+                if dataSnapshot.key == "timestamp" { return }
                 guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
                 let message = Message(dictionary)
                 guard let chatTargetID = message.chatTargetID() else { return }
@@ -90,7 +90,6 @@ class ChatsViewController: UITableViewController {
         })
     }
     
-    
     @objc fileprivate func handleNewChat() {
         let vc = NewChatTableViewController()
         vc.delegate = self
@@ -117,6 +116,7 @@ class ChatsViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        tableView.isUserInteractionEnabled = false
         
         let message = messages[indexPath.row]
         
@@ -127,21 +127,25 @@ class ChatsViewController: UITableViewController {
             guard let dictionary = snapshot.value as? [String: AnyObject] else { return}
             let user = User(uid: chatTargetID, dictionary)
             self.showChatLog(for: user)
-        }, withCancel: nil)
+            self.tableView.isUserInteractionEnabled = true
+        })
     }
     
 }
 
 extension ChatsViewController: NewChatTableViewControllerDelegate {
+    
     func showChatLog(for user: User) {
         let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         vc.user = user
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
+    
 }
 
 extension ChatsViewController: LoginViewControllerDelegate {
+    
     @objc func reloadData() {
         messages.removeAll()
         messagesDictionary.removeAll()
@@ -149,4 +153,5 @@ extension ChatsViewController: LoginViewControllerDelegate {
         
         fetchChats()
     }
+    
 }

@@ -23,7 +23,7 @@ class ContactsViewController: UITableViewController {
         setupViews()
         setupSearchController()
         setupTableView()
-        setupRefreshControl()
+//        setupRefreshControl()
         
         fetchContacts()
     }
@@ -33,6 +33,7 @@ class ContactsViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Contacts"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "addContacts", style: .plain, target: self, action: #selector(addContacts))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
     fileprivate func setupViews() {
