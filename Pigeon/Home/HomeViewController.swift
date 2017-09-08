@@ -59,9 +59,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     @objc fileprivate func handlePostFootprint() {
-        let alert = UIAlertController(title: "Post Footprint", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+        let vc = UINavigationController(rootViewController: PostFootprintViewController())
+        present(vc, animated: true, completion: nil)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
