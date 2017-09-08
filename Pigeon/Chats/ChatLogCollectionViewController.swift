@@ -222,7 +222,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let isKeyboardShowing = notification.name == NSNotification.Name.UIKeyboardWillShow
         
         UIView.animate(withDuration: 0, delay: 0, options: UIViewAnimationOptions.curveEaseOut, animations: {self.view.layoutIfNeeded()}, completion: { (completed) in
-            if isKeyboardShowing {
+            if isKeyboardShowing && self.messages.count > 0 {
                 // Move the msg bubbles in the bottom to the top of textField and keyboard
                 self.scrollToBottom(animated: false)
             }
