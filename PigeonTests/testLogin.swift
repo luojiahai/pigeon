@@ -7,11 +7,9 @@
 //
 
 import XCTest
-import Firebase   // error: segfault
+import Firebase
 
 @testable import Pigeon
-//TODO unable to run with Firebase
-
 
 class testLogin: XCTestCase {
     
