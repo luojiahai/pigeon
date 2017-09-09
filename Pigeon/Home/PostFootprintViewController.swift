@@ -7,8 +7,14 @@
 //
 
 import UIKit
+import MapKit
+import CoreLocation
 
-class PostFootprintViewController: UIViewController {
+class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+    
+    var manager: CLLocationManager!
+    
+    var currentLocation: CLLocation?
     
     var addImageButtonConstraint: NSLayoutConstraint?
 
@@ -17,6 +23,8 @@ class PostFootprintViewController: UIViewController {
         
         setupViews()
         setupNavigation()
+        setupMapView()
+        setupLocationManager()
     }
 
     fileprivate func setupNavigation() {
@@ -78,6 +86,28 @@ class PostFootprintViewController: UIViewController {
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
     }
     
+    fileprivate func setupMapView() {
+        view.addSubview(mapView)
+        
+        mapView.addSubview(myLocationButton)
+        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
+        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -24).isActive = true
+        myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    fileprivate func setupLocationManager() {
+        manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations.first ?? nil
+    }
+    
     fileprivate func addCaptionImageView(_ image: UIImage) {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,6 +144,14 @@ class PostFootprintViewController: UIViewController {
         let alert = UIAlertController(title: "Delete Photo", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleMyLocation() {
+        guard let location = currentLocation else { return }
+        let span = MKCoordinateSpanMake(0.01, 0.01)
+        let myCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        let region = MKCoordinateRegionMake(myCoordinate, span)
+        mapView.setRegion(region, animated: true)
     }
     
     let captionContainerView: UIView = {
@@ -157,6 +195,33 @@ class PostFootprintViewController: UIViewController {
     }()
     
     var captionImageViews = [UIImageView]()
+    
+    lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.frame = CGRect(x: 0, y: 244, width: self.view.frame.width, height: self.view.frame.height/3)
+        mapView.delegate = self
+        mapView.mapType = .standard
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.showsUserLocation = true
+        mapView.showsScale = true
+        mapView.showsCompass = true
+        mapView.showsBuildings = true
+        return mapView
+    }()
+    
+    let myLocationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitle("myLocation", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
+        return button
+    }()
+    
 }
 
 extension PostFootprintViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
