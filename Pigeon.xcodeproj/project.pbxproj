@@ -20,6 +20,7 @@
 		00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA71F5032BF00E9A27B /* SCNNode+Extensions.swift */; };
 		00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */; };
 		00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 00052B9D1F50310B00E9A27B /* GoogleService-Info.plist */; };
+		001ED8AA1F62BED90000D84B /* PostFootprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */; };
 		006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F41F3DA27D004C20B3 /* AppDelegate.swift */; };
 		006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F19F61F3DA27F004C20B3 /* MainController.swift */; };
 		006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F19F81F3DA280004C20B3 /* Main.storyboard */; };
@@ -118,6 +119,8 @@
 		00052BA61F5032BF00E9A27B /* SceneLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneLocationView.swift; sourceTree = "<group>"; };
 		00052BA71F5032BF00E9A27B /* SCNNode+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNNode+Extensions.swift"; sourceTree = "<group>"; };
 		00052BA81F5032BF00E9A27B /* SCNVector3+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Extensions.swift"; sourceTree = "<group>"; };
+		001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFootprintViewController.swift; sourceTree = "<group>"; };
+		001ED8AC1F62C5D50000D84B /* BSImagePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = BSImagePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F19F11F3DA27B004C20B3 /* Pigeon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pigeon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F19F41F3DA27D004C20B3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		006F19F61F3DA27F004C20B3 /* MainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainController.swift; sourceTree = "<group>"; };
@@ -341,6 +344,7 @@
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
 				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
 				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
+				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -386,6 +390,7 @@
 		657584C0AD11FE3EE2F67BB0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				001ED8AC1F62C5D50000D84B /* BSImagePicker.framework */,
 				916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */,
 				F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */,
 				29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */,
@@ -831,6 +836,7 @@
 				008662991F5E516600705787 /* RegisterView.swift in Sources */,
 				008662961F5E513A00705787 /* ChatLogCollectionViewController.swift in Sources */,
 				008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */,
+				001ED8AA1F62BED90000D84B /* PostFootprintViewController.swift in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

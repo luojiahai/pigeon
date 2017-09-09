@@ -179,6 +179,10 @@ extension ContactsViewController {
                 vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
                 return
+            } else {
+                let alert = UIAlertController(title: "User Profile", message: "Feature coming soon...", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                present(alert, animated: true, completion: nil)
             }
         }
     }
