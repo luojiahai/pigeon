@@ -47,6 +47,7 @@
 		00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testAuthentication.swift */; };
 		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
+		00CF101F1F6532FE00BD906B /* Footprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF101E1F6532FE00BD906B /* Footprint.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -153,6 +154,7 @@
 		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		00CF101E1F6532FE00BD906B /* Footprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footprint.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 			children = (
 				00962C681F58E62D00B4B7C0 /* User.swift */,
 				0086629A1F5E51E400705787 /* Message.swift */,
+				00CF101E1F6532FE00BD906B /* Footprint.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -838,6 +841,7 @@
 				008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */,
 				001ED8AA1F62BED90000D84B /* PostFootprintViewController.swift in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
+				00CF101F1F6532FE00BD906B /* Footprint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

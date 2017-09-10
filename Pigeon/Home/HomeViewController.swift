@@ -11,13 +11,22 @@ import Firebase
 import MapKit
 import CoreLocation
 
+protocol FootprintDataDelegate {
+    func isFriend(_ uid: String) -> Bool
+}
+
 class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginViewControllerDelegate {
     
-    var refreshControl: UIRefreshControl!
+    var footprints = [Footprint]()
+    
+    var delegate: FootprintDataDelegate?
+    
+    var refreshControl: UIRefreshControl?
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
         super.init(collectionViewLayout: layout)
         
+        fetchFootprints()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,9 +43,12 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     @objc func reloadData() {
-        // ...
+        footprints.removeAll()
+        collectionView?.reloadData()
         
-        refreshControl.endRefreshing()
+        fetchFootprints()
+        
+        refreshControl?.endRefreshing()
     }
     
     fileprivate func setupNavigation() {
@@ -50,7 +62,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     fileprivate func setupRefreshControl() {
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(reloadData), for: UIControlEvents.valueChanged)
-        collectionView?.addSubview(refreshControl)
+        collectionView?.addSubview(refreshControl!)
     }
     
     fileprivate func setupViews() {
@@ -60,6 +72,45 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     fileprivate func setupCollectionView() {
         collectionView?.backgroundColor = .groupTableViewBackground
         collectionView?.register(FootprintCollectionViewCell.self, forCellWithReuseIdentifier: "FootprintCell")
+        collectionView?.alwaysBounceVertical = true
+    }
+    
+    fileprivate func fetchFootprints() {
+        Database.database().reference().child("footprints").queryOrdered(byChild: "timestamp").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            for object in objects {
+                guard let uid = object.childSnapshot(forPath: "user").value as? String else { return }
+                if !(self.delegate?.isFriend(uid))! {
+                    continue
+                }
+                Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
+                    guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
+                    let user = User(uid: uid, userDictionary)
+                    let footprint = Footprint()
+                    footprint.user = user
+                    footprint.text = object.childSnapshot(forPath: "text").value as? String
+                    footprint.timestamp = object.childSnapshot(forPath: "timestamp").value as? NSNumber
+                    if object.hasChild("images") {
+                        footprint.imageURLs = [String]()
+                        guard let imageURLs = object.childSnapshot(forPath: "images").children.allObjects as? [DataSnapshot] else { return }
+                        for imageURL in imageURLs {
+                            let image = imageURL.value as? String
+                            footprint.imageURLs?.append(image!)
+                        }
+                    }
+                    guard let location = object.childSnapshot(forPath: "location").value as? [String: Any] else { return }
+                    footprint.latitude = location["latitude"] as? Double
+                    footprint.longitude = location["longitude"] as? Double
+                    footprint.altitude = location["altitude"] as? Double
+                    
+                    self.footprints.insert(footprint, at: 0)
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.collectionView?.reloadData()
+                    })
+                })
+            }
+        }
     }
     
     @objc fileprivate func handlePresentMap() {
@@ -73,11 +124,15 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 16
+        return footprints.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FootprintCell", for: indexPath)
+        
+        if let cell = cell as? FootprintCollectionViewCell {
+            cell.footprint = footprints[indexPath.row]
+        }
         
         return cell
     }

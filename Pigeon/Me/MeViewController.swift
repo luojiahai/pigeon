@@ -53,7 +53,7 @@ class MeViewController: UIViewController {
             guard let username = dataSnapshot.childSnapshot(forPath: "username").value as? String else { return }
             guard let url = dataSnapshot.childSnapshot(forPath: "profilePhotoURL").value as? String else { return }
             self.meView.nameLabel.text = name
-            self.meView.usernameLabel.text = username
+            self.meView.usernameLabel.text = "@" + username
             self.meView.profilePhotoImageView.loadImageUsingCache(with: url)
         }
     }
