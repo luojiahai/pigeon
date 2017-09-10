@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CoreLocation
+import Firebase
 
 class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
@@ -47,9 +48,92 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     }
     
     @objc fileprivate func handleDone() {
-        let alert = UIAlertController(title: "Post Footprint", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+        guard let currentUser = Auth.auth().currentUser else { return }
+        
+        var images: [UIImage]?
+        captionImageViews.forEach { (imageView) in
+            if images == nil {
+                images = [UIImage]()
+            }
+            images?.append(imageView.image!)
+        }
+        
+        guard let text = captionTextView.text else {
+            let alert = UIAlertController(title: "Post Footprint", message: "text field cannot be empty", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        guard let location = currentLocation else {
+            let alert = UIAlertController(title: "Post Footprint", message: "cannot fetch location data\nplease try again", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        
+        let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text] as [String : Any]
+        Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            let locationValues = ["latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude, "altitude": location.altitude]
+            Database.database().reference().child("footprints").child(ref.key).child("location").updateChildValues(locationValues, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+            })
+            
+            var index: Int = 0
+            images?.forEach({ (image) in
+                let imageName = NSUUID().uuidString
+                let uploadData = UIImageJPEGRepresentation(image, 0.25)
+                Storage.storage().reference().child("footprint_images").child(ref.key).child("\(imageName).png").putData(uploadData!, metadata: nil, completion: { (metadata, error) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                    
+                    if let url = metadata?.downloadURL()?.absoluteString {
+                        Database.database().reference().child("footprints").child(ref.key).child("images").updateChildValues(["image\(index)": url], withCompletionBlock: { (error, ref) in
+                            if let error = error {
+                                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
+                                return
+                            }
+                        })
+                    }
+                    
+                    index += 1
+                })
+            })
+            
+            let footprintValues = [ref.key: timestamp]
+            Database.database().reference().child("user-footprints").child(currentUser.uid).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    return
+                }
+            })
+            
+            DispatchQueue.main.async(execute: {
+                self.dismiss(animated: true, completion: nil)
+            })
+        }
     }
     
     fileprivate func setupViews() {

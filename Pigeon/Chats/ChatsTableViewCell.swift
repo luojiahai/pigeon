@@ -28,7 +28,7 @@ class ChatsTableViewCell: UITableViewCell {
     
     fileprivate func setupChat() {
         let attributedText = NSMutableAttributedString(string: (message?.targetUser?.name)!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
-        attributedText.append(NSAttributedString(string: "  [" + (message?.targetUser?.username)! + "]", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
+        attributedText.append(NSAttributedString(string: "   @" + (message?.targetUser?.username)!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
         nameLabel.attributedText = attributedText
         if let url = message?.targetUser?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
