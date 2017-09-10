@@ -35,7 +35,7 @@ class MainController: UITabBarController {
         homeNC.tabBarItem.selectedImage = UIImage(named: "icons8-Home Filled")
         
         // Chats
-        let chatsVC = ChatsViewController()
+        let chatsVC = ChatsViewController(style: .plain)
 	    loginVC.delegates?.append(chatsVC)
         let chatsNC = UINavigationController(rootViewController: chatsVC)
         chatsNC.tabBarItem.title = "Chats"
@@ -43,7 +43,7 @@ class MainController: UITabBarController {
         chatsNC.tabBarItem.selectedImage = UIImage(named: "icons8-Speech Bubble Filled")
         
         // Contacts
-        let contactsVC = ContactsViewController()
+        let contactsVC = ContactsViewController(style: .plain)
         loginVC.delegates?.append(contactsVC)
         let contactsNC = UINavigationController(rootViewController: contactsVC)
         contactsNC.tabBarItem.title = "Contacts"

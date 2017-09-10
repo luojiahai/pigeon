@@ -136,7 +136,7 @@ class PendingFriendsViewController: UITableViewController {
             self.sendApproveNotification(sender: currentUser.uid, receiver: self.pendingFriends[sender.tag].uid!)
             
             let values = [ref.key: timestamp]
-            Database.database().reference().child("users").child(currentUser.uid).child("friends").updateChildValues(values, withCompletionBlock: { (err, _) in
+            Database.database().reference().child("user-friends").child(currentUser.uid).updateChildValues(values, withCompletionBlock: { (err, _) in
                 if let err = err {
                     let alert = UIAlertController(title: "Error", message: String(describing: err), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -144,7 +144,7 @@ class PendingFriendsViewController: UITableViewController {
                     return
                 }
             })
-            Database.database().reference().child("users").child(self.pendingFriends[sender.tag].uid!).child("friends").updateChildValues(values, withCompletionBlock: { (err, _) in
+            Database.database().reference().child("user-friends").child(self.pendingFriends[sender.tag].uid!).updateChildValues(values, withCompletionBlock: { (err, _) in
                 if let err = err {
                     let alert = UIAlertController(title: "Error", message: String(describing: err), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
