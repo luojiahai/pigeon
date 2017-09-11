@@ -16,6 +16,8 @@ class ContactsViewController: UITableViewController {
     
     var searchController: UISearchController!
     
+    var timer: Timer?
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
         
@@ -39,9 +41,11 @@ class ContactsViewController: UITableViewController {
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
+        
         navigationItem.title = "Contacts"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "addContacts", style: .plain, target: self, action: #selector(addContacts))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
     fileprivate func setupViews() {
@@ -69,50 +73,37 @@ class ContactsViewController: UITableViewController {
     }
     
     fileprivate func fetchContacts() {
-        var friendIds = [String]()
-        
         guard let currentUser = Auth.auth().currentUser else { return }
-        Database.database().reference().child("user-friends").child(currentUser.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
-            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for snapshot in snapshots {
-                friendIds.append(snapshot.key)
-            }
-            
-            var uids = [String]()
-            
-            Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let friends = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for id in friendIds {
-                    for friend in friends {
-                        if id == friend.key {
-                            if let uid = friend.childSnapshot(forPath: "from").value as? String, uid != currentUser.uid {
-                                uids.append(uid)
-                            } else if let uid = friend.childSnapshot(forPath: "to").value as? String, uid != currentUser.uid {
-                                uids.append(uid)
-                            }
-                        }
-                    }
-                }
-            })
-            
-            Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let users = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for uid in uids {
-                    for user in users {
-                        if user.key == uid {
-                            guard let dictionary = user.value as? [String: AnyObject] else { return }
-                            let contact = User(uid: user.key, dictionary)
-                            self.contacts.append(contact)
-                        }
-                    }
+        
+        Database.database().reference().child("user-friends").child(currentUser.uid).observe(.childAdded) { (dataSnapshot) in
+            Database.database().reference().child("friends").child(dataSnapshot.key).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
+                var targetUser: String?
+                if let uid = dictionary["from"] as? String, uid != currentUser.uid {
+                    targetUser = uid
+                } else if let uid = dictionary["to"] as? String, uid != currentUser.uid {
+                    targetUser = uid
                 }
                 
-                DispatchQueue.main.async(execute: {
-                    self.tableView.reloadData()
-                    self.refreshControl?.endRefreshing()
+                Database.database().reference().child("users").child(targetUser!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                    guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
+                    let contact = User(uid: dataSnapshot.key, dictionary)
+                    self.contacts.append(contact)
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.timer?.invalidate()
+                        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                    })
                 })
             })
         }
+    }
+    
+    @objc fileprivate func handleReloadTable() {
+        DispatchQueue.main.async(execute: {
+            self.tableView.reloadData()
+            self.refreshControl?.endRefreshing()
+        })
     }
     
     @objc fileprivate func addContacts() {

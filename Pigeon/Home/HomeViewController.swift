@@ -48,7 +48,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
+        
         navigationItem.title = "Pigeon"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "presentMap", style: .plain, target: self, action: #selector(handlePresentMap))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "postFootprint", style: .plain, target: self, action: #selector(handlePostFootprint))
     }
@@ -95,45 +97,45 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                         }
                     }
                 }
-            })
-            
-            Database.database().reference().child("footprints").queryOrdered(byChild: "timestamp").observeSingleEvent(of: .value) { (dataSnapshot) in
-                guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for object in objects {
-                    guard let uid = object.childSnapshot(forPath: "user").value as? String else { return }
-                    if uids.contains(uid) || currentUser.uid == uid {
-                        
-                    } else {
-                        continue
-                    }
-                    Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
-                        guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
-                        let user = User(uid: uid, userDictionary)
-                        let footprint = Footprint()
-                        footprint.user = user
-                        footprint.text = object.childSnapshot(forPath: "text").value as? String
-                        footprint.timestamp = object.childSnapshot(forPath: "timestamp").value as? NSNumber
-                        if object.hasChild("images") {
-                            footprint.imageURLs = [String]()
-                            guard let imageURLs = object.childSnapshot(forPath: "images").children.allObjects as? [DataSnapshot] else { return }
-                            for imageURL in imageURLs {
-                                let image = imageURL.value as? String
-                                footprint.imageURLs?.append(image!)
-                            }
+                
+                Database.database().reference().child("footprints").queryOrdered(byChild: "timestamp").observeSingleEvent(of: .value) { (dataSnapshot) in
+                    guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                    for object in objects {
+                        guard let uid = object.childSnapshot(forPath: "user").value as? String else { return }
+                        if uids.contains(uid) || currentUser.uid == uid {
+                            
+                        } else {
+                            continue
                         }
-                        guard let location = object.childSnapshot(forPath: "location").value as? [String: Any] else { return }
-                        footprint.latitude = location["latitude"] as? Double
-                        footprint.longitude = location["longitude"] as? Double
-                        footprint.altitude = location["altitude"] as? Double
-                        
-                        self.footprints.insert(footprint, at: 0)
-                        
-                        DispatchQueue.main.async(execute: {
-                            self.collectionView?.reloadData()
+                        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
+                            guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
+                            let user = User(uid: uid, userDictionary)
+                            let footprint = Footprint()
+                            footprint.user = user
+                            footprint.text = object.childSnapshot(forPath: "text").value as? String
+                            footprint.timestamp = object.childSnapshot(forPath: "timestamp").value as? NSNumber
+                            if object.hasChild("images") {
+                                footprint.imageURLs = [String]()
+                                guard let imageURLs = object.childSnapshot(forPath: "images").children.allObjects as? [DataSnapshot] else { return }
+                                for imageURL in imageURLs {
+                                    let image = imageURL.value as? String
+                                    footprint.imageURLs?.append(image!)
+                                }
+                            }
+                            guard let location = object.childSnapshot(forPath: "location").value as? [String: Any] else { return }
+                            footprint.latitude = location["latitude"] as? Double
+                            footprint.longitude = location["longitude"] as? Double
+                            footprint.altitude = location["altitude"] as? Double
+                            
+                            self.footprints.insert(footprint, at: 0)
+                            
+                            DispatchQueue.main.async(execute: {
+                                self.collectionView?.reloadData()
+                            })
                         })
-                    })
+                    }
                 }
-            }
+            })
         }
     }
     

@@ -47,7 +47,7 @@ class ChatsViewController: UITableViewController {
         navigationItem.title = "Chats"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "newChat", style: .plain, target: self, action: #selector(handleNewChat))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
     fileprivate func setupTableView() {
