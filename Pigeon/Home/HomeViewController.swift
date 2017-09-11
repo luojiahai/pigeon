@@ -72,23 +72,21 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     fileprivate func fetchFootprints() {
-        var friendIds = [String]()
-        
         guard let currentUser = Auth.auth().currentUser else { return }
         
         Database.database().reference().child("user-friends").child(currentUser.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            var friendIds = [String]()
             for snapshot in snapshots {
                 friendIds.append(snapshot.key)
             }
             
-            var uids = [String]()
-            
             Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (dataSnapshot) in
                 guard let friends = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-                for id in friendIds {
+                var uids = [String]()
+                for friendId in friendIds {
                     for friend in friends {
-                        if id == friend.key {
+                        if friendId == friend.key {
                             if let uid = friend.childSnapshot(forPath: "from").value as? String, uid != currentUser.uid {
                                 uids.append(uid)
                             } else if let uid = friend.childSnapshot(forPath: "to").value as? String, uid != currentUser.uid {
@@ -102,9 +100,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                     guard let objects = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
                     for object in objects {
                         guard let uid = object.childSnapshot(forPath: "user").value as? String else { return }
-                        if uids.contains(uid) || currentUser.uid == uid {
-                            
-                        } else {
+                        if !uids.contains(uid) && currentUser.uid != uid {
                             continue
                         }
                         Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
