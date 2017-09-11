@@ -230,21 +230,3 @@ extension ContactsViewController: LoginViewControllerDelegate {
     }
     
 }
-
-extension ContactsViewController: FootprintDataDelegate {
-    
-    func isFriend(_ uid: String) -> Bool {
-        if uid == Auth.auth().currentUser?.uid {
-            return true
-        }
-        var flag = false
-        contacts.forEach { (user) in
-            if user.uid == uid {
-                flag = true
-                return
-            }
-        }
-        return flag
-    }
-    
-}

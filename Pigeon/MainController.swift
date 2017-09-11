@@ -49,7 +49,6 @@ class MainController: UITabBarController {
         contactsNC.tabBarItem.title = "Contacts"
         contactsNC.tabBarItem.image = UIImage(named: "icons8-Contact")
         contactsNC.tabBarItem.selectedImage = UIImage(named: "icons8-Contact Filled")
-        homeVC.delegate = contactsVC
         
         // Me
         let meVC = MeViewController()
