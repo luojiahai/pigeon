@@ -192,12 +192,14 @@ class ChatLogCollectionViewController: UICollectionViewController {
         if let targetUser = user {
             if let url = targetUser.profilePhotoURL {
                 cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
+                cell.nameLabel.text = targetUser.name
             }
         } else if let targetUsers = users {
             for targetUser in targetUsers {
                 if targetUser.uid == message.fromUID {
                     if let url = targetUser.profilePhotoURL {
                         cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
+                        cell.nameLabel .text = targetUser.name
                     }
                     break
                 }
@@ -212,12 +214,14 @@ class ChatLogCollectionViewController: UICollectionViewController {
         if message.fromUID == Auth.auth().currentUser?.uid {
             //outgoing
             cell.profilePhotoImageView.isHidden = true
+            cell.nameLabel.isHidden = true
             
             cell.bubbleViewRightAnchor?.isActive = true
             cell.bubbleViewLeftAnchor?.isActive = false
         } else {
             //incoming
             cell.profilePhotoImageView.isHidden = false
+            cell.nameLabel.isHidden = false
             
             cell.bubbleViewRightAnchor?.isActive = false
             cell.bubbleViewLeftAnchor?.isActive = true
@@ -461,7 +465,7 @@ extension ChatLogCollectionViewController: UICollectionViewDelegateFlowLayout {
         
         // get estimated height somehow????
         if let text = messages[indexPath.item].text {
-            height = estimateFrameForText(text).height + 20
+            height = estimateFrameForText(text).height + 38
         }
         
         return CGSize(width: view.frame.width, height: height)

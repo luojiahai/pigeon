@@ -28,25 +28,29 @@ class ChatLogCollectionViewCell: UICollectionViewCell {
         addSubview(bubbleView)
         addSubview(textView)
         addSubview(profilePhotoImageView)
+        addSubview(nameLabel)
         
         profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
-        profilePhotoImageView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         profilePhotoImageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
         profilePhotoImageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        nameLabel.topAnchor.constraint(equalTo: profilePhotoImageView.topAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
         
         bubbleViewRightAnchor = bubbleView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -12)
         bubbleViewRightAnchor?.isActive = true
         
         bubbleViewLeftAnchor = bubbleView.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12)
         
-        bubbleView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        bubbleView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
         bubbleView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         bubbleWidthAnchor = bubbleView.widthAnchor.constraint(equalToConstant: 200)
         bubbleWidthAnchor?.isActive = true
         
         textView.leftAnchor.constraint(equalTo: bubbleView.leftAnchor, constant: 11).isActive = true
-        textView.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
+        textView.topAnchor.constraint(equalTo: bubbleView.topAnchor, constant: 2).isActive = true
         textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor, constant: -9).isActive = true
         textView.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
     }
@@ -80,6 +84,16 @@ class ChatLogCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
         return imageView
+    }()
+    
+    let nameLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.sizeToFit()
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 11)
+        return label
     }()
     
 }
