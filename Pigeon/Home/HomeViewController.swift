@@ -15,6 +15,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     var footprints = [Footprint]()
     
+    var timer: Timer?
+    
     var refreshControl: UIRefreshControl?
     
     override init(collectionViewLayout layout: UICollectionViewLayout) {
@@ -126,13 +128,24 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                             self.footprints.insert(footprint, at: 0)
                             
                             DispatchQueue.main.async(execute: {
-                                self.collectionView?.reloadData()
+                                self.footprints.sort(by: { (footprint1, footprint2) -> Bool in
+                                    return (footprint1.timestamp?.int32Value)! > (footprint2.timestamp?.int32Value)!
+                                })
+                                self.timer?.invalidate()
+                                self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadCollection), userInfo: nil, repeats: false)
                             })
                         })
                     }
                 }
             })
         }
+    }
+    
+    @objc fileprivate func handleReloadCollection() {
+        DispatchQueue.main.async(execute: {
+            self.collectionView?.reloadData()
+            self.refreshControl?.endRefreshing()
+        })
     }
     
     @objc fileprivate func handlePresentMap() {

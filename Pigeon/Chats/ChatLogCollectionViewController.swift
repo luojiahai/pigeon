@@ -189,8 +189,19 @@ class ChatLogCollectionViewController: UICollectionViewController {
     }
     
     fileprivate func setupCell(_ cell: ChatLogCollectionViewCell, _ message: Message) {
-        if let url = self.user?.profilePhotoURL {
-            cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
+        if let targetUser = user {
+            if let url = targetUser.profilePhotoURL {
+                cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
+            }
+        } else if let targetUsers = users {
+            for targetUser in targetUsers {
+                if targetUser.uid == message.fromUID {
+                    if let url = targetUser.profilePhotoURL {
+                        cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
+                    }
+                    break
+                }
+            }
         }
         
         cell.textView.text = message.text
