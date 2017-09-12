@@ -1,5 +1,5 @@
 //
-//  LocateTableViewController.swift
+//  LocatePopoverViewController.swift
 //  Pigeon
 //
 //  Created by Pei Yun Sun on 2017/9/4.
@@ -13,7 +13,7 @@ protocol LocationSharingStateDelegate {
     func change(state: Bool)
 }
 
-class LocateTableViewController: UITableViewController {
+class LocatePopoverViewController: UITableViewController {
     
     var delegate: LocationSharingStateDelegate?
     

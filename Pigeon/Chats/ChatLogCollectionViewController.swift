@@ -16,7 +16,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     var messages = [Message]()
     
-    let locationVC = LocateTableViewController()
+    let locatePopoverVC = LocatePopoverViewController()
     
     var user: User? {
         didSet {
@@ -36,7 +36,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupInputComponents()
         setupKeyboardObservers()
         setupLocationManager()
-        setupLocationVC()
+        setupLocatePopoverVC()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -111,11 +111,11 @@ class ChatLogCollectionViewController: UICollectionViewController {
         manager.requestWhenInUseAuthorization()
     }
     
-    fileprivate func setupLocationVC() {
-        locationVC.delegate = self
-        locationVC.user = user
-        locationVC.modalPresentationStyle = UIModalPresentationStyle.popover
-        locationVC.preferredContentSize = CGSize(width: 250, height: 44 * locationVC.tableView.numberOfRows(inSection: 0))
+    fileprivate func setupLocatePopoverVC() {
+        locatePopoverVC.delegate = self
+        locatePopoverVC.user = user
+        locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        locatePopoverVC.preferredContentSize = CGSize(width: 250, height: 44 * locatePopoverVC.tableView.numberOfRows(inSection: 0))
         
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
@@ -334,11 +334,11 @@ class ChatLogCollectionViewController: UICollectionViewController {
         //            print(dataSnapshot)
         //        }
         
-        locationVC.popoverPresentationController?.delegate = self
-        locationVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-        locationVC.popoverPresentationController?.permittedArrowDirections = .any
+        locatePopoverVC.popoverPresentationController?.delegate = self
+        locatePopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        locatePopoverVC.popoverPresentationController?.permittedArrowDirections = .any
         
-        present(locationVC, animated: true, completion: nil)
+        present(locatePopoverVC, animated: true, completion: nil)
     }
     
     lazy var inputTextField: UITextField = {
