@@ -16,6 +16,8 @@ class ChatsViewController: UITableViewController {
     
     var timer: Timer?
     
+    let newChatPopoverVC = NewChatPopoverViewController()
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
         
@@ -32,6 +34,7 @@ class ChatsViewController: UITableViewController {
         setupNavigation()
         setupTableView()
         //        setupRefreshControl()
+        setupNewChatPopoverVC()
     }
     
     fileprivate func setupNavigation() {
@@ -62,29 +65,76 @@ class ChatsViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
     }
     
+    fileprivate func setupNewChatPopoverVC() {
+        newChatPopoverVC.chatsVC = self
+        newChatPopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        newChatPopoverVC.preferredContentSize = CGSize(width: 165, height: 44 * newChatPopoverVC.tableView.numberOfRows(inSection: 0))
+    }
+    
     fileprivate func fetchChats() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
-        Database.database().reference().child("user-conversations").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
-            let cID = snapshot.value as! String
-            Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in
-                if dataSnapshot.key == "timestamp" { return }
-                guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
-                let message = Message(dictionary)
-                guard let chatTargetID = message.chatTargetID() else { return }
-                Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
-                    guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
-                    let user = User(uid: chatTargetID, userDictionary)
-                    message.targetUser = user
-                    self.messagesDictionary[chatTargetID] = message
-                    
-                    DispatchQueue.main.async(execute: {
-                        self.messages = Array(self.messagesDictionary.values)
-                        self.messages.sort(by: { (message1, message2) -> Bool in
-                            return (message1.timestamp?.int32Value)! > (message2.timestamp?.int32Value)!
+        Database.database().reference().child("user-conversations").child(currentUser.uid).child("groups").observe(.childAdded, with: { (snapshot) in
+            let cID = snapshot.key
+            Database.database().reference().child("conversations").child(cID).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let dictionary = dataSnapshot.childSnapshot(forPath: "members").value as? [String: Any] else { return }
+                let members = Array(dictionary.keys)
+                
+                Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in
+                    if dataSnapshot.key == "timestamp" || dataSnapshot.key == "members" || dataSnapshot.key == "owner" { return }
+                    guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
+                    let message = Message(cID, dictionary)
+                    Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (userDataSnapshot) in
+                        guard let users = userDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                        for user in users {
+                            let uid = user.key
+                            if members.contains(uid) {
+                                guard let userDictionary = user.value as? [String: AnyObject] else { return }
+                                let user = User(uid: uid, userDictionary)
+                                if message.targetUsers == nil {
+                                    message.targetUsers = [User]()
+                                }
+                                message.targetUsers?.append(user)
+                                self.messagesDictionary[cID] = message
+                            }
+                        }
+                        
+                        DispatchQueue.main.async(execute: {
+                            self.messages = Array(self.messagesDictionary.values)
+                            self.messages.sort(by: { (message1, message2) -> Bool in
+                                return (message1.timestamp?.int32Value)! > (message2.timestamp?.int32Value)!
+                            })
+                            self.timer?.invalidate()
+                            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
                         })
-                        self.timer?.invalidate()
-                        self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                    })
+                })
+            })
+        })
+        
+        Database.database().reference().child("user-conversations").child(currentUser.uid).observe(.childAdded, with: { (snapshot) in
+            if snapshot.key == "groups" { return }
+            guard let cID = snapshot.value as? String else { return }
+            Database.database().reference().child("conversations").child(cID).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in
+                    if dataSnapshot.key == "timestamp" || dataSnapshot.key == "members" || dataSnapshot.key == "owner" { return }
+                    guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
+                    let message = Message(cID, dictionary)
+                    let chatTargetID = snapshot.key
+                    Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
+                        guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
+                        let user = User(uid: chatTargetID, userDictionary)
+                        message.targetUser = user
+                        self.messagesDictionary[cID] = message
+                        
+                        DispatchQueue.main.async(execute: {
+                            self.messages = Array(self.messagesDictionary.values)
+                            self.messages.sort(by: { (message1, message2) -> Bool in
+                                return (message1.timestamp?.int32Value)! > (message2.timestamp?.int32Value)!
+                            })
+                            self.timer?.invalidate()
+                            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                        })
                     })
                 })
             })
@@ -99,9 +149,11 @@ class ChatsViewController: UITableViewController {
     }
     
     @objc fileprivate func handleNewChat() {
-        let vc = NewChatTableViewController()
-        vc.delegate = self
-        present(UINavigationController(rootViewController: vc), animated: true, completion: nil)
+        newChatPopoverVC.popoverPresentationController?.delegate = self
+        newChatPopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        newChatPopoverVC.popoverPresentationController?.permittedArrowDirections = .any
+        
+        present(newChatPopoverVC, animated: true, completion: nil)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -128,23 +180,33 @@ class ChatsViewController: UITableViewController {
         
         let message = messages[indexPath.row]
         
-        guard let chatTargetID = message.chatTargetID() else { return }
-        
-        Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: AnyObject] else { return}
-            let user = User(uid: chatTargetID, dictionary)
-            self.showChatLog(for: user)
+        if let targetUser = message.targetUser {
+            self.showChatLog(message.conversationID!, forUser: targetUser)
             self.tableView.isUserInteractionEnabled = true
-        })
+        } else if let targetUsers = message.targetUsers {
+            self.showChatLog(message.conversationID!, forUsers: targetUsers)
+            self.tableView.isUserInteractionEnabled = true
+        }
+        
+        
     }
     
 }
 
 extension ChatsViewController: NewChatTableViewControllerDelegate {
     
-    func showChatLog(for user: User) {
+    func showChatLog(_ id: String, forUser user: User) {
         let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.conversationID = id
         vc.user = user
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func showChatLog(_ id: String, forUsers users: [User]) {
+        let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.conversationID = id
+        vc.users = users
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -159,6 +221,14 @@ extension ChatsViewController: LoginViewControllerDelegate {
         tableView.reloadData()
         
         fetchChats()
+    }
+    
+}
+
+extension ChatsViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
 }

@@ -10,7 +10,8 @@ import UIKit
 import Firebase
 
 protocol NewChatTableViewControllerDelegate {
-    func showChatLog(for user: User)
+    func showChatLog(_ id: String, forUser user: User)
+    func showChatLog(_ id: String, forUsers users: [User])
 }
 
 class NewChatTableViewController: UITableViewController {
@@ -120,7 +121,11 @@ class NewChatTableViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         dismiss(animated: true) {
             let user = self.users[indexPath.row]
-            self.delegate?.showChatLog(for: user)
+            guard let currentUser = Auth.auth().currentUser else { return }
+            Database.database().reference().child("user-conversations").child(currentUser.uid).child(user.uid!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let cID = dataSnapshot.value as? String else { return }
+                self.delegate?.showChatLog(cID, forUser: user)
+            })
         }
     }
     
