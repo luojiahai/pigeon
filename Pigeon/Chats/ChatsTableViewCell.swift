@@ -27,21 +27,24 @@ class ChatsTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupChat() {
-        let attributedText = NSMutableAttributedString(string: (message?.targetUser?.name)!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
-        attributedText.append(NSAttributedString(string: "   @" + (message?.targetUser?.username)!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
-        nameLabel.attributedText = attributedText
-        if let url = message?.targetUser?.profilePhotoURL {
-            profilePhotoImageView.loadImageUsingCache(with: url)
-        }
-        
-        lastUpdatedMessageLabel.text = message?.text
-        
-        if let seconds = message?.timestamp?.doubleValue {
-            let timestampDate = Date(timeIntervalSince1970: seconds)
+        if message?.targetUsers?.count == 1 {
+            guard let targetUser = message?.targetUsers?.first else { return }
+            let attributedText = NSMutableAttributedString(string: targetUser.name!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
+            attributedText.append(NSAttributedString(string: "   @" + targetUser.username!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
+            nameLabel.attributedText = attributedText
+            if let url = targetUser.profilePhotoURL {
+                profilePhotoImageView.loadImageUsingCache(with: url)
+            }
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd/MM/yyyy"
-            lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
+            lastUpdatedMessageLabel.text = message?.text
+            
+            if let seconds = message?.timestamp?.doubleValue {
+                let timestampDate = Date(timeIntervalSince1970: seconds)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
+            }
         }
     }
     

@@ -1,21 +1,16 @@
 //
-//  NewChatTableViewController.swift
+//  NewGroupChatTableViewController.swift
 //  Pigeon
 //
-//  Created by Pei Yun Sun on 2017/9/4.
+//  Created by Geoffrey Ka-Hoi Law on 13/9/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
 
 import UIKit
 import Firebase
 
-protocol NewChatTableViewControllerDelegate {
-    func showChatLog(_ id: String, forUser user: User)
-    func showChatLog(_ id: String, forUsers users: [User])
-}
+class NewGroupChatTableViewController: UITableViewController {
 
-class NewChatTableViewController: UITableViewController {
-    
     var delegate: NewChatTableViewControllerDelegate?
     
     var users = [User]()
@@ -30,12 +25,6 @@ class NewChatTableViewController: UITableViewController {
     }
     
     fileprivate func setupNavigation() {
-        //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-        //
-        //        navigationController?.navigationBar.barTintColor = UIColor(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)
-        //        navigationController?.navigationBar.tintColor = .white
-        //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
-        
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         
@@ -47,6 +36,7 @@ class NewChatTableViewController: UITableViewController {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(NewChatTableViewCell.self, forCellReuseIdentifier: "NewChatCell")
         tableView.tableFooterView = UIView()
+        tableView.allowsMultipleSelection = true
     }
     
     fileprivate func fetchUsers() {
@@ -108,6 +98,8 @@ class NewChatTableViewController: UITableViewController {
         
         if let cell = cell as? NewChatTableViewCell {
             cell.user = users[indexPath.row]
+            cell.accessoryType = cell.isSelected ? .checkmark : .none
+            cell.selectionStyle = .none
         }
         
         return cell
@@ -118,15 +110,11 @@ class NewChatTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        dismiss(animated: true) {
-            let user = self.users[indexPath.row]
-            guard let currentUser = Auth.auth().currentUser else { return }
-            Database.database().reference().child("user-conversations").child(currentUser.uid).child(user.uid!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let cID = dataSnapshot.value as? String else { return }
-                self.delegate?.showChatLog(cID, forUser: user)
-            })
-        }
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
     }
     
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+    }
+
 }
