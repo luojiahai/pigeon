@@ -98,6 +98,15 @@ class ChatsViewController: UITableViewController {
                                 self.messagesDictionary[cID] = message
                             }
                         }
+                        
+                        DispatchQueue.main.async(execute: {
+                            self.messages = Array(self.messagesDictionary.values)
+                            self.messages.sort(by: { (message1, message2) -> Bool in
+                                return (message1.timestamp?.int32Value)! > (message2.timestamp?.int32Value)!
+                            })
+                            self.timer?.invalidate()
+                            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleReloadTable), userInfo: nil, repeats: false)
+                        })
                     })
                 })
             })
@@ -115,10 +124,7 @@ class ChatsViewController: UITableViewController {
                     Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
                         guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
                         let user = User(uid: chatTargetID, userDictionary)
-                        if message.targetUsers == nil {
-                            message.targetUsers = [User]()
-                        }
-                        message.targetUsers?.append(user)
+                        message.targetUser = user
                         self.messagesDictionary[cID] = message
                         
                         DispatchQueue.main.async(execute: {
@@ -174,21 +180,12 @@ class ChatsViewController: UITableViewController {
         
         let message = messages[indexPath.row]
         
-        if message.targetUsers?.count == 1 {
-            guard let chatTargetID = message.targetUsers?.first?.uid else { return }
-            Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (snapshot) in
-                guard let dictionary = snapshot.value as? [String: AnyObject] else { return}
-                let user = User(uid: chatTargetID, dictionary)
-                self.showChatLog(message.conversationID!, forUser: user)
-                self.tableView.isUserInteractionEnabled = true
-            })
-        } else {
-//            Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (snapshot) in
-//                guard let dictionary = snapshot.value as? [String: AnyObject] else { return}
-//                let user = User(uid: chatTargetID, dictionary)
-//                self.showChatLog(message.conversationID!, forUser: user)
-//                self.tableView.isUserInteractionEnabled = true
-//            })
+        if let targetUser = message.targetUser {
+            self.showChatLog(message.conversationID!, forUser: targetUser)
+            self.tableView.isUserInteractionEnabled = true
+        } else if let targetUsers = message.targetUsers {
+            self.showChatLog(message.conversationID!, forUsers: targetUsers)
+            self.tableView.isUserInteractionEnabled = true
         }
         
         

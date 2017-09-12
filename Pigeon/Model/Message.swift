@@ -16,6 +16,7 @@ class Message: NSObject {
     var text: String?
     var timestamp: NSNumber?
     
+    var targetUser: User?
     var targetUsers: [User]?
     
     init(_ id: String, _ dictionary: [String: AnyObject]) {

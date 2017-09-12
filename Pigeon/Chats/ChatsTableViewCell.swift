@@ -27,8 +27,7 @@ class ChatsTableViewCell: UITableViewCell {
     }
     
     fileprivate func setupChat() {
-        if message?.targetUsers?.count == 1 {
-            guard let targetUser = message?.targetUsers?.first else { return }
+        if let targetUser = message?.targetUser {
             let attributedText = NSMutableAttributedString(string: targetUser.name!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
             attributedText.append(NSAttributedString(string: "   @" + targetUser.username!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
             nameLabel.attributedText = attributedText
@@ -45,6 +44,8 @@ class ChatsTableViewCell: UITableViewCell {
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
             }
+        } else if let targetUsers = message?.targetUsers {
+            
         }
     }
     
