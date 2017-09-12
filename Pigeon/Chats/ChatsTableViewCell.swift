@@ -45,7 +45,20 @@ class ChatsTableViewCell: UITableViewCell {
                 lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
             }
         } else if let targetUsers = message?.targetUsers {
+            let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
+            nameLabel.attributedText = attributedText
             
+            profilePhotoImageView.image = UIImage(named: "logo")
+            
+            lastUpdatedMessageLabel.text = message?.text
+            
+            if let seconds = message?.timestamp?.doubleValue {
+                let timestampDate = Date(timeIntervalSince1970: seconds)
+                
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
+            }
         }
     }
     

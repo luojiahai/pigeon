@@ -58,6 +58,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
     fileprivate func setupNavigation() {
         if user != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "locate", style: .plain, target: self, action: #selector(handleLocate))
+        } else if users != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "showMembers", style: .plain, target: self, action: #selector(handleShowMembers))
         }
     }
     
@@ -252,14 +254,12 @@ class ChatLogCollectionViewController: UICollectionViewController {
         if let text = inputTextField.text, text != "" {
             sendButton.isEnabled = false
             
-            let toUID = user!.uid!
-            let fromUID = Auth.auth().currentUser!.uid
-            let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
-            let values = ["text": text, "fromUID": fromUID, "timestamp": timestamp] as [String : Any]
-           
-            Database.database().reference().child("user-conversations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            let conversationID = dataSnapshot.childSnapshot(forPath: fromUID).childSnapshot(forPath: toUID).value as! String
-            Database.database().reference().child("conversations").child(conversationID).childByAutoId().updateChildValues(values) { (error, ref) in
+            if let targetUser = user {
+                let fromUID = Auth.auth().currentUser!.uid
+                let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+                let values = ["text": text, "fromUID": fromUID, "timestamp": timestamp] as [String : Any]
+                
+                Database.database().reference().child("conversations").child(conversationID!).childByAutoId().updateChildValues(values) { (error, ref) in
                     if let error = error {
                         let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -267,16 +267,36 @@ class ChatLogCollectionViewController: UICollectionViewController {
                         self.sendButton.isEnabled = true
                         return
                     }
-                
-                    self.sendMessageNotification(sender: fromUID, receiver: toUID)
-                
+                    
+                    self.sendMessageNotification(sender: fromUID, receiver: targetUser.uid!)
+                    
                     self.inputTextField.text = nil
-                
+                    
                     DispatchQueue.main.async(execute: {
                         self.sendButton.isEnabled = true
                     })
                 }
-            })
+            } else if let targetUsers = users {
+                let fromUID = Auth.auth().currentUser!.uid
+                let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+                let values = ["text": text, "fromUID": fromUID, "timestamp": timestamp] as [String : Any]
+                
+                Database.database().reference().child("conversations").child(conversationID!).childByAutoId().updateChildValues(values) { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        self.sendButton.isEnabled = true
+                        return
+                    }
+                    
+                    self.inputTextField.text = nil
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.sendButton.isEnabled = true
+                    })
+                }
+            }
         }
     }
     
@@ -344,6 +364,12 @@ class ChatLogCollectionViewController: UICollectionViewController {
         locatePopoverVC.popoverPresentationController?.permittedArrowDirections = .any
         
         present(locatePopoverVC, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleShowMembers() {
+        let vc = UserListTableViewController()
+        vc.users = users
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     lazy var inputTextField: UITextField = {

@@ -204,7 +204,11 @@ extension ChatsViewController: NewChatTableViewControllerDelegate {
     }
     
     func showChatLog(_ id: String, forUsers users: [User]) {
-        
+        let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        vc.conversationID = id
+        vc.users = users
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
