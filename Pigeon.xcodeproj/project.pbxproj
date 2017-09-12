@@ -33,7 +33,7 @@
 		008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628B1F5E513700705787 /* ChatsTableViewCell.swift */; };
 		008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628C1F5E513900705787 /* NewChatTableViewController.swift */; };
 		008662941F5E513A00705787 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628D1F5E513A00705787 /* ChatsViewController.swift */; };
-		008662951F5E513A00705787 /* LocateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628E1F5E513A00705787 /* LocateTableViewController.swift */; };
+		008662951F5E513A00705787 /* LocatePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628E1F5E513A00705787 /* LocatePopoverViewController.swift */; };
 		008662961F5E513A00705787 /* ChatLogCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */; };
 		008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008662901F5E513A00705787 /* NewChatTableViewCell.swift */; };
 		008662991F5E516600705787 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008662981F5E516600705787 /* RegisterView.swift */; };
@@ -140,7 +140,7 @@
 		0086628B1F5E513700705787 /* ChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsTableViewCell.swift; sourceTree = "<group>"; };
 		0086628C1F5E513900705787 /* NewChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatTableViewController.swift; sourceTree = "<group>"; };
 		0086628D1F5E513A00705787 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
-		0086628E1F5E513A00705787 /* LocateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocateTableViewController.swift; sourceTree = "<group>"; };
+		0086628E1F5E513A00705787 /* LocatePopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocatePopoverViewController.swift; sourceTree = "<group>"; };
 		0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogCollectionViewController.swift; sourceTree = "<group>"; };
 		008662901F5E513A00705787 /* NewChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatTableViewCell.swift; sourceTree = "<group>"; };
 		008662981F5E516600705787 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
@@ -361,7 +361,7 @@
 				008662901F5E513A00705787 /* NewChatTableViewCell.swift */,
 				0086628F1F5E513A00705787 /* ChatLogCollectionViewController.swift */,
 				0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */,
-				0086628E1F5E513A00705787 /* LocateTableViewController.swift */,
+				0086628E1F5E513A00705787 /* LocatePopoverViewController.swift */,
 			);
 			path = Chats;
 			sourceTree = "<group>";
@@ -808,7 +808,7 @@
 				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
 				008662941F5E513A00705787 /* ChatsViewController.swift in Sources */,
 				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
-				008662951F5E513A00705787 /* LocateTableViewController.swift in Sources */,
+				008662951F5E513A00705787 /* LocatePopoverViewController.swift in Sources */,
 				00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */,
 				00052BAB1F5032EC00E9A27B /* FloatingPoint+Radians.swift in Sources */,
 				00052BAC1F5032EC00E9A27B /* LocationManager.swift in Sources */,

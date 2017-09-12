@@ -130,8 +130,7 @@ class ChatsViewController: UITableViewController {
         
         guard let chatTargetID = message.chatTargetID() else { return }
         
-        let ref = Database.database().reference().child("users").child(chatTargetID)
-        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+        Database.database().reference().child("users").child(chatTargetID).observeSingleEvent(of: .value, with: { (snapshot) in
             guard let dictionary = snapshot.value as? [String: AnyObject] else { return}
             let user = User(uid: chatTargetID, dictionary)
             self.showChatLog(for: user)
