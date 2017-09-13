@@ -14,6 +14,7 @@ class Footprint: NSObject {
     var text: String?
     var timestamp: NSNumber?
     var imageURLs: [String]?
+    var place: String?
     
     var latitude: Double?
     var longitude: Double?

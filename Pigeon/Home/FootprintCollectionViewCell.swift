@@ -37,7 +37,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         
         footprintTextLabel.text = footprint?.text
         
-        footprintLocationLabel.text = "(\(String(format: "%.6f", (footprint?.latitude)!)), \(String(format: "%.6f", (footprint?.longitude)!)), \(String(format: "%.6f", (footprint?.altitude)!)))"
+        footprintLocationLabel.text = footprint?.place
         
         
         if let seconds = footprint?.timestamp?.doubleValue {
