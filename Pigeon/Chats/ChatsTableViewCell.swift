@@ -48,7 +48,7 @@ class ChatsTableViewCell: UITableViewCell {
             let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
             nameLabel.attributedText = attributedText
             
-            profilePhotoImageView.image = UIImage(named: "logo")
+            profilePhotoImageView.loadImageUsingCache(with: "https://firebasestorage.googleapis.com/v0/b/pigeon-d90d7.appspot.com/o/logo-100.jpg?alt=media&token=4d528b52-d3b7-48b6-a7b3-d859f584b200")
             
             lastUpdatedMessageLabel.text = message?.text
             

@@ -4,9 +4,9 @@
 
 Operating System: macOS Sierra 10.12.4 or later
 
-IDE: XCode 9.0 beta 6
+IDE: XCode 9.0 or later
 
-Development Target: iOS 11 Developer beta 8
+Development Target: iOS 11 or later
 
 ## Usage
 

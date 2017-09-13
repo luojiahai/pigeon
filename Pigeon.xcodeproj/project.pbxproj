@@ -154,6 +154,7 @@
 		00962C751F59420D00B4B7C0 /* AddContactsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContactsTableViewCell.swift; sourceTree = "<group>"; };
 		00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsViewController.swift; sourceTree = "<group>"; };
 		00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsTableViewCell.swift; sourceTree = "<group>"; };
+		00B33D861F68B4CC00926229 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -276,6 +277,7 @@
 		006F19F31F3DA27B004C20B3 /* Pigeon */ = {
 			isa = PBXGroup;
 			children = (
+				00B33D861F68B4CC00926229 /* README.md */,
 				00052B9C1F50306800E9A27B /* Pigeon.entitlements */,
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
 				006F19F61F3DA27F004C20B3 /* MainController.swift */,
