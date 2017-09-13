@@ -13,6 +13,7 @@ class PlacesViewController: UITableViewController {
     
     var placesClient: GMSPlacesClient!
     var likeHoodList: GMSPlaceLikelihoodList?
+    var selectedPlace: GMSPlace?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,8 +58,14 @@ class PlacesViewController: UITableViewController {
     }
     
     @objc fileprivate func handleConfirm() {
-        // check what is selected
-        // send back to post footprint view
+        let alert: UIAlertController
+        if let place = selectedPlace {
+            alert = UIAlertController(title: "Selected", message: ("You just selected " + place.name), preferredStyle: .alert)
+        } else {
+            alert = UIAlertController(title: "No Selection", message: "You must select a place", preferredStyle: .alert)
+        }
+        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
 //        dismiss(animated: true, completion: nil)
     }
     
@@ -77,6 +84,11 @@ class PlacesViewController: UITableViewController {
         let place = likeHoodList?.likelihoods[indexPath.row].place //this is a GMSPlace object
         cell.textLabel?.text = place?.name
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        selectedPlace = (likeHoodList?.likelihoods[indexPath.row].place)!
     }
 
 }
