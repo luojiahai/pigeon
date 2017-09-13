@@ -151,12 +151,18 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     @objc fileprivate func handlePresentMap() {
         let vc = UINavigationController(rootViewController: MapViewController())
-        present(vc, animated: true, completion: nil)
+        navigationItem.leftBarButtonItem?.isEnabled = false
+        present(vc, animated: true) {
+            self.navigationItem.leftBarButtonItem?.isEnabled = true
+        }
     }
     
     @objc fileprivate func handlePostFootprint() {
         let vc = UINavigationController(rootViewController: PostFootprintViewController())
-        present(vc, animated: true, completion: nil)
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        present(vc, animated: true) {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
