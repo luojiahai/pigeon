@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 import Firebase
 import OneSignal
+import GooglePlaces
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,6 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Provide GooglePlaces API Key
+        GMSPlacesClient.provideAPIKey("AIzaSyDIxOkvHhotVPkwdYEmi_eLThmPphcPDxU")
         
         // Configure Firebase
         FirebaseApp.configure()
