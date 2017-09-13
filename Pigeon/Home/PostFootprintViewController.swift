@@ -36,6 +36,12 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(handleDone))
     }
     
+    @objc fileprivate func handleSelectAddress() {
+        let placeVC = PlacesViewController()
+        let vc = UINavigationController(rootViewController: placeVC)
+        present(vc, animated: true, completion: nil)
+    }
+    
     @objc fileprivate func handleCancel() {
         if let caption = captionTextView.text, caption != "" || captionImageViews.count > 0 {
             let alert = UIAlertController(title: "Warning", message: "Will lost all filled data\nAre you sure want to quit?", preferredStyle: UIAlertControllerStyle.alert)
@@ -170,6 +176,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         seperatorLine.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor).isActive = true
         seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
+        
     }
     
     fileprivate func setupMapView() {
@@ -180,6 +187,13 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -24).isActive = true
         myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
         myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        mapView.addSubview(selectAddressButton)
+        selectAddressButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
+        selectAddressButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        selectAddressButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        selectAddressButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
     }
     
     fileprivate func setupLocationManager() {
@@ -239,6 +253,16 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let region = MKCoordinateRegionMake(myCoordinate, span)
         mapView.setRegion(region, animated: true)
     }
+    
+    let selectAddressButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("selectAddress", for: .normal)
+        button.backgroundColor = .white
+        button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(handleSelectAddress), for: .touchUpInside)
+        return button
+    }()
     
     let captionContainerView: UIView = {
         let view = UIView()

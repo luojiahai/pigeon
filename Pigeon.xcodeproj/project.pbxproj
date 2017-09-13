@@ -65,6 +65,8 @@
 		7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B311F5EA04300A60E6D /* ARViewController.swift */; };
 		7C488B341F5EA07400A60E6D /* FootprintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B331F5EA07400A60E6D /* FootprintViewController.swift */; };
 		7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */; };
+		7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */; };
+		7C5B4BB11F68F72800FEA1D9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -180,6 +182,8 @@
 		7C488B311F5EA04300A60E6D /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
 		7C488B331F5EA07400A60E6D /* FootprintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintViewController.swift; sourceTree = "<group>"; };
 		7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintCollectionViewCell.swift; sourceTree = "<group>"; };
+		7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
+		7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -356,6 +360,8 @@
 				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
 				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
 				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
+				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
+				7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -823,6 +829,7 @@
 				00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */,
 				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
 				008662941F5E513A00705787 /* ChatsViewController.swift in Sources */,
+				7C5B4BB11F68F72800FEA1D9 /* PlacesTableViewCell.swift in Sources */,
 				00052BA91F5032EC00E9A27B /* CGPoint+Extensions.swift in Sources */,
 				008662951F5E513A00705787 /* LocatePopoverViewController.swift in Sources */,
 				00052BAA1F5032EC00E9A27B /* CLLocation+Extensions.swift in Sources */,
@@ -843,6 +850,7 @@
 				00052BB01F5032EC00E9A27B /* SceneLocationView.swift in Sources */,
 				00CF10231F68231800BD906B /* NewGroupChatTableViewController.swift in Sources */,
 				7C488B341F5EA07400A60E6D /* FootprintViewController.swift in Sources */,
+				7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */,
 				00962C6C1F58E6F800B4B7C0 /* ContactsTableViewCell.swift in Sources */,
 				260C73D01F56D4470032E26E /* LoginView.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
