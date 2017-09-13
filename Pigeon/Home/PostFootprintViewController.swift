@@ -36,7 +36,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(handleDone))
     }
     
-    @objc fileprivate func handleSelectAddress() {
+    @objc fileprivate func handleSelectPlace() {
         let placeVC = PlacesViewController()
         let vc = UINavigationController(rootViewController: placeVC)
         present(vc, animated: true, completion: nil)
@@ -188,11 +188,11 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
         myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        mapView.addSubview(selectAddressButton)
-        selectAddressButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
-        selectAddressButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        selectAddressButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
-        selectAddressButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        mapView.addSubview(selectPlaceButton)
+        selectPlaceButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
+        selectPlaceButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        selectPlaceButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        selectPlaceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
     }
     
@@ -254,13 +254,13 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         mapView.setRegion(region, animated: true)
     }
     
-    let selectAddressButton: UIButton = {
+    let selectPlaceButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("selectAddress", for: .normal)
+        button.setTitle("selectPlace", for: .normal)
         button.backgroundColor = .white
         button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(handleSelectAddress), for: .touchUpInside)
+        button.addTarget(self, action: #selector(handleSelectPlace), for: .touchUpInside)
         return button
     }()
     

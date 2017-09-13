@@ -22,7 +22,7 @@ class PlacesViewController: UITableViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         
-        navigationItem.title = "SelectAddress"
+        navigationItem.title = "SelectPlace"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
     }
     
