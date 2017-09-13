@@ -25,8 +25,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupViews()
         setupNavigation()
+        setupViews()
         setupMapView()
         setupLocationManager()
     }
@@ -37,6 +37,73 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         navigationItem.title = "Post Footprint"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(handleDone))
+    }
+    
+    fileprivate func setupViews() {
+        view.backgroundColor = .groupTableViewBackground
+        
+        view.addSubview(captionContainerView)
+        captionContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        captionContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        captionContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        captionContainerView.heightAnchor.constraint(equalToConstant: 144).isActive = true
+        
+        captionContainerView.addSubview(captionTextView)
+        
+        captionTextView.topAnchor.constraint(equalTo: captionContainerView.topAnchor, constant: 8).isActive = true
+        captionTextView.bottomAnchor.constraint(equalTo: captionContainerView.bottomAnchor, constant: -8).isActive = true
+        captionTextView.leftAnchor.constraint(equalTo: captionContainerView.leftAnchor, constant: 8).isActive = true
+        captionTextView.rightAnchor.constraint(equalTo: captionContainerView.rightAnchor, constant: -8).isActive = true
+        
+        view.addSubview(imageContainerView)
+        imageContainerView.topAnchor.constraint(equalTo: captionContainerView.bottomAnchor).isActive = true
+        imageContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        imageContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        imageContainerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+        imageContainerView.addSubview(addImageButton)
+        addImageButtonConstraint = addImageButton.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor, constant: 8)
+        addImageButtonConstraint?.isActive = true
+        addImageButton.topAnchor.constraint(equalTo: imageContainerView.topAnchor, constant: 8).isActive = true
+        addImageButton.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: -8).isActive = true
+        addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor).isActive = true
+        
+        imageContainerView.addSubview(seperatorLine)
+        seperatorLine.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor).isActive = true
+        seperatorLine.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor).isActive = true
+        seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
+        seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
+        
+        view.addSubview(placeLabel)
+        placeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 244 + view.frame.height/3).isActive = true
+        placeLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        placeLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        placeLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+    }
+    
+    fileprivate func setupMapView() {
+        view.addSubview(mapView)
+        
+        mapView.addSubview(myLocationButton)
+        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
+        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -24).isActive = true
+        myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        mapView.addSubview(selectPlaceButton)
+        selectPlaceButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
+        selectPlaceButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        selectPlaceButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        selectPlaceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+    }
+    
+    fileprivate func setupLocationManager() {
+        manager = CLLocationManager()
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
     }
     
     @objc fileprivate func handleSelectPlace() {
@@ -68,7 +135,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             images?.append(imageView.image!)
         }
         
-        guard let text = captionTextView.text else {
+        guard let text = captionTextView.text, text != "" else {
             let alert = UIAlertController(title: "Post Footprint", message: "text field cannot be empty\nplease write something", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
@@ -153,73 +220,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         }
     }
     
-    fileprivate func setupViews() {
-        view.backgroundColor = .groupTableViewBackground
-        
-        view.addSubview(captionContainerView)
-        captionContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        captionContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        captionContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        captionContainerView.heightAnchor.constraint(equalToConstant: 144).isActive = true
-        
-        captionContainerView.addSubview(captionTextView)
-        
-        captionTextView.topAnchor.constraint(equalTo: captionContainerView.topAnchor, constant: 8).isActive = true
-        captionTextView.bottomAnchor.constraint(equalTo: captionContainerView.bottomAnchor, constant: -8).isActive = true
-        captionTextView.leftAnchor.constraint(equalTo: captionContainerView.leftAnchor, constant: 8).isActive = true
-        captionTextView.rightAnchor.constraint(equalTo: captionContainerView.rightAnchor, constant: -8).isActive = true
-        
-        view.addSubview(imageContainerView)
-        imageContainerView.topAnchor.constraint(equalTo: captionContainerView.bottomAnchor).isActive = true
-        imageContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        imageContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        imageContainerView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-        imageContainerView.addSubview(addImageButton)
-        addImageButtonConstraint = addImageButton.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor, constant: 8)
-        addImageButtonConstraint?.isActive = true
-        addImageButton.topAnchor.constraint(equalTo: imageContainerView.topAnchor, constant: 8).isActive = true
-        addImageButton.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: -8).isActive = true
-        addImageButton.widthAnchor.constraint(equalTo: addImageButton.heightAnchor).isActive = true
-        
-        imageContainerView.addSubview(seperatorLine)
-        seperatorLine.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor).isActive = true
-        seperatorLine.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor).isActive = true
-        seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
-        seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-        
-        view.addSubview(placeLabel)
-        placeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 244 + view.frame.height/3).isActive = true
-        placeLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        placeLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        placeLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    fileprivate func setupMapView() {
-        view.addSubview(mapView)
-        
-        mapView.addSubview(myLocationButton)
-        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
-        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -24).isActive = true
-        myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
-        myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        mapView.addSubview(selectPlaceButton)
-        selectPlaceButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
-        selectPlaceButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        selectPlaceButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
-        selectPlaceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-    }
-    
-    fileprivate func setupLocationManager() {
-        manager = CLLocationManager()
-        manager.delegate = self
-        manager.desiredAccuracy = kCLLocationAccuracyBest
-        manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.first ?? nil
     }
@@ -284,7 +284,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.backgroundColor = .white
-        label.text = "Please select a place"
         label.textColor = .black
         label.textAlignment = .left
         label.sizeToFit()

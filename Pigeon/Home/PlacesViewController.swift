@@ -22,8 +22,9 @@ class PlacesViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
+        
         nearbyPlaces()
+        
         view.backgroundColor = .white
         setupNavigation()
         setupTableView()
@@ -46,7 +47,6 @@ class PlacesViewController: UITableViewController {
             }
         })
     }
-    
     
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
