@@ -7,15 +7,40 @@
 //
 
 import UIKit
+import GooglePlaces
 
 class PlacesViewController: UITableViewController {
+    
+    var placesClient: GMSPlacesClient!
+    var likeHoodList: GMSPlaceLikelihoodList?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.dataSource = self
+        nearbyPlaces()
         view.backgroundColor = .white
         setupNavigation()
         setupTableView()
     }
+    
+    func nearbyPlaces() {
+        // init placesClient
+        placesClient = GMSPlacesClient.shared()
+        
+        placesClient.currentPlace(callback: { (placeLikelihoodList, error) -> Void in
+            if let error = error {
+                print("Pick Place error: \(error.localizedDescription)")
+                return
+            }
+            
+            // Get likeHoodList
+            if let placeLikelihoodList = placeLikelihoodList {
+                self.likeHoodList = placeLikelihoodList
+                self.tableView.reloadData()
+            }
+        })
+    }
+    
     
     fileprivate func setupNavigation() {
         
@@ -24,10 +49,17 @@ class PlacesViewController: UITableViewController {
         
         navigationItem.title = "SelectPlace"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Confirm", style: .plain, target: self, action: #selector(handleConfirm))
     }
     
     @objc fileprivate func handleCancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleConfirm() {
+        // check what is selected
+        // send back to post footprint view
+//        dismiss(animated: true, completion: nil)
     }
     
     fileprivate func setupTableView() {
@@ -42,7 +74,8 @@ class PlacesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlacesCell", for: indexPath)
-        cell.textLabel?.text = "place"
+        let place = likeHoodList?.likelihoods[indexPath.row].place //this is a GMSPlace object
+        cell.textLabel?.text = place?.name
         return cell
     }
 
