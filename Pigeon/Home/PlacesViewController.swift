@@ -9,11 +9,16 @@
 import UIKit
 import GooglePlaces
 
+protocol PlacesDataDelegate {
+    func selectPlace(_ place: GMSPlace)
+}
+
 class PlacesViewController: UITableViewController {
+    
+    var delegate: PlacesDataDelegate?
     
     var placesClient: GMSPlacesClient!
     var likeHoodList: GMSPlaceLikelihoodList?
-    var selectedPlace: GMSPlace?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,29 +49,15 @@ class PlacesViewController: UITableViewController {
     
     
     fileprivate func setupNavigation() {
-        
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         
-        navigationItem.title = "SelectPlace"
+        navigationItem.title = "Select Place"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Confirm", style: .plain, target: self, action: #selector(handleConfirm))
     }
     
     @objc fileprivate func handleCancel() {
         dismiss(animated: true, completion: nil)
-    }
-    
-    @objc fileprivate func handleConfirm() {
-        let alert: UIAlertController
-        if let place = selectedPlace {
-            alert = UIAlertController(title: "Selected", message: ("You just selected " + place.name), preferredStyle: .alert)
-        } else {
-            alert = UIAlertController(title: "No Selection", message: "You must select a place", preferredStyle: .alert)
-        }
-        alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-//        dismiss(animated: true, completion: nil)
     }
     
     fileprivate func setupTableView() {
@@ -76,19 +67,33 @@ class PlacesViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        guard let count = likeHoodList?.likelihoods.count else { return 0 }
+        return count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PlacesCell", for: indexPath)
-        let place = likeHoodList?.likelihoods[indexPath.row].place //this is a GMSPlace object
-        cell.textLabel?.text = place?.name
+        
+        if let cell = cell as? PlacesTableViewCell {
+            cell.place = likeHoodList?.likelihoods[indexPath.row].place
+        }
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        selectedPlace = (likeHoodList?.likelihoods[indexPath.row].place)!
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? PlacesTableViewCell else { return }
+        guard let place = cell.place else { return }
+        
+        let alert = UIAlertController(title: "Confirm", message: ("Are you sure want to select " + place.name), preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
+            self.delegate?.selectPlace(place)
+            self.dismiss(animated: true, completion: nil)
+        }))
+        present(alert, animated: true, completion: nil)
     }
 
 }

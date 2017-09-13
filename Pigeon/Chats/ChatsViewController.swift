@@ -77,7 +77,7 @@ class ChatsViewController: UITableViewController {
         Database.database().reference().child("user-conversations").child(currentUser.uid).child("groups").observe(.childAdded, with: { (snapshot) in
             let cID = snapshot.key
             Database.database().reference().child("conversations").child(cID).observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let dictionary = dataSnapshot.childSnapshot(forPath: "members").value as? [String: Any] else { return }
+                guard let dictionary = dataSnapshot.childSnapshot(forPath: "members").value as? [String: AnyObject] else { return }
                 let members = Array(dictionary.keys)
                 
                 Database.database().reference().child("conversations").child(cID).observe(.childAdded, with: { (dataSnapshot) in

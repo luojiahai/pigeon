@@ -120,7 +120,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                                     footprint.imageURLs?.append(image!)
                                 }
                             }
-                            guard let location = object.childSnapshot(forPath: "location").value as? [String: Any] else { return }
+                            footprint.place = object.childSnapshot(forPath: "place").value as? String
+                            guard let location = object.childSnapshot(forPath: "location").value as? [String: AnyObject] else { return }
                             footprint.latitude = location["latitude"] as? Double
                             footprint.longitude = location["longitude"] as? Double
                             footprint.altitude = location["altitude"] as? Double

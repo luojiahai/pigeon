@@ -10,6 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 import Firebase
+import GooglePlaces
 
 class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
@@ -18,6 +19,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     var currentLocation: CLLocation?
     
     var addImageButtonConstraint: NSLayoutConstraint?
+    
+    var selectedPlace: GMSPlace?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,8 +40,9 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     }
     
     @objc fileprivate func handleSelectPlace() {
-        let placeVC = PlacesViewController()
-        let vc = UINavigationController(rootViewController: placeVC)
+        let placesVC = PlacesViewController()
+        placesVC.delegate = self
+        let vc = UINavigationController(rootViewController: placesVC)
         present(vc, animated: true, completion: nil)
     }
     
@@ -65,7 +69,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         }
         
         guard let text = captionTextView.text else {
-            let alert = UIAlertController(title: "Post Footprint", message: "text field cannot be empty", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Post Footprint", message: "text field cannot be empty\nplease write something", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
             return
@@ -78,9 +82,16 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             return
         }
         
+        guard let place = selectedPlace else {
+            let alert = UIAlertController(title: "Post Footprint", message: "place cannot be empty\nplease select a place", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         
-        let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text] as [String : Any]
+        let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text, "place": place.name] as [String : Any]
         Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
@@ -177,6 +188,11 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
+        view.addSubview(placeLabel)
+        placeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 244 + view.frame.height/3).isActive = true
+        placeLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        placeLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        placeLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     fileprivate func setupMapView() {
@@ -262,6 +278,17 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(handleSelectPlace), for: .touchUpInside)
         return button
+    }()
+    
+    let placeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = .white
+        label.text = "Please select a place"
+        label.textColor = .black
+        label.textAlignment = .left
+        label.sizeToFit()
+        return label
     }()
     
     let captionContainerView: UIView = {
@@ -389,6 +416,15 @@ extension PostFootprintViewController: UIImagePickerControllerDelegate, UINaviga
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension PostFootprintViewController: PlacesDataDelegate {
+    
+    func selectPlace(_ place: GMSPlace) {
+        selectedPlace = place
+        placeLabel.text = place.name
     }
     
 }
