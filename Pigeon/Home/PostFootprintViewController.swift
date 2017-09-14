@@ -42,11 +42,19 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
+        view.addSubview(mapView)
+        
+        view.addSubview(placeButton)
+        placeButton.topAnchor.constraint(equalTo: mapView.bottomAnchor).isActive = true
+        placeButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        placeButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        placeButton.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
         view.addSubview(captionContainerView)
-        captionContainerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        captionContainerView.topAnchor.constraint(equalTo: placeButton.bottomAnchor, constant: 8).isActive = true
         captionContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         captionContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        captionContainerView.heightAnchor.constraint(equalToConstant: 144).isActive = true
+        captionContainerView.heightAnchor.constraint(equalToConstant: 128).isActive = true
         
         captionContainerView.addSubview(captionTextView)
         
@@ -73,29 +81,14 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         seperatorLine.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor).isActive = true
         seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-        
-        view.addSubview(placeLabel)
-        placeLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 244 + view.frame.height/3).isActive = true
-        placeLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        placeLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        placeLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     fileprivate func setupMapView() {
-        view.addSubview(mapView)
-        
         mapView.addSubview(myLocationButton)
-        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
-        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -24).isActive = true
+        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -12).isActive = true
+        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -12).isActive = true
         myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
         myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
-        mapView.addSubview(selectPlaceButton)
-        selectPlaceButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -24).isActive = true
-        selectPlaceButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        selectPlaceButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
-        selectPlaceButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        
     }
     
     fileprivate func setupLocationManager() {
@@ -270,24 +263,14 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         mapView.setRegion(region, animated: true)
     }
     
-    let selectPlaceButton: UIButton = {
+    let placeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("selectPlace", for: .normal)
         button.backgroundColor = .white
-        button.setTitleColor(.black, for: .normal)
+        button.setTitle("📍 Please select a place", for: .normal)
+        button.setTitleColor(.gray, for: .normal)
         button.addTarget(self, action: #selector(handleSelectPlace), for: .touchUpInside)
         return button
-    }()
-    
-    let placeLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = .white
-        label.textColor = .black
-        label.textAlignment = .left
-        label.sizeToFit()
-        return label
     }()
     
     let captionContainerView: UIView = {
@@ -334,7 +317,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     
     lazy var mapView: MKMapView = {
         let mapView = MKMapView()
-        mapView.frame = CGRect(x: 0, y: 244, width: self.view.frame.width, height: self.view.frame.height/3)
+        mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
         mapView.delegate = self
         mapView.mapType = .standard
         mapView.isZoomEnabled = true
@@ -423,7 +406,8 @@ extension PostFootprintViewController: PlacesDataDelegate {
     
     func selectPlace(_ place: GMSPlace) {
         selectedPlace = place
-        placeLabel.text = place.name
+        placeButton.setTitle("📍 " + place.name, for: .normal)
+        placeButton.setTitleColor(.black, for: .normal)
     }
     
 }
