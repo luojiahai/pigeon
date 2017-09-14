@@ -45,6 +45,8 @@
 		00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */; };
 		00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */; };
 		00B33D881F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */; };
+		00B33D8A1F6A968B00926229 /* FootprintComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D891F6A968B00926229 /* FootprintComment.swift */; };
+		00B33D8C1F6AA45100926229 /* FootprintCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */; };
 		00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testAuthentication.swift */; };
 		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
@@ -159,6 +161,8 @@
 		00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		00B33D861F68B4CC00926229 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintSimpleCollectionViewCell.swift; sourceTree = "<group>"; };
+		00B33D891F6A968B00926229 /* FootprintComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintComment.swift; sourceTree = "<group>"; };
+		00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintCommentsTableViewCell.swift; sourceTree = "<group>"; };
 		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -338,6 +342,7 @@
 				00962C681F58E62D00B4B7C0 /* User.swift */,
 				0086629A1F5E51E400705787 /* Message.swift */,
 				00CF101E1F6532FE00BD906B /* Footprint.swift */,
+				00B33D891F6A968B00926229 /* FootprintComment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -357,10 +362,11 @@
 			isa = PBXGroup;
 			children = (
 				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
+				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
 				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
 				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
-				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
+				00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */,
 				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
 				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
 				7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */,
@@ -828,6 +834,7 @@
 				008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */,
 				00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */,
 				00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */,
+				00B33D8C1F6AA45100926229 /* FootprintCommentsTableViewCell.swift in Sources */,
 				7A4878031F5295380018A715 /* LoginViewController.swift in Sources */,
 				00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */,
 				7A4878011F5293990018A715 /* MeViewController.swift in Sources */,
@@ -846,6 +853,7 @@
 				7A4877FB1F5290770018A715 /* HomeViewController.swift in Sources */,
 				00962C691F58E62D00B4B7C0 /* User.swift in Sources */,
 				00052BAE1F5032EC00E9A27B /* SceneLocationEstimate+Extensions.swift in Sources */,
+				00B33D8A1F6A968B00926229 /* FootprintComment.swift in Sources */,
 				00CF10211F681EB600BD906B /* NewChatPopoverViewController.swift in Sources */,
 				7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */,
 				0086629B1F5E51E400705787 /* Message.swift in Sources */,

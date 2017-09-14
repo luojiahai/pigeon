@@ -125,6 +125,12 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                             footprint.latitude = location["latitude"] as? Double
                             footprint.longitude = location["longitude"] as? Double
                             footprint.altitude = location["altitude"] as? Double
+                            if object.hasChild("likes") {
+                                guard let likes = object.childSnapshot(forPath: "likes").value as? [String: AnyObject] else { return }
+                                footprint.likes = Array(likes.keys)
+                            }
+                            
+//                            object.childSnapshot(forPath: "comments").childrenCount
                             
                             self.footprints.insert(footprint, at: 0)
                             
@@ -181,6 +187,11 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             cell.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
             cell.commentButton.tag = indexPath.row
             cell.commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
+            if let likes = footprints[indexPath.row].likes, let currentUser = Auth.auth().currentUser, likes.contains(currentUser.uid) {
+                cell.likeButton.isEnabled = false
+            } else {
+                cell.likeButton.isEnabled = true
+            }
         }
         
         return cell
@@ -237,15 +248,43 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         sender.view?.removeFromSuperview()
     }
     
-    @objc fileprivate func handleLike() {
-        let alert = UIAlertController(title: "Like", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+    @objc fileprivate func handleLike(_ sender: UIButton) {
+        sender.isEnabled = false
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let footprintID = footprints[sender.tag].footprintID
+        Database.database().reference().child("footprints").child(footprintID!).child("likes").updateChildValues([currentUser.uid: timestamp]) { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                sender.isEnabled = true
+                return
+            }
+        }
     }
     
-    @objc fileprivate func handleComment() {
-        let alert = UIAlertController(title: "Comment", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+    @objc fileprivate func handleComment(_ sender: UIButton) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let footprintID = footprints[sender.tag].footprintID
+       
+        let alert = UIAlertController(title: "Comment", message: "", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak alert] (_) in
+            if let text = alert?.textFields![0].text, text != "" {
+                let values = ["text": text, "user": currentUser.uid, "timestamp": timestamp] as [String : Any]
+                Database.database().reference().child("footprints").child(footprintID!).child("comments").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                })
+            }
+        }))
         present(alert, animated: true, completion: nil)
     }
     

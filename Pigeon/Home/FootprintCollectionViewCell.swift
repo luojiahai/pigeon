@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class FootprintCollectionViewCell: UICollectionViewCell {
     
@@ -93,7 +94,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 14).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
         
-        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        usernameLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
         
         timeLabel.bottomAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 2).isActive = true
@@ -162,7 +163,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "nameLabel"
+        label.text = "usernameLabel"
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .gray
         label.sizeToFit()
@@ -236,7 +237,9 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Like", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Liked", for: .disabled)
+        button.setTitleColor(.gray, for: .disabled)
         return button
     }()
     
@@ -245,7 +248,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Comment", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         return button
     }()
     
