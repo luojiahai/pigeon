@@ -10,6 +10,8 @@ import Foundation
 
 class Footprint: NSObject {
     
+    var footprintID: String?
+    
     var user: User?
     var text: String?
     var timestamp: NSNumber?
@@ -19,5 +21,9 @@ class Footprint: NSObject {
     var latitude: Double?
     var longitude: Double?
     var altitude: Double?
+    
+    init(_ id: String) {
+        footprintID = id
+    }
     
 }
