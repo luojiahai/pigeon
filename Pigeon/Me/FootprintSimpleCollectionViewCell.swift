@@ -89,10 +89,10 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         
         footprintTextLabel.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor, constant: 8).isActive = true
         footprintTextLabel.leftAnchor.constraint(equalTo: verticalLineView.rightAnchor, constant: 12).isActive = true
-        footprintTextLabel.widthAnchor.constraint(equalToConstant: frame.size.width - 24).isActive = true
+        footprintTextLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         footprintTextLabel.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
-        footprintLocationLabel.topAnchor.constraint(equalTo: footprintTextLabel.bottomAnchor, constant: 8).isActive = true
+        footprintLocationLabel.topAnchor.constraint(equalTo: footprintTextLabel.bottomAnchor, constant: 4).isActive = true
         footprintLocationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         
         timeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
