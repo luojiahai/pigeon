@@ -33,11 +33,16 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         
         nameLabel.text = footprint?.user?.name
         
-        usernameLabel.text = "@" + (footprint?.user?.username)!
+        if let username = footprint?.user?.username {
+            usernameLabel.text = "@" + username
+            headerLabel.text = "FOOTPRINT  @" + username
+        }
         
         footprintTextLabel.text = footprint?.text
         
-        footprintLocationLabel.text = "📍" + (footprint?.place)!
+        if let place = footprint?.place {
+            footprintLocationLabel.text = "📍" + place
+        }
         
         if let seconds = footprint?.timestamp?.doubleValue {
             let timestampDate = Date(timeIntervalSince1970: seconds)
@@ -51,40 +56,52 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
     fileprivate func setupViews() {
         backgroundColor = .white
         
-        addSubview(profilePhotoImageView)
-        addSubview(nameLabel)
-        addSubview(usernameLabel)
+//        addSubview(profilePhotoImageView)
+//        addSubview(nameLabel)
+//        addSubview(usernameLabel)
+        addSubview(headerLabel)
         addSubview(seperatorLineView)
         addSubview(footprintTextLabel)
         addSubview(footprintLocationLabel)
         addSubview(timeLabel)
+        addSubview(verticalLineView)
         
-        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-        profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
-        profilePhotoImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        profilePhotoImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+//        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+//        profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+//        profilePhotoImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+//        profilePhotoImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+//
+//        nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 14).isActive = true
+//        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
+//
+//        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+//        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
         
-        nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 14).isActive = true
-        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
+        headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
+        headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        headerLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        headerLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
-        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
-        
-        seperatorLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 8).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        seperatorLineView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 2).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
         seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         footprintTextLabel.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor, constant: 8).isActive = true
-        footprintTextLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        footprintTextLabel.leftAnchor.constraint(equalTo: verticalLineView.rightAnchor, constant: 12).isActive = true
         footprintTextLabel.widthAnchor.constraint(equalToConstant: frame.size.width - 24).isActive = true
         footprintTextLabel.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
         footprintLocationLabel.topAnchor.constraint(equalTo: footprintTextLabel.bottomAnchor, constant: 8).isActive = true
-        footprintLocationLabel.leftAnchor.constraint(equalTo: footprintTextLabel.leftAnchor).isActive = true
+        footprintLocationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         
         timeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
         timeLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
+        
+        verticalLineView.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
+        verticalLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
+        verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
     }
     
     let profilePhotoImageView: CustomImageView = {
@@ -151,6 +168,23 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14)
         label.sizeToFit()
         return label
+    }()
+    
+    let headerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .gray
+        label.text = "footprintLabel"
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.sizeToFit()
+        return label
+    }()
+    
+    let verticalLineView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = lineColor
+        return view
     }()
     
 }

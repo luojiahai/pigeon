@@ -33,11 +33,15 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         
         nameLabel.text = footprint?.user?.name
         
-        usernameLabel.text = "@" + (footprint?.user?.username)!
+        if let username = footprint?.user?.username {
+            usernameLabel.text = "@" + username
+        }
         
         footprintTextView.text = footprint?.text
         
-        footprintLocationLabel.text = "📍" + (footprint?.place)!
+        if let place = footprint?.place {
+            footprintLocationLabel.text = "📍" + place
+        }
         
         if let imageURLs = footprint?.imageURLs {
             for index in 0..<3 {

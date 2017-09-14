@@ -32,11 +32,15 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         nameLabel.text = footprint?.user?.name
         
-        usernameLabel.text = "@" + (footprint?.user?.username)!
+        if let username = footprint?.user?.username {
+            usernameLabel.text = "@" + username
+        }
         
         footprintTextView.text = footprint?.text
         
-        footprintLocationLabel.text = "📍" + (footprint?.place)!
+        if let place = footprint?.place {
+            footprintLocationLabel.text = "📍" + place
+        }
         
         if let imageURLs = footprint?.imageURLs {
             for index in 0..<3 {
@@ -173,7 +177,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     fileprivate func setupMapView() {
         guard let footprint = footprint else { return }
         
-        let span = MKCoordinateSpan(latitudeDelta: 0.001, longitudeDelta: 0.001)
+        let span = MKCoordinateSpan(latitudeDelta: 0.002, longitudeDelta: 0.002)
         let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
         let region = MKCoordinateRegion(center: coordinate, span: span)
         mapView.setRegion(region, animated: true)

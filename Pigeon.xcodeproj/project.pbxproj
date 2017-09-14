@@ -403,9 +403,9 @@
 			children = (
 				7C488B1D1F5E3BE900A60E6D /* MeView.swift */,
 				7A4878001F5293990018A715 /* MeViewController.swift */,
+				00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */,
 				00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */,
 				00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */,
-				00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */,
 			);
 			path = Me;
 			sourceTree = "<group>";
