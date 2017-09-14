@@ -84,10 +84,18 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintContainerView.topAnchor.constraint(equalTo: mapView.bottomAnchor).isActive = true
         footprintContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         footprintContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        if footprint?.imageURLs == nil {
-            footprintContainerView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        guard let text = footprint?.text else { return }
+        let estimateHeight = estimateFrameForText(text).height
+        var textHeight: CGFloat = 100
+        if estimateHeight + 20 <= 100 {
+            textHeight = estimateHeight + 20
         } else {
-            footprintContainerView.heightAnchor.constraint(equalToConstant: 280).isActive = true
+            footprintTextView.isScrollEnabled = true
+        }
+        if footprint?.imageURLs == nil {
+            footprintContainerView.heightAnchor.constraint(equalToConstant: 140 + textHeight).isActive = true
+        } else {
+            footprintContainerView.heightAnchor.constraint(equalToConstant: 220 + textHeight).isActive = true
         }
         
         footprintContainerView.addSubview(profilePhotoImageView)
@@ -123,7 +131,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintTextView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 4).isActive = true
         footprintTextView.leftAnchor.constraint(equalTo: verticalLineView.rightAnchor, constant: 8).isActive = true
         footprintTextView.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
-        footprintTextView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        footprintTextView.heightAnchor.constraint(equalToConstant: textHeight).isActive = true
         
         var previousRightAnchor: NSLayoutXAxisAnchor?
         footprintImageViews.forEach { (imageView) in
@@ -233,6 +241,12 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         present(alert, animated: true, completion: nil)
     }
     
+    fileprivate func estimateFrameForText(_ text: String) -> CGRect {
+        let size = CGSize(width: view.frame.width - 40, height: 1000)
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+    }
+    
     lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
@@ -300,9 +314,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isEditable = false
-        textView.isSelectable = false
         textView.isScrollEnabled = false
-        textView.isUserInteractionEnabled = false
         textView.text = "footprintTextView"
         textView.font = UIFont.systemFont(ofSize: 18)
         textView.sizeToFit()
