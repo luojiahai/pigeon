@@ -66,6 +66,15 @@ class FootprintCollectionViewCell: UICollectionViewCell {
             dateFormatter.dateFormat = "HH:mm dd/MM/yyyy"
             timeLabel.text = dateFormatter.string(from: timestampDate)
         }
+        
+        var numLikesCommentsText = ""
+        if let likes = footprint?.likes {
+            numLikesCommentsText += String(likes.count) + " Likes"
+        }
+        if let numComments = footprint?.numComments, numComments > 0 {
+            numLikesCommentsText += " " + String(numComments) + " Comments"
+        }
+        numLikesCommentsLabel.text = numLikesCommentsText
     }
     
     fileprivate func setupViews() {
@@ -81,6 +90,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         addSubview(verticalLineView)
         addSubview(likeButton)
         addSubview(commentButton)
+        addSubview(numLikesCommentsLabel)
         
         footprintImageViews.forEach { (imageView) in
             addSubview(imageView)
@@ -140,6 +150,9 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         commentButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
     let profilePhotoImageView: CustomImageView = {
@@ -250,6 +263,16 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         button.setTitle("Comment", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
+    }()
+    
+    let numLikesCommentsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "numLikesCommentsLabel"
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.sizeToFit()
+        return label
     }()
     
 }

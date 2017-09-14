@@ -28,6 +28,10 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         setupMapView()
     }
     
+    override func viewDidLayoutSubviews() {
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
+    }
+    
     fileprivate func setupFootprint() {
         if let url = footprint?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -83,14 +87,16 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         navigationItem.title = "Footprint"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "option", style: .plain, target: self, action: #selector(handleOption))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOption))
     }
     
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
-        view.addSubview(mapView)
-        view.addSubview(footprintContainerView)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(mapView)
+        scrollView.addSubview(footprintContainerView)
         
         footprintContainerView.topAnchor.constraint(equalTo: mapView.bottomAnchor).isActive = true
         footprintContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -181,13 +187,13 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
         commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        view.addSubview(tableViewSeperatorLineView)
+        scrollView.addSubview(tableViewSeperatorLineView)
         tableViewSeperatorLineView.topAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
         tableViewSeperatorLineView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableViewSeperatorLineView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableViewSeperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
-        view.addSubview(tableView)
+        scrollView.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: tableViewSeperatorLineView.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -309,9 +315,14 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
     }
     
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: self.view.bounds)
+        return scrollView
+    }()
+    
     lazy var mapView: MKMapView = {
         let mapView = MKMapView()
-        mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: UIScreen.main.bounds.height/4)
+        mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
         mapView.delegate = self
         mapView.mapType = .standard
         mapView.isZoomEnabled = true

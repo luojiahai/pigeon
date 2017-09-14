@@ -53,8 +53,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         navigationItem.title = "Pigeon"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "presentMap", style: .plain, target: self, action: #selector(handlePresentMap))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "postFootprint", style: .plain, target: self, action: #selector(handlePostFootprint))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Marker-48"), style: .plain, target: self, action: #selector(handlePresentMap))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Cat Footprint Filled-50"), style: .plain, target: self, action: #selector(handlePostFootprint))
     }
     
     fileprivate func setupRefreshControl() {
@@ -129,8 +129,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                                 guard let likes = object.childSnapshot(forPath: "likes").value as? [String: AnyObject] else { return }
                                 footprint.likes = Array(likes.keys)
                             }
-                            
-//                            object.childSnapshot(forPath: "comments").childrenCount
+                            footprint.numComments = object.childSnapshot(forPath: "comments").childrenCount
                             
                             self.footprints.insert(footprint, at: 0)
                             

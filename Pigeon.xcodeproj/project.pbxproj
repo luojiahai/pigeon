@@ -54,6 +54,7 @@
 		00CF10211F681EB600BD906B /* NewChatPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */; };
 		00CF10231F68231800BD906B /* NewGroupChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */; };
 		00CF10271F6834DC00BD906B /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10261F6834DC00BD906B /* UserListTableViewController.swift */; };
+		00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -170,6 +171,7 @@
 		00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatPopoverViewController.swift; sourceTree = "<group>"; };
 		00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupChatTableViewController.swift; sourceTree = "<group>"; };
 		00CF10261F6834DC00BD906B /* UserListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
+		00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */,
 				00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */,
 				00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */,
+				00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				260C73D01F56D4470032E26E /* LoginView.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
 				7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */,
+				00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
 				00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */,
