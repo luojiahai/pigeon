@@ -78,6 +78,15 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             likeButton.isEnabled = true
         }
         
+        var numLikesCommentsText = ""
+        if let likes = footprint?.likes {
+            numLikesCommentsText += String(likes.count) + " Likes "
+        }
+        if let numComments = footprint?.numComments, numComments > 0 {
+            numLikesCommentsText += String(numComments) + " Comments"
+        }
+        numLikesCommentsLabel.text = numLikesCommentsText
+        
         fetchComments()
     }
     
@@ -126,6 +135,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(likeButton)
         footprintContainerView.addSubview(commentButton)
+        footprintContainerView.addSubview(numLikesCommentsLabel)
         
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
@@ -198,6 +208,9 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
+        numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
     fileprivate func setupMapView() {
@@ -449,6 +462,16 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return button
+    }()
+    
+    let numLikesCommentsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "numLikesCommentsLabel"
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.sizeToFit()
+        return label
     }()
     
     let tableViewSeperatorLineView: UIView = {
