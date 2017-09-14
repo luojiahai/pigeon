@@ -108,7 +108,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                         Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
                             guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
                             let user = User(uid: uid, userDictionary)
-                            let footprint = Footprint()
+                            let footprint = Footprint(object.key)
                             footprint.user = user
                             footprint.text = object.childSnapshot(forPath: "text").value as? String
                             footprint.timestamp = object.childSnapshot(forPath: "timestamp").value as? NSNumber
@@ -174,13 +174,24 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         if let cell = cell as? FootprintCollectionViewCell {
             cell.footprint = footprints[indexPath.row]
+            cell.footprintImageViews.forEach({ (imageView) in
+                imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
+            })
+            cell.likeButton.tag = indexPath.row
+            cell.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+            cell.commentButton.tag = indexPath.row
+            cell.commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 16, height: 150)
+        if footprints[indexPath.row].imageURLs == nil {
+            return CGSize(width: view.frame.width, height: 200)
+        } else {
+            return CGSize(width: view.frame.width, height: 280)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -195,6 +206,46 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let footprintVC = FootprintViewController()
         footprintVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(footprintVC, animated: true)
+    }
+    
+    @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let fullscreenPhoto = UIImageView(frame: UIScreen.main.bounds)
+        fullscreenPhoto.image = imageView.image
+        fullscreenPhoto.backgroundColor = .black
+        fullscreenPhoto.contentMode = .scaleAspectFit
+        fullscreenPhoto.isUserInteractionEnabled = true
+        fullscreenPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissFullImage)))
+        view.addSubview(fullscreenPhoto)
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = true
+        
+//        UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseIn, animations: {
+//            fullscreenPhoto.frame = UIScreen.main.bounds
+//            fullscreenPhoto.alpha = 1
+//            fullscreenPhoto.layoutSubviews()
+//        }, completion: { (_) in
+//            self.navigationController?.isNavigationBarHidden = true
+//            self.tabBarController?.tabBar.isHidden = true
+//        })
+    }
+    
+    @objc fileprivate func dismissFullImage(_ sender: UITapGestureRecognizer) {
+        navigationController?.isNavigationBarHidden = false
+        tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
+    }
+    
+    @objc fileprivate func handleLike() {
+        let alert = UIAlertController(title: "Like", message: "Feature coming soon...", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleComment() {
+        let alert = UIAlertController(title: "Comment", message: "Feature coming soon...", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
 }

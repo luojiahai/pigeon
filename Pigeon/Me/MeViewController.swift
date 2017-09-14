@@ -19,7 +19,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         collectionView.alwaysBounceVertical = true
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(FootprintCollectionViewCell.self, forCellWithReuseIdentifier: "FootprintCell")
+        collectionView.register(FootprintSimpleCollectionViewCell.self, forCellWithReuseIdentifier: "FootprintSimpleCell")
         return collectionView
     }()
     
@@ -131,7 +131,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
                 Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
                     guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
                     let user = User(uid: uid, userDictionary)
-                    let footprint = Footprint()
+                    let footprint = Footprint(object.key)
                     footprint.user = user
                     footprint.text = object.childSnapshot(forPath: "text").value as? String
                     footprint.timestamp = object.childSnapshot(forPath: "timestamp").value as? NSNumber
@@ -143,6 +143,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
                             footprint.imageURLs?.append(image!)
                         }
                     }
+                    footprint.place = object.childSnapshot(forPath: "place").value as? String
                     guard let location = object.childSnapshot(forPath: "location").value as? [String: Any] else { return }
                     footprint.latitude = location["latitude"] as? Double
                     footprint.longitude = location["longitude"] as? Double
@@ -163,9 +164,9 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FootprintCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FootprintSimpleCell", for: indexPath)
         
-        if let cell = cell as? FootprintCollectionViewCell {
+        if let cell = cell as? FootprintSimpleCollectionViewCell {
             cell.footprint = footprints[indexPath.row]
         }
         
@@ -173,7 +174,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width - 16, height: 150)
+        return CGSize(width: view.frame.width, height: 150)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

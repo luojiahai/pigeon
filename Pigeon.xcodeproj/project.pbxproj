@@ -44,6 +44,7 @@
 		00962C761F59420D00B4B7C0 /* AddContactsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C751F59420D00B4B7C0 /* AddContactsTableViewCell.swift */; };
 		00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */; };
 		00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */; };
+		00B33D881F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */; };
 		00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testAuthentication.swift */; };
 		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
@@ -157,6 +158,7 @@
 		00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsViewController.swift; sourceTree = "<group>"; };
 		00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingFriendsTableViewCell.swift; sourceTree = "<group>"; };
 		00B33D861F68B4CC00926229 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintSimpleCollectionViewCell.swift; sourceTree = "<group>"; };
 		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				7A4878001F5293990018A715 /* MeViewController.swift */,
 				00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */,
 				00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */,
+				00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */,
 			);
 			path = Me;
 			sourceTree = "<group>";
@@ -862,6 +865,7 @@
 				7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */,
 				008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
+				00B33D881F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift in Sources */,
 				7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */,
 				008662991F5E516600705787 /* RegisterView.swift in Sources */,
 				008662961F5E513A00705787 /* ChatLogCollectionViewController.swift in Sources */,
