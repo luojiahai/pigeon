@@ -50,7 +50,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         navigationItem.title = "Map"
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "toggleAR", style: .plain, target: self, action: #selector(handleToggleAR))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "AR", style: .plain, target: self, action: #selector(handleAR))
     }
     
     fileprivate func setupViews() {
@@ -153,7 +153,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         dismiss(animated: true, completion: nil)
     }
     
-    @objc fileprivate func handleToggleAR() {
+    @objc fileprivate func handleAR() {
         let arVC = ARViewController()
         delegate = arVC
         arVC.targetLocation = targetLocation

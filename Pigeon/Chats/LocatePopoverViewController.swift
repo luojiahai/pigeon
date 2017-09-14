@@ -42,7 +42,7 @@ class LocatePopoverViewController: UITableViewController {
         
         switch indexPath.row {
         case 0:
-            cell.textLabel?.text = "shareMyLocation"
+            cell.textLabel?.text = "Share My Location"
             cell.selectionStyle = .none
             if let cell = cell as? SwitchTableViewCell {
                 cell.switchControl.addTarget(self, action: #selector(switchIsChanged), for: .valueChanged)
@@ -69,12 +69,12 @@ class LocatePopoverViewController: UITableViewController {
                 })
             }
         case 1:
-            cell.textLabel?.text = "requestLocation"
+            cell.textLabel?.text = "Request Location"
             if let cell = cell as? SwitchTableViewCell {
                 cell.switchControl.isHidden = true
             }
         case 2:
-            cell.textLabel?.text = "presentMap"
+            cell.textLabel?.text = "Present Map"
             if let cell = cell as? SwitchTableViewCell {
                 cell.switchControl.isHidden = true
             }

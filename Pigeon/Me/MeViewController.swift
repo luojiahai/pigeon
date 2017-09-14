@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class MeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OptionsViewControllerDelegate {
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -66,7 +66,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         
         navigationItem.title = "Me"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "signOut", style: .plain, target: self, action: #selector(handleSignOut))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOptions))
     }
     
     fileprivate func supportViews() {
@@ -95,12 +95,18 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         }
     }
     
-    @objc fileprivate func handleSignOut() {
+    @objc fileprivate func handleOptions() {
+        let vc = OptionsTableViewController(style: .grouped)
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func handleSignOut(completion: (() -> Void)?) {
         let alert = UIAlertController(title: "Warning", message: "Are you sure want to sign out?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             do {
                 try Auth.auth().signOut()
-                self.present(LoginViewController.sharedInstance, animated: true, completion: nil)
+                self.present(LoginViewController.sharedInstance, animated: true, completion: completion)
             } catch let logoutError {
                 let alert = UIAlertController(title: "Error", message: String(describing: logoutError), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -108,10 +114,10 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        present(alert, animated: true, completion: nil)
     }
     
-    @objc fileprivate func handleEditProfile() {
+    @objc func handleEditProfile() {
         let vc = EditProfileTableViewController(style: .grouped)
         vc.hidesBottomBarWhenPushed = true
         vc.meVC = self

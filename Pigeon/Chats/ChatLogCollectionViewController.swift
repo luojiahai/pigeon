@@ -57,9 +57,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     fileprivate func setupNavigation() {
         if user != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "locate", style: .plain, target: self, action: #selector(handleLocate))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint-50"), style: .plain, target: self, action: #selector(handleLocate))
         } else if users != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "showMembers", style: .plain, target: self, action: #selector(handleShowMembers))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info-50"), style: .plain, target: self, action: #selector(handleShowMembers))
         }
     }
     
@@ -385,6 +385,12 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let vc = UserListTableViewController()
         vc.users = users
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc fileprivate func handleShowInfo() {
+        let alert = UIAlertController(title: "Show Info", message: "Feature coming soon...", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
     
     lazy var inputTextField: UITextField = {

@@ -22,6 +22,9 @@ class Footprint: NSObject {
     var longitude: Double?
     var altitude: Double?
     
+    var likes: [String]?
+    var numComments: UInt?
+    
     init(_ id: String) {
         footprintID = id
     }

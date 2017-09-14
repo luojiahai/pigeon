@@ -44,7 +44,7 @@ class ContactsViewController: UITableViewController {
         
         navigationItem.title = "Contacts"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "addContacts", style: .plain, target: self, action: #selector(addContacts))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Add User Male-48"), style: .plain, target: self, action: #selector(addContacts))
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     

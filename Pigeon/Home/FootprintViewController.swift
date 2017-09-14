@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import Firebase
 
 class FootprintViewController: UIViewController, MKMapViewDelegate {
     
@@ -17,12 +18,18 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    var comments = [FootprintComment]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigation()
         setupViews()
         setupMapView()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
     }
     
     fileprivate func setupFootprint() {
@@ -64,6 +71,23 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             dateFormatter.dateFormat = "HH:mm dd/MM/yyyy"
             timeLabel.text = dateFormatter.string(from: timestampDate)
         }
+        
+        if let likes = footprint?.likes, let currentUser = Auth.auth().currentUser, likes.contains(currentUser.uid) {
+            likeButton.isEnabled = false
+        } else {
+            likeButton.isEnabled = true
+        }
+        
+        var numLikesCommentsText = ""
+        if let likes = footprint?.likes {
+            numLikesCommentsText += String(likes.count) + " Likes "
+        }
+        if let numComments = footprint?.numComments, numComments > 0 {
+            numLikesCommentsText += String(numComments) + " Comments"
+        }
+        numLikesCommentsLabel.text = numLikesCommentsText
+        
+        fetchComments()
     }
     
     fileprivate func setupNavigation() {
@@ -72,18 +96,21 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         navigationItem.title = "Footprint"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "option", style: .plain, target: self, action: #selector(handleOption))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOption))
     }
     
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
-        view.addSubview(mapView)
-        view.addSubview(footprintContainerView)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(mapView)
+        scrollView.addSubview(footprintContainerView)
         
         footprintContainerView.topAnchor.constraint(equalTo: mapView.bottomAnchor).isActive = true
         footprintContainerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         footprintContainerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
         guard let text = footprint?.text else { return }
         let estimateHeight = estimateFrameForText(text).height
         var textHeight: CGFloat = 100
@@ -108,6 +135,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(likeButton)
         footprintContainerView.addSubview(commentButton)
+        footprintContainerView.addSubview(numLikesCommentsLabel)
         
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
@@ -122,7 +150,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         nameLabel.topAnchor.constraint(equalTo: footprintContainerView.topAnchor, constant: 14).isActive = true
         nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
         
-        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        usernameLabel.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor).isActive = true
         usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
         
         timeLabel.bottomAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor, constant: 2).isActive = true
@@ -169,17 +197,20 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
         commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        view.addSubview(tableViewSeperatorLineView)
+        scrollView.addSubview(tableViewSeperatorLineView)
         tableViewSeperatorLineView.topAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
         tableViewSeperatorLineView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableViewSeperatorLineView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableViewSeperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
-        view.addSubview(tableView)
+        scrollView.addSubview(tableView)
         tableView.topAnchor.constraint(equalTo: tableViewSeperatorLineView.bottomAnchor).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
+        numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
     fileprivate func setupMapView() {
@@ -193,6 +224,28 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+    }
+    
+    fileprivate func fetchComments() {
+        let footprintID = footprint?.footprintID
+        Database.database().reference().child("footprints").child(footprintID!).child("comments").observe(.childAdded) { (dataSnapshot) in
+            guard let dictionary = dataSnapshot.value as? [String : AnyObject] else { return }
+            guard let uid = dictionary["user"] as? String else { return }
+            Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value, with: { (userDataSnapshot) in
+                guard let userDictionary = userDataSnapshot.value as? [String: AnyObject] else { return }
+                let user = User(uid: uid, userDictionary)
+                let comment = FootprintComment(footprintID!, dictionary)
+                comment.user = user
+                self.comments.append(comment)
+                
+                DispatchQueue.main.async(execute: {
+                    self.comments.sort(by: { (comment1, comment2) -> Bool in
+                        return (comment1.timestamp?.int32Value)! < (comment2.timestamp?.int32Value)!
+                    })
+                    self.tableView.reloadData()
+                })
+            })
+        }
     }
     
     @objc fileprivate func handleOption() {
@@ -229,15 +282,43 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         sender.view?.removeFromSuperview()
     }
     
-    @objc fileprivate func handleLike() {
-        let alert = UIAlertController(title: "Like", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
+    @objc fileprivate func handleLike(_ sender: UIButton) {
+        sender.isEnabled = false
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let footprintID = footprint?.footprintID
+        Database.database().reference().child("footprints").child(footprintID!).child("likes").updateChildValues([currentUser.uid: timestamp]) { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                sender.isEnabled = true
+                return
+            }
+        }
     }
     
-    @objc fileprivate func handleComment() {
-        let alert = UIAlertController(title: "Comment", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+    @objc fileprivate func handleComment(_ sender: UIButton) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let footprintID = footprint?.footprintID
+        
+        let alert = UIAlertController(title: "Comment", message: "", preferredStyle: .alert)
+        alert.addTextField(configurationHandler: nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [weak alert] (_) in
+            if let text = alert?.textFields![0].text, text != "" {
+                let values = ["text": text, "user": currentUser.uid, "timestamp": timestamp] as [String : Any]
+                Database.database().reference().child("footprints").child(footprintID!).child("comments").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                        return
+                    }
+                })
+            }
+        }))
         present(alert, animated: true, completion: nil)
     }
     
@@ -246,6 +327,11 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
     }
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView(frame: self.view.bounds)
+        return scrollView
+    }()
     
     lazy var mapView: MKMapView = {
         let mapView = MKMapView()
@@ -361,7 +447,9 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Like", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Liked", for: .disabled)
+        button.setTitleColor(.gray, for: .disabled)
         button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
@@ -371,9 +459,19 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Comment", for: .normal)
-        button.setTitleColor(.gray, for: .normal)
+        button.setTitleColor(.black, for: .normal)
         button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return button
+    }()
+    
+    let numLikesCommentsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "numLikesCommentsLabel"
+        label.textColor = .gray
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.sizeToFit()
+        return label
     }()
     
     let tableViewSeperatorLineView: UIView = {
@@ -388,7 +486,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(CommentsTableViewCell.self, forCellReuseIdentifier: "CommentsCell")
+        tableView.register(FootprintCommentsTableViewCell.self, forCellReuseIdentifier: "CommentsCell")
         tableView.tableFooterView = UIView()
         return tableView
     }()
@@ -398,12 +496,16 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
 extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return comments.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsCell", for: indexPath)
-        cell.textLabel?.text = "comment"
+        
+        if let cell = cell as? FootprintCommentsTableViewCell {
+            cell.comment = comments[indexPath.row]
+        }
+        
         return cell
     }
     
@@ -413,16 +515,8 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
         
     }
     
-}
-
-class CommentsTableViewCell: UITableViewCell {
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 74
     }
     
 }
