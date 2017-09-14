@@ -204,6 +204,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let footprintVC = FootprintViewController()
+        footprintVC.footprint = footprints[indexPath.row]
         footprintVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(footprintVC, animated: true)
     }
