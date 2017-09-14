@@ -99,6 +99,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
+            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
         }
         
         profilePhotoImageView.topAnchor.constraint(equalTo: footprintContainerView.topAnchor, constant: 12).isActive = true
@@ -184,6 +185,46 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     
     @objc fileprivate func handleOption() {
         let alert = UIAlertController(title: "Option", message: "Feature coming soon...", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let fullscreenPhoto = UIImageView(frame: UIScreen.main.bounds)
+        fullscreenPhoto.image = imageView.image
+        fullscreenPhoto.backgroundColor = .black
+        fullscreenPhoto.contentMode = .scaleAspectFit
+        fullscreenPhoto.isUserInteractionEnabled = true
+        fullscreenPhoto.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissFullImage)))
+        view.addSubview(fullscreenPhoto)
+        navigationController?.isNavigationBarHidden = true
+        tabBarController?.tabBar.isHidden = true
+        
+        //        UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseIn, animations: {
+        //            fullscreenPhoto.frame = UIScreen.main.bounds
+        //            fullscreenPhoto.alpha = 1
+        //            fullscreenPhoto.layoutSubviews()
+        //        }, completion: { (_) in
+        //            self.navigationController?.isNavigationBarHidden = true
+        //            self.tabBarController?.tabBar.isHidden = true
+        //        })
+    }
+    
+    @objc fileprivate func dismissFullImage(_ sender: UITapGestureRecognizer) {
+        navigationController?.isNavigationBarHidden = false
+        tabBarController?.tabBar.isHidden = false
+        sender.view?.removeFromSuperview()
+    }
+    
+    @objc fileprivate func handleLike() {
+        let alert = UIAlertController(title: "Like", message: "Feature coming soon...", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleComment() {
+        let alert = UIAlertController(title: "Comment", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
@@ -305,6 +346,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Like", for: .normal)
         button.setTitleColor(.gray, for: .normal)
+        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
     
@@ -314,6 +356,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("Comment", for: .normal)
         button.setTitleColor(.gray, for: .normal)
+        button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return button
     }()
     
