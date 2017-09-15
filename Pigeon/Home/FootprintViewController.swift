@@ -193,12 +193,12 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         verticalLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor).isActive = true
         verticalLineView.leftAnchor.constraint(equalTo: profilePhotoImageView.centerXAnchor).isActive = true
-        verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         seperatorLineView.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor, constant: -40).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
-        seperatorLineView.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
+        seperatorLineView.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         likeButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
@@ -223,7 +223,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 16).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     

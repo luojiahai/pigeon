@@ -133,12 +133,12 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         
         verticalLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor).isActive = true
         verticalLineView.leftAnchor.constraint(equalTo: profilePhotoImageView.centerXAnchor).isActive = true
-        verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         seperatorLineView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
-        seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
+        seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         likeButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
@@ -151,7 +151,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -18).isActive = true
         commentButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
