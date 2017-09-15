@@ -91,10 +91,10 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         var numLikesCommentsText = ""
         if let likes = footprint?.likes {
-            numLikesCommentsText += String(likes.count) + " Likes "
+            numLikesCommentsText += String(likes.count) + " likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += " " + String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
         
@@ -516,6 +516,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "icons8-Heart-50"), for: .normal)
         button.setImage(UIImage(named: "icons8-Heart Filled-50"), for: .disabled)
+        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
     
@@ -523,6 +524,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "icons8-Comments-50"), for: .normal)
+        button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return button
     }()
     

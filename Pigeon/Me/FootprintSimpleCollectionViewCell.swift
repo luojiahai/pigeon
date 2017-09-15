@@ -54,10 +54,10 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         
         var numLikesCommentsText = ""
         if let likes = footprint?.likes {
-            numLikesCommentsText += String(likes.count) + " Likes "
+            numLikesCommentsText += String(likes.count) + " likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += " " + String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
     }
