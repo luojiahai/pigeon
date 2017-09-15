@@ -88,7 +88,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "nameLabel"
-        label.font = UIFont.systemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .black
         label.sizeToFit()
         return label
@@ -98,7 +98,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "usernameLabel"
-        label.font = UIFont.systemFont(ofSize: 13)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.sizeToFit()
         return label
@@ -108,7 +108,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "commentTextLabel"
-        label.font = UIFont.systemFont(ofSize: 17)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .black
         label.sizeToFit()
         return label

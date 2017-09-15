@@ -88,12 +88,12 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
 //        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
         
         headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
-        headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
         headerLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         headerLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
         seperatorLineView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 2).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
         seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
@@ -109,7 +109,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         timeLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
         
         verticalLineView.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
-        verticalLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
+        verticalLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
         verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
         
@@ -168,7 +168,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 1
         label.textColor = .darkGray
         label.text = "footprintLocationLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()
@@ -188,7 +188,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
         label.text = "footprintLabel"
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = UIFont.boldSystemFont(ofSize: 12)
         label.sizeToFit()
         return label
     }()

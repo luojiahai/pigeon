@@ -128,7 +128,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
             previousRightAnchor = imageView.rightAnchor
         }
         
-        footprintLocationLabel.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor, constant: -8).isActive = true
+        footprintLocationLabel.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor, constant: -6).isActive = true
         footprintLocationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 21).isActive = true
         
         verticalLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor).isActive = true
@@ -167,7 +167,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "nameLabel"
         label.sizeToFit()
         return label
@@ -177,7 +177,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "usernameLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.sizeToFit()
         return label
@@ -216,7 +216,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 1
         label.textColor = .darkGray
         label.text = "footprintLocationLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()
@@ -270,7 +270,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
         label.textColor = .gray
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.sizeToFit()
         return label
     }()

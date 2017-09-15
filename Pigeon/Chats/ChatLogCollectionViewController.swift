@@ -61,6 +61,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         } else if users != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info-50"), style: .plain, target: self, action: #selector(handleShowMembers))
         }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     fileprivate func setupCollectionView() {

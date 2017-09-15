@@ -435,7 +435,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "nameLabel"
         label.sizeToFit()
         return label
@@ -445,7 +445,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "nameLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.sizeToFit()
         return label
@@ -482,7 +482,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         label.numberOfLines = 1
         label.textColor = .darkGray
         label.text = "footprintLocationLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()
@@ -538,7 +538,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
         label.textColor = .black
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.sizeToFit()
         label.isUserInteractionEnabled = true
         return label
