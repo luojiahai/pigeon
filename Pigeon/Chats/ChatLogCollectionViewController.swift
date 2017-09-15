@@ -383,6 +383,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     @objc fileprivate func handleShowMembers() {
         let vc = UserListTableViewController()
+        vc.navigationItem.title = "Members"
         vc.users = users
         navigationController?.pushViewController(vc, animated: true)
     }

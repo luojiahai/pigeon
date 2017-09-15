@@ -72,7 +72,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
             numLikesCommentsText += String(likes.count) + " Likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " Comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
     }
@@ -151,7 +151,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
@@ -270,7 +270,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
         label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.sizeToFit()
         return label
     }()

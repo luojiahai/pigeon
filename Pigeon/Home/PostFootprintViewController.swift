@@ -263,7 +263,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         mapView.setRegion(region, animated: true)
     }
     
-    let placeButton: UIButton = {
+    lazy var placeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
@@ -329,7 +329,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         return mapView
     }()
     
-    let myLocationButton: UIButton = {
+    lazy var myLocationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white

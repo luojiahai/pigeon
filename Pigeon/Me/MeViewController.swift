@@ -106,7 +106,8 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
             do {
                 try Auth.auth().signOut()
-                self.present(LoginViewController.sharedInstance, animated: true, completion: completion)
+                if let completion = completion { completion() }
+                self.present(LoginViewController.sharedInstance, animated: true, completion: nil)
             } catch let logoutError {
                 let alert = UIAlertController(title: "Error", message: String(describing: logoutError), preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -154,6 +155,11 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
                     footprint.latitude = location["latitude"] as? Double
                     footprint.longitude = location["longitude"] as? Double
                     footprint.altitude = location["altitude"] as? Double
+                    if object.hasChild("likes") {
+                        guard let likes = object.childSnapshot(forPath: "likes").value as? [String: AnyObject] else { return }
+                        footprint.likes = Array(likes.keys)
+                    }
+                    footprint.numComments = object.childSnapshot(forPath: "comments").childrenCount
                     
                     self.footprints.insert(footprint, at: 0)
                     

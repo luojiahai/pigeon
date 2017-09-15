@@ -51,6 +51,15 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
             dateFormatter.dateFormat = "HH:mm dd/MM/yyyy"
             timeLabel.text = dateFormatter.string(from: timestampDate)
         }
+        
+        var numLikesCommentsText = ""
+        if let likes = footprint?.likes {
+            numLikesCommentsText += String(likes.count) + " Likes "
+        }
+        if let numComments = footprint?.numComments, numComments > 0 {
+            numLikesCommentsText += " " + String(numComments) + " Comments"
+        }
+        numLikesCommentsLabel.text = numLikesCommentsText
     }
     
     fileprivate func setupViews() {
@@ -65,6 +74,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         addSubview(footprintLocationLabel)
         addSubview(timeLabel)
         addSubview(verticalLineView)
+        addSubview(numLikesCommentsLabel)
         
 //        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
 //        profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
@@ -102,6 +112,9 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         verticalLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 22).isActive = true
         verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
+        
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        numLikesCommentsLabel.bottomAnchor.constraint(equalTo: timeLabel.bottomAnchor).isActive = true
     }
     
     let profilePhotoImageView: CustomImageView = {
@@ -165,7 +178,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .lightGray
         label.text = "timeLabel"
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.sizeToFit()
         return label
     }()
@@ -185,6 +198,16 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = lineColor
         return view
+    }()
+    
+    let numLikesCommentsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "numLikesCommentsLabel"
+        label.textColor = .gray
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.sizeToFit()
+        return label
     }()
     
 }

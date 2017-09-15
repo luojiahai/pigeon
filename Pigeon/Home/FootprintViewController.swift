@@ -10,6 +10,11 @@ import UIKit
 import MapKit
 import Firebase
 
+protocol FootprintViewControllerDelegate {
+    func finalizeLike(_ tag: Int)
+    func finalizeComment(_ tag: Int)
+}
+
 class FootprintViewController: UIViewController, MKMapViewDelegate {
     
     var footprint: Footprint? {
@@ -17,6 +22,12 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             setupFootprint()
         }
     }
+    
+    var delegate: FootprintViewControllerDelegate?
+    
+    var footprintTag: Int?
+    
+    var likes = [User]()
     
     var comments = [FootprintComment]()
     
@@ -83,10 +94,11 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             numLikesCommentsText += String(likes.count) + " Likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " Comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
         
+        fetchLikes()
         fetchComments()
     }
     
@@ -141,6 +153,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             footprintContainerView.addSubview(imageView)
             imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
         }
+        
+        numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
         
         profilePhotoImageView.topAnchor.constraint(equalTo: footprintContainerView.topAnchor, constant: 12).isActive = true
         profilePhotoImageView.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
@@ -209,7 +223,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 16).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
@@ -224,6 +238,16 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+    }
+    
+    fileprivate func fetchLikes() {
+        Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            self.footprint?.likes?.forEach({ (uid) in
+                guard let dictionary = dataSnapshot.childSnapshot(forPath: uid).value as? [String : AnyObject] else { return }
+                let user = User(uid: uid, dictionary)
+                self.likes.append(user)
+            })
+        })
     }
     
     fileprivate func fetchComments() {
@@ -295,6 +319,25 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
                 sender.isEnabled = true
                 return
             }
+            
+            DispatchQueue.main.async(execute: {
+                if self.footprint?.likes == nil {
+                    self.footprint?.likes = [String]()
+                }
+                self.footprint?.likes?.append(currentUser.uid)
+                self.delegate?.finalizeLike(self.footprintTag!)
+                self.likes.removeAll()
+                self.fetchLikes()
+                
+                var numLikesCommentsText = ""
+                if let likes = self.footprint?.likes {
+                    numLikesCommentsText += String(likes.count) + " Likes "
+                }
+                if let numComments = self.footprint?.numComments, numComments > 0 {
+                    numLikesCommentsText += " " + String(numComments) + " Comments"
+                }
+                self.numLikesCommentsLabel.text = numLikesCommentsText
+            })
         }
     }
     
@@ -316,6 +359,25 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
+                    
+                    DispatchQueue.main.async(execute: {
+                        if let numComments = self.footprint?.numComments {
+                            let newNumComments: UInt = numComments + 1
+                            self.footprint?.numComments = newNumComments
+                        } else {
+                            self.footprint?.numComments = 1
+                        }
+                        self.delegate?.finalizeComment(sender.tag)
+                        
+                        var numLikesCommentsText = ""
+                        if let likes = self.footprint?.likes {
+                            numLikesCommentsText += String(likes.count) + " Likes "
+                        }
+                        if let numComments = self.footprint?.numComments, numComments > 0 {
+                            numLikesCommentsText += " " + String(numComments) + " Comments"
+                        }
+                        self.numLikesCommentsLabel.text = numLikesCommentsText
+                    })
                 })
             }
         }))
@@ -326,6 +388,13 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let size = CGSize(width: view.frame.width - 40, height: 1000)
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
+    }
+    
+    @objc fileprivate func handleShowLikes() {
+        let vc = UserListTableViewController()
+        vc.navigationItem.title = "Likes"
+        vc.users = likes
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     lazy var scrollView: UIScrollView = {
@@ -468,9 +537,10 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
-        label.textColor = .gray
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .black
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.sizeToFit()
+        label.isUserInteractionEnabled = true
         return label
     }()
     

@@ -11,7 +11,7 @@ import Firebase
 import MapKit
 import CoreLocation
 
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginViewControllerDelegate {
+class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginViewControllerDelegate, FootprintViewControllerDelegate {
     
     var footprints = [Footprint]()
     
@@ -214,6 +214,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let footprintVC = FootprintViewController()
+        footprintVC.delegate = self
+        footprintVC.footprintTag = indexPath.row
         footprintVC.footprint = footprints[indexPath.row]
         footprintVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(footprintVC, animated: true)
@@ -247,6 +249,21 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         sender.view?.removeFromSuperview()
     }
     
+    func finalizeLike(_ tag: Int) {
+        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
+            cell.likeButton.isEnabled = false
+            
+            var numLikesCommentsText = ""
+            if let likes = footprints[tag].likes {
+                numLikesCommentsText += String(likes.count) + " Likes "
+            }
+            if let numComments = footprints[tag].numComments, numComments > 0 {
+                numLikesCommentsText += " " + String(numComments) + " Comments"
+            }
+            cell.numLikesCommentsLabel.text = numLikesCommentsText
+        }
+    }
+    
     @objc fileprivate func handleLike(_ sender: UIButton) {
         sender.isEnabled = false
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -260,6 +277,27 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 sender.isEnabled = true
                 return
             }
+            
+            DispatchQueue.main.async(execute: {
+                if self.footprints[sender.tag].likes == nil {
+                    self.footprints[sender.tag].likes = [String]()
+                }
+                self.footprints[sender.tag].likes?.append(currentUser.uid)
+                self.finalizeLike(sender.tag)
+            })
+        }
+    }
+    
+    func finalizeComment(_ tag: Int) {
+        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
+            var numLikesCommentsText = ""
+            if let likes = footprints[tag].likes {
+                numLikesCommentsText += String(likes.count) + " Likes "
+            }
+            if let numComments = footprints[tag].numComments, numComments > 0 {
+                numLikesCommentsText += " " + String(numComments) + " Comments"
+            }
+            cell.numLikesCommentsLabel.text = numLikesCommentsText
         }
     }
     
@@ -281,6 +319,16 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
+                    
+                    DispatchQueue.main.async(execute: {
+                        if let numComments = self.footprints[sender.tag].numComments {
+                            let newNumComments: UInt = numComments + 1
+                            self.footprints[sender.tag].numComments = newNumComments
+                        } else {
+                            self.footprints[sender.tag].numComments = 1
+                        }
+                        self.finalizeComment(sender.tag)
+                    })
                 })
             }
         }))

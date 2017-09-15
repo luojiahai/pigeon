@@ -65,7 +65,7 @@ class OptionsTableViewController: UITableViewController {
         } else if indexPath.section == 1 {
             if indexPath.row == 0 {
                 delegate?.handleSignOut(completion: {
-                    self.dismiss(animated: true, completion: nil)
+                    self.navigationController?.popViewController(animated: true)
                 })
             }
         }

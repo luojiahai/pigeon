@@ -119,7 +119,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "timeLabel"
         label.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.caption1)
-        label.textColor = lineColor
+        label.textColor = .lightGray
         label.textAlignment = .right
         label.sizeToFit()
         return label
