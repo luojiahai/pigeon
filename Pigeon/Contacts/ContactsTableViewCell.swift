@@ -28,7 +28,11 @@ class ContactsTableViewCell: UITableViewCell {
     
     fileprivate func setupUser() {
         nameLabel.text = contact?.name
-        usernameLabel.text = contact?.username
+        
+        if let username = contact?.username {
+            usernameLabel.text = "@" + username
+        }
+        
         if let url = contact?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
