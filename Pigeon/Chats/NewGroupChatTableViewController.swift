@@ -93,34 +93,22 @@ class NewGroupChatTableViewController: UITableViewController {
     }
     
     @objc fileprivate func handleCreateGroup() {
-        dismiss(animated: true) {
-            guard let currentUser = Auth.auth().currentUser else { return }
-            let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
-            Database.database().reference().child("conversations").childByAutoId().updateChildValues(["owner": currentUser.uid, "timestamp": timestamp], withCompletionBlock: { (error, ref) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    return
-                }
-                
-                ref.child("members").updateChildValues([currentUser.uid: 1], withCompletionBlock: { (error, ref) in
+        if targetUsers.count < 2 {
+            let alert = UIAlertController(title: "Create Group", message: "number of group members must be greater than 2", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            dismiss(animated: true) {
+                guard let currentUser = Auth.auth().currentUser else { return }
+                let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+                Database.database().reference().child("conversations").childByAutoId().updateChildValues(["owner": currentUser.uid, "timestamp": timestamp], withCompletionBlock: { (error, ref) in
                     if let error = error {
                         let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         return
                     }
-                })
-                
-                Database.database().reference().child("user-conversations").child(currentUser.uid).child("groups").updateChildValues([ref.key: timestamp], withCompletionBlock: { (error, ref) in
-                    if let error = error {
-                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                        return
-                    }
-                })
-                
-                self.targetUsers.forEach({ (targetUser) in
-                    ref.child("members").updateChildValues([targetUser.uid!: 1], withCompletionBlock: { (error, ref) in
+                    
+                    ref.child("members").updateChildValues([currentUser.uid: 1], withCompletionBlock: { (error, ref) in
                         if let error = error {
                             let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -128,26 +116,44 @@ class NewGroupChatTableViewController: UITableViewController {
                         }
                     })
                     
-                    Database.database().reference().child("user-conversations").child(targetUser.uid!).child("groups").updateChildValues([ref.key: timestamp], withCompletionBlock: { (error, ref) in
+                    Database.database().reference().child("user-conversations").child(currentUser.uid).child("groups").updateChildValues([ref.key: timestamp], withCompletionBlock: { (error, ref) in
                         if let error = error {
                             let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                             return
                         }
                     })
-                })
-                
-                Database.database().reference().child("conversations").child(ref.key).childByAutoId().updateChildValues(["text": "I created a group.", "fromUID": currentUser.uid, "timestamp": timestamp]) { (error, ref) in
-                    if let error = error {
-                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                        return
+                    
+                    self.targetUsers.forEach({ (targetUser) in
+                        ref.child("members").updateChildValues([targetUser.uid!: 1], withCompletionBlock: { (error, ref) in
+                            if let error = error {
+                                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                                return
+                            }
+                        })
+                        
+                        Database.database().reference().child("user-conversations").child(targetUser.uid!).child("groups").updateChildValues([ref.key: timestamp], withCompletionBlock: { (error, ref) in
+                            if let error = error {
+                                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                                return
+                            }
+                        })
+                    })
+                    
+                    Database.database().reference().child("conversations").child(ref.key).childByAutoId().updateChildValues(["text": "I created a group.", "fromUID": currentUser.uid, "timestamp": timestamp]) { (error, ref) in
+                        if let error = error {
+                            let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                            self.present(alert, animated: true, completion: nil)
+                            return
+                        }
                     }
-                }
-                
-                self.delegate?.showChatLog(ref.key, forUsers: self.targetUsers)
-            })
+                    
+                    self.delegate?.showChatLog(ref.key, forUsers: self.targetUsers)
+                })
+            }
         }
     }
     
