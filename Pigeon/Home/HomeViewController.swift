@@ -53,7 +53,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         navigationItem.title = "Pigeon"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Marker-48"), style: .plain, target: self, action: #selector(handlePresentMap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Marker Filled-50"), style: .plain, target: self, action: #selector(handlePresentMap))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Cat Footprint Filled-50"), style: .plain, target: self, action: #selector(handlePostFootprint))
     }
     

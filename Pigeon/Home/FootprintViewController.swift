@@ -108,7 +108,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         navigationItem.title = "Footprint"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOption))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOption))
     }
     
     fileprivate func setupViews() {
@@ -204,12 +204,12 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         likeButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         likeButton.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
         likeButton.rightAnchor.constraint(equalTo: commentButton.leftAnchor, constant: -8).isActive = true
-        likeButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        likeButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         commentButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         commentButton.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
-        commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
-        commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -18).isActive = true
+        commentButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         scrollView.addSubview(tableViewSeperatorLineView)
         tableViewSeperatorLineView.topAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
@@ -514,22 +514,15 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     let likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Like", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Liked", for: .disabled)
-        button.setTitleColor(.gray, for: .disabled)
-        button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+        button.setImage(UIImage(named: "icons8-Heart-50"), for: .normal)
+        button.setImage(UIImage(named: "icons8-Heart Filled-50"), for: .disabled)
         return button
     }()
     
     let commentButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Comment", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
+        button.setImage(UIImage(named: "icons8-Comments-50"), for: .normal)
         return button
     }()
     

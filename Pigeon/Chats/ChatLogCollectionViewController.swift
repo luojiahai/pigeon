@@ -57,9 +57,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     fileprivate func setupNavigation() {
         if user != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint-50"), style: .plain, target: self, action: #selector(handleLocate))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
         } else if users != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
         }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }

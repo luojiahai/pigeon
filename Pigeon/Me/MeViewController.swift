@@ -66,7 +66,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         
         navigationItem.title = "Me"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOptions))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOptions))
     }
     
     fileprivate func supportViews() {
