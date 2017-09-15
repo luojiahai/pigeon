@@ -148,6 +148,7 @@ extension ContactsViewController {
             if !searchController.isActive && indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
                 cell.textLabel?.text = "Pending Friends"
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
                 return cell
             } else {
                 contact = contacts[indexPath.row]
