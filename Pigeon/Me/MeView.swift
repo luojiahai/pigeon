@@ -64,7 +64,7 @@ class MeView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 32)
+        label.font = UIFont.boldSystemFont(ofSize: 32)
         return label
     }()
     
@@ -73,7 +73,7 @@ class MeView: UIView {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 21)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.textColor = .gray
         return label
     }()

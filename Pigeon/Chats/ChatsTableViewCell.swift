@@ -28,7 +28,7 @@ class ChatsTableViewCell: UITableViewCell {
     
     fileprivate func setupChat() {
         if let targetUser = message?.targetUser {
-            let attributedText = NSMutableAttributedString(string: targetUser.name!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
+            let attributedText = NSMutableAttributedString(string: targetUser.name!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
             attributedText.append(NSAttributedString(string: "   @" + targetUser.username!, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14), NSAttributedStringKey.foregroundColor: UIColor.gray]))
             nameLabel.attributedText = attributedText
             if let url = targetUser.profilePhotoURL {
@@ -44,8 +44,8 @@ class ChatsTableViewCell: UITableViewCell {
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
             }
-        } else if let targetUsers = message?.targetUsers {
-            let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 16)])
+        } else if let _ = message?.targetUsers {
+            let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
             nameLabel.attributedText = attributedText
             
             profilePhotoImageView.loadImageUsingCache(with: "https://firebasestorage.googleapis.com/v0/b/pigeon-d90d7.appspot.com/o/logo-100.jpg?alt=media&token=4d528b52-d3b7-48b6-a7b3-d859f584b200")

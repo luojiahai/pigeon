@@ -37,6 +37,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         setupNavigation()
         setupViews()
         setupMapView()
+        supportViews()
     }
     
     override func viewDidLayoutSubviews() {
@@ -91,10 +92,10 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         var numLikesCommentsText = ""
         if let likes = footprint?.likes {
-            numLikesCommentsText += String(likes.count) + " Likes "
+            numLikesCommentsText += String(likes.count) + " likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += " " + String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
         
@@ -108,7 +109,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         navigationItem.title = "Footprint"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More-48"), style: .plain, target: self, action: #selector(handleOption))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOption))
     }
     
     fileprivate func setupViews() {
@@ -140,21 +141,17 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintContainerView.addSubview(profilePhotoImageView)
         footprintContainerView.addSubview(nameLabel)
         footprintContainerView.addSubview(usernameLabel)
+        footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(seperatorLineView)
         footprintContainerView.addSubview(footprintTextView)
         footprintContainerView.addSubview(footprintLocationLabel)
         footprintContainerView.addSubview(timeLabel)
-        footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(likeButton)
         footprintContainerView.addSubview(commentButton)
         footprintContainerView.addSubview(numLikesCommentsLabel)
-        
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
-            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
         }
-        
-        numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
         
         profilePhotoImageView.topAnchor.constraint(equalTo: footprintContainerView.topAnchor, constant: 12).isActive = true
         profilePhotoImageView.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
@@ -193,23 +190,23 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         verticalLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor).isActive = true
         verticalLineView.leftAnchor.constraint(equalTo: profilePhotoImageView.centerXAnchor).isActive = true
-        verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         seperatorLineView.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor, constant: -40).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
-        seperatorLineView.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
+        seperatorLineView.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         likeButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         likeButton.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
         likeButton.rightAnchor.constraint(equalTo: commentButton.leftAnchor, constant: -8).isActive = true
-        likeButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        likeButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         commentButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         commentButton.bottomAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
-        commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -12).isActive = true
-        commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        commentButton.rightAnchor.constraint(equalTo: footprintContainerView.rightAnchor, constant: -18).isActive = true
+        commentButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         scrollView.addSubview(tableViewSeperatorLineView)
         tableViewSeperatorLineView.topAnchor.constraint(equalTo: footprintContainerView.bottomAnchor).isActive = true
@@ -223,7 +220,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 16).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
@@ -238,6 +235,17 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+    }
+    
+    fileprivate func supportViews() {
+        footprintImageViews.forEach { (imageView) in
+            footprintContainerView.addSubview(imageView)
+            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
+        }
+        
+        numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
+        
+        profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForUser)))
     }
     
     fileprivate func fetchLikes() {
@@ -397,6 +405,19 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc fileprivate func handleShowUserProfileForComment(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let vc = UserProfileViewController()
+        vc.user = comments[imageView.tag].user
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc fileprivate func handleShowUserProfileForUser(_ sender: UITapGestureRecognizer) {
+        let vc = UserProfileViewController()
+        vc.user = footprint?.user
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: self.view.bounds)
         return scrollView
@@ -429,13 +450,14 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "nameLabel"
         label.sizeToFit()
         return label
@@ -445,7 +467,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "nameLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.sizeToFit()
         return label
@@ -482,7 +504,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         label.numberOfLines = 1
         label.textColor = .darkGray
         label.text = "footprintLocationLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()
@@ -514,11 +536,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     let likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Like", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Liked", for: .disabled)
-        button.setTitleColor(.gray, for: .disabled)
+        button.setImage(UIImage(named: "icons8-Heart-50"), for: .normal)
+        button.setImage(UIImage(named: "icons8-Heart Filled-50"), for: .disabled)
         button.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
         return button
     }()
@@ -526,9 +545,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     let commentButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Comment", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setImage(UIImage(named: "icons8-Comments-50"), for: .normal)
         button.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
         return button
     }()
@@ -538,7 +555,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
         label.textColor = .black
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.sizeToFit()
         label.isUserInteractionEnabled = true
         return label
@@ -574,6 +591,8 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let cell = cell as? FootprintCommentsTableViewCell {
             cell.comment = comments[indexPath.row]
+            cell.profilePhotoImageView.tag = indexPath.row
+            cell.profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForComment)))
         }
         
         return cell

@@ -57,10 +57,11 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     fileprivate func setupNavigation() {
         if user != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint-50"), style: .plain, target: self, action: #selector(handleLocate))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
         } else if users != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
         }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     fileprivate func setupCollectionView() {
@@ -176,9 +177,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChatLogCell", for: indexPath)
         
-        if let collectionCell = cell as? ChatLogCollectionViewCell {
+        if let cell = cell as? ChatLogCollectionViewCell {
             let message = messages[indexPath.item]
-            setupCell(collectionCell, message)
+            setupCell(cell, message)
         }
         
         return cell
@@ -199,7 +200,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
                 if targetUser.uid == message.fromUID {
                     if let url = targetUser.profilePhotoURL {
                         cell.profilePhotoImageView.loadImageUsingCache(with: url, completion: nil)
-                        cell.nameLabel .text = targetUser.name
+                        cell.nameLabel.text = targetUser.name
                     }
                     break
                 }
@@ -291,7 +292,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
                         self.sendButton.isEnabled = true
                     })
                 }
-            } else if let targetUsers = users {
+            } else if let _ = users {
                 let fromUID = Auth.auth().currentUser!.uid
                 let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
                 let values = ["text": text, "fromUID": fromUID, "timestamp": timestamp] as [String : Any]

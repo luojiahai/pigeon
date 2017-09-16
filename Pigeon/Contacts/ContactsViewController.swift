@@ -44,7 +44,7 @@ class ContactsViewController: UITableViewController {
         
         navigationItem.title = "Contacts"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Add User Male-48"), style: .plain, target: self, action: #selector(addContacts))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Add User Male Filled-50"), style: .plain, target: self, action: #selector(addContacts))
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
@@ -148,6 +148,7 @@ extension ContactsViewController {
             if !searchController.isActive && indexPath.section == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
                 cell.textLabel?.text = "Pending Friends"
+                cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 16)
                 return cell
             } else {
                 contact = contacts[indexPath.row]
@@ -171,7 +172,9 @@ extension ContactsViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if searchController.isActive && searchController.searchBar.text != "" {
-            return
+            let vc = UserProfileViewController()
+            vc.user = filteredContacts[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
         } else {
             if !searchController.isActive && indexPath.section == 0 {
                 let vc = PendingFriendsViewController()
@@ -179,9 +182,9 @@ extension ContactsViewController {
                 navigationController?.pushViewController(vc, animated: true)
                 return
             } else {
-                let alert = UIAlertController(title: "User Profile", message: "Feature coming soon...", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
+                let vc = UserProfileViewController()
+                vc.user = contacts[indexPath.row]
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

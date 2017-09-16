@@ -53,7 +53,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         
         navigationItem.title = "Pigeon"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Marker-48"), style: .plain, target: self, action: #selector(handlePresentMap))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Marker Filled-50"), style: .plain, target: self, action: #selector(handlePresentMap))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Cat Footprint Filled-50"), style: .plain, target: self, action: #selector(handlePostFootprint))
     }
     
@@ -182,6 +182,8 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             cell.footprintImageViews.forEach({ (imageView) in
                 imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
             })
+            cell.profilePhotoImageView.tag = indexPath.row
+            cell.profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfile)))
             cell.likeButton.tag = indexPath.row
             cell.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
             cell.commentButton.tag = indexPath.row
@@ -255,10 +257,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             
             var numLikesCommentsText = ""
             if let likes = footprints[tag].likes {
-                numLikesCommentsText += String(likes.count) + " Likes "
+                numLikesCommentsText += String(likes.count) + " likes "
             }
             if let numComments = footprints[tag].numComments, numComments > 0 {
-                numLikesCommentsText += " " + String(numComments) + " Comments"
+                numLikesCommentsText += " " + String(numComments) + " comments"
             }
             cell.numLikesCommentsLabel.text = numLikesCommentsText
         }
@@ -292,10 +294,10 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
             var numLikesCommentsText = ""
             if let likes = footprints[tag].likes {
-                numLikesCommentsText += String(likes.count) + " Likes "
+                numLikesCommentsText += String(likes.count) + " likes "
             }
             if let numComments = footprints[tag].numComments, numComments > 0 {
-                numLikesCommentsText += " " + String(numComments) + " Comments"
+                numLikesCommentsText += " " + String(numComments) + " comments"
             }
             cell.numLikesCommentsLabel.text = numLikesCommentsText
         }
@@ -333,6 +335,13 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
             }
         }))
         present(alert, animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleShowUserProfile(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let vc = UserProfileViewController()
+        vc.user = footprints[imageView.tag].user
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

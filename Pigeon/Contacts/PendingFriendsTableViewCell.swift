@@ -27,7 +27,11 @@ class PendingFriendsTableViewCell: UITableViewCell {
     
     fileprivate func setupUser() {
         nameLabel.text = user?.name
-        usernameLabel.text = user?.username
+        
+        if let username = user?.username {
+            usernameLabel.text = "@" + username
+        }
+        
         if let url = user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
@@ -59,6 +63,7 @@ class PendingFriendsTableViewCell: UITableViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()

@@ -157,6 +157,16 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if searchController.isActive && searchController.searchBar.text != "" {
+            let vc = UserProfileViewController()
+            vc.user = filteredUsers[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = UserProfileViewController()
+            vc.user = users[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     func filterContent(for searchText: String, scope: String = "All") {

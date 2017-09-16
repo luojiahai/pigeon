@@ -1,14 +1,14 @@
 //
-//  FootprintSimpleCollectionViewCell.swift
+//  FootprintOnProfileCollectionViewCell.swift
 //  Pigeon
 //
-//  Created by Geoffrey Ka-Hoi Law on 14/9/17.
+//  Created by Geoffrey Ka-Hoi Law on 16/9/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
 
 import UIKit
 
-class FootprintSimpleCollectionViewCell: UICollectionViewCell {
+class FootprintOnProfileCollectionViewCell: UICollectionViewCell {
     
     var footprint: Footprint? {
         didSet {
@@ -60,14 +60,29 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
             numLikesCommentsText += " " + String(numComments) + " comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
+        
+        if let imageURLs = footprint?.imageURLs {
+            for index in 0..<3 {
+                if index < imageURLs.count {
+                    footprintImageViews[index].loadImageUsingCache(with: imageURLs[index])
+                    footprintImageViews[index].isHidden = false
+                } else {
+                    footprintImageViews[index].isHidden = true
+                }
+            }
+        } else {
+            footprintImageViews.forEach({ (imageView) in
+                imageView.isHidden = true
+            })
+        }
     }
     
     fileprivate func setupViews() {
         backgroundColor = .white
         
-//        addSubview(profilePhotoImageView)
-//        addSubview(nameLabel)
-//        addSubview(usernameLabel)
+        //        addSubview(profilePhotoImageView)
+        //        addSubview(nameLabel)
+        //        addSubview(usernameLabel)
         addSubview(headerLabel)
         addSubview(seperatorLineView)
         addSubview(footprintTextLabel)
@@ -76,16 +91,33 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         addSubview(verticalLineView)
         addSubview(numLikesCommentsLabel)
         
-//        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
-//        profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
-//        profilePhotoImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
-//        profilePhotoImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
-//
-//        nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 14).isActive = true
-//        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
-//
-//        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
-//        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
+        footprintImageViews.forEach { (imageView) in
+            addSubview(imageView)
+        }
+        
+        var previousRightAnchor: NSLayoutXAxisAnchor?
+        footprintImageViews.forEach { (imageView) in
+            imageView.topAnchor.constraint(equalTo: footprintTextLabel.bottomAnchor, constant: 4).isActive = true
+            if let prev = previousRightAnchor {
+                imageView.leftAnchor.constraint(equalTo: prev, constant: 8).isActive = true
+            } else {
+                imageView.leftAnchor.constraint(equalTo: verticalLineView.rightAnchor, constant: 12).isActive = true
+            }
+            imageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+            previousRightAnchor = imageView.rightAnchor
+        }
+        
+        //        profilePhotoImageView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        //        profilePhotoImageView.leftAnchor.constraint(equalTo: leftAnchor, constant: 8).isActive = true
+        //        profilePhotoImageView.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        //        profilePhotoImageView.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        //
+        //        nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 14).isActive = true
+        //        nameLabel.leftAnchor.constraint(equalTo: profilePhotoImageView.rightAnchor, constant: 12).isActive = true
+        //
+        //        usernameLabel.bottomAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        //        usernameLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor, constant: 10).isActive = true
         
         headerLabel.topAnchor.constraint(equalTo: topAnchor, constant: 2).isActive = true
         headerLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 23).isActive = true
@@ -208,6 +240,20 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.sizeToFit()
         return label
+    }()
+    
+    var footprintImageViews: [CustomImageView] = {
+        var imageViews = [CustomImageView]()
+        for _ in 0..<3 {
+            let imageView = CustomImageView()
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
+            imageView.layer.borderWidth = linePixel
+            imageView.layer.borderColor = lineColor.cgColor
+            imageView.isUserInteractionEnabled = true
+            imageViews.append(imageView)
+        }
+        return imageViews
     }()
     
 }

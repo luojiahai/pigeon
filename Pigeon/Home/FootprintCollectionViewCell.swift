@@ -69,10 +69,10 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         
         var numLikesCommentsText = ""
         if let likes = footprint?.likes {
-            numLikesCommentsText += String(likes.count) + " Likes "
+            numLikesCommentsText += String(likes.count) + " likes "
         }
         if let numComments = footprint?.numComments, numComments > 0 {
-            numLikesCommentsText += " " + String(numComments) + " Comments"
+            numLikesCommentsText += " " + String(numComments) + " comments"
         }
         numLikesCommentsLabel.text = numLikesCommentsText
     }
@@ -84,10 +84,10 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         addSubview(nameLabel)
         addSubview(usernameLabel)
         addSubview(seperatorLineView)
+        addSubview(verticalLineView)
         addSubview(footprintTextView)
         addSubview(footprintLocationLabel)
         addSubview(timeLabel)
-        addSubview(verticalLineView)
         addSubview(likeButton)
         addSubview(commentButton)
         addSubview(numLikesCommentsLabel)
@@ -128,30 +128,30 @@ class FootprintCollectionViewCell: UICollectionViewCell {
             previousRightAnchor = imageView.rightAnchor
         }
         
-        footprintLocationLabel.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor, constant: -8).isActive = true
+        footprintLocationLabel.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor, constant: -6).isActive = true
         footprintLocationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 21).isActive = true
         
         verticalLineView.topAnchor.constraint(equalTo: profilePhotoImageView.bottomAnchor).isActive = true
         verticalLineView.leftAnchor.constraint(equalTo: profilePhotoImageView.centerXAnchor).isActive = true
-        verticalLineView.bottomAnchor.constraint(equalTo: footprintLocationLabel.topAnchor).isActive = true
+        verticalLineView.bottomAnchor.constraint(equalTo: seperatorLineView.topAnchor).isActive = true
         verticalLineView.widthAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         seperatorLineView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
-        seperatorLineView.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
-        seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
+        seperatorLineView.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
+        seperatorLineView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
         
         likeButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         likeButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         likeButton.rightAnchor.constraint(equalTo: commentButton.leftAnchor, constant: -8).isActive = true
-        likeButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        likeButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
         commentButton.topAnchor.constraint(equalTo: seperatorLineView.bottomAnchor).isActive = true
         commentButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
-        commentButton.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        commentButton.rightAnchor.constraint(equalTo: rightAnchor, constant: -18).isActive = true
+        commentButton.widthAnchor.constraint(equalToConstant: 40).isActive = true
         
-        numLikesCommentsLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16).isActive = true
+        numLikesCommentsLabel.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
     
@@ -161,13 +161,14 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.text = "nameLabel"
         label.sizeToFit()
         return label
@@ -177,7 +178,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "usernameLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .gray
         label.sizeToFit()
         return label
@@ -216,7 +217,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         label.numberOfLines = 1
         label.textColor = .darkGray
         label.text = "footprintLocationLabel"
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.boldSystemFont(ofSize: 16)
         label.sizeToFit()
         return label
     }()
@@ -248,20 +249,15 @@ class FootprintCollectionViewCell: UICollectionViewCell {
     let likeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Like", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitle("Liked", for: .disabled)
-        button.setTitleColor(.gray, for: .disabled)
+        button.setImage(UIImage(named: "icons8-Heart-50"), for: .normal)
+        button.setImage(UIImage(named: "icons8-Heart Filled-50"), for: .disabled)
         return button
     }()
     
     let commentButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("Comment", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        button.setImage(UIImage(named: "icons8-Comments-50"), for: .normal)
         return button
     }()
     
@@ -270,7 +266,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "numLikesCommentsLabel"
         label.textColor = .gray
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         label.sizeToFit()
         return label
     }()
