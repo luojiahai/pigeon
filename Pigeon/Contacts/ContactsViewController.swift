@@ -172,7 +172,9 @@ extension ContactsViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if searchController.isActive && searchController.searchBar.text != "" {
-            return
+            let vc = UserProfileViewController()
+            vc.user = filteredContacts[indexPath.row]
+            navigationController?.pushViewController(vc, animated: true)
         } else {
             if !searchController.isActive && indexPath.section == 0 {
                 let vc = PendingFriendsViewController()
@@ -180,9 +182,9 @@ extension ContactsViewController {
                 navigationController?.pushViewController(vc, animated: true)
                 return
             } else {
-                let alert = UIAlertController(title: "User Profile", message: "Feature coming soon...", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
+                let vc = UserProfileViewController()
+                vc.user = contacts[indexPath.row]
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }

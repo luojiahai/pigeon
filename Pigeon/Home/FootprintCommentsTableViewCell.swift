@@ -81,6 +81,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     

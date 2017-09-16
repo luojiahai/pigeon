@@ -84,10 +84,10 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         addSubview(nameLabel)
         addSubview(usernameLabel)
         addSubview(seperatorLineView)
+        addSubview(verticalLineView)
         addSubview(footprintTextView)
         addSubview(footprintLocationLabel)
         addSubview(timeLabel)
-        addSubview(verticalLineView)
         addSubview(likeButton)
         addSubview(commentButton)
         addSubview(numLikesCommentsLabel)
@@ -161,6 +161,7 @@ class FootprintCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     

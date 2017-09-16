@@ -44,7 +44,7 @@ class ChatsTableViewCell: UITableViewCell {
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
             }
-        } else if let targetUsers = message?.targetUsers {
+        } else if let _ = message?.targetUsers {
             let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
             nameLabel.attributedText = attributedText
             

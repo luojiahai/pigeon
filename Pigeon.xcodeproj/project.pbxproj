@@ -50,6 +50,8 @@
 		00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testAuthentication.swift */; };
 		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
+		00C73E541F6CA37700FAF85A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */; };
+		00C73E581F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */; };
 		00CF101F1F6532FE00BD906B /* Footprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF101E1F6532FE00BD906B /* Footprint.swift */; };
 		00CF10211F681EB600BD906B /* NewChatPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */; };
 		00CF10231F68231800BD906B /* NewGroupChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */; };
@@ -167,6 +169,8 @@
 		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
+		00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
+		00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintOnProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 		00CF101E1F6532FE00BD906B /* Footprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footprint.swift; sourceTree = "<group>"; };
 		00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatPopoverViewController.swift; sourceTree = "<group>"; };
 		00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupChatTableViewController.swift; sourceTree = "<group>"; };
@@ -402,6 +406,8 @@
 				00962C751F59420D00B4B7C0 /* AddContactsTableViewCell.swift */,
 				00962C771F5944B900B4B7C0 /* PendingFriendsViewController.swift */,
 				00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */,
+				00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */,
+				00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -871,10 +877,12 @@
 				7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */,
 				00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */,
 				00052BB21F5032EC00E9A27B /* SCNVector3+Extensions.swift in Sources */,
+				00C73E581F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift in Sources */,
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
 				00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */,
 				00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */,
 				7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */,
+				00C73E541F6CA37700FAF85A /* UserProfileViewController.swift in Sources */,
 				008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */,
 				006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */,
 				00B33D881F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift in Sources */,

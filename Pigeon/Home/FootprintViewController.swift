@@ -37,6 +37,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         setupNavigation()
         setupViews()
         setupMapView()
+        supportViews()
     }
     
     override func viewDidLayoutSubviews() {
@@ -140,21 +141,17 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         footprintContainerView.addSubview(profilePhotoImageView)
         footprintContainerView.addSubview(nameLabel)
         footprintContainerView.addSubview(usernameLabel)
+        footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(seperatorLineView)
         footprintContainerView.addSubview(footprintTextView)
         footprintContainerView.addSubview(footprintLocationLabel)
         footprintContainerView.addSubview(timeLabel)
-        footprintContainerView.addSubview(verticalLineView)
         footprintContainerView.addSubview(likeButton)
         footprintContainerView.addSubview(commentButton)
         footprintContainerView.addSubview(numLikesCommentsLabel)
-        
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
-            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
         }
-        
-        numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
         
         profilePhotoImageView.topAnchor.constraint(equalTo: footprintContainerView.topAnchor, constant: 12).isActive = true
         profilePhotoImageView.leftAnchor.constraint(equalTo: footprintContainerView.leftAnchor, constant: 12).isActive = true
@@ -238,6 +235,17 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let annotation = MKPointAnnotation()
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
+    }
+    
+    fileprivate func supportViews() {
+        footprintImageViews.forEach { (imageView) in
+            footprintContainerView.addSubview(imageView)
+            imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
+        }
+        
+        numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
+        
+        profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForUser)))
     }
     
     fileprivate func fetchLikes() {
@@ -397,6 +405,19 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc fileprivate func handleShowUserProfileForComment(_ sender: UITapGestureRecognizer) {
+        let imageView = sender.view as! UIImageView
+        let vc = UserProfileViewController()
+        vc.user = comments[imageView.tag].user
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc fileprivate func handleShowUserProfileForUser(_ sender: UITapGestureRecognizer) {
+        let vc = UserProfileViewController()
+        vc.user = footprint?.user
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: self.view.bounds)
         return scrollView
@@ -429,6 +450,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         imageView.contentMode = .scaleAspectFit
         imageView.layer.borderColor = lineColor.cgColor
         imageView.layer.borderWidth = linePixel
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -569,6 +591,8 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
         
         if let cell = cell as? FootprintCommentsTableViewCell {
             cell.comment = comments[indexPath.row]
+            cell.profilePhotoImageView.tag = indexPath.row
+            cell.profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForComment)))
         }
         
         return cell

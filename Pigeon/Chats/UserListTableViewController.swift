@@ -52,6 +52,10 @@ class UserListTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let vc = UserProfileViewController()
+        vc.user = users?[indexPath.row]
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }
