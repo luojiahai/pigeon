@@ -66,7 +66,14 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         
         navigationItem.title = "Me"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "ScanQR", style: .plain, target: self, action: #selector(handleQRScan))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOptions))
+    }
+    
+    @objc fileprivate func handleQRScan() {
+        let QRVC = QRScannerControllerViewController()
+        let vc = UINavigationController(rootViewController: QRVC)
+        present(vc, animated: true, completion: nil)
     }
     
     fileprivate func supportViews() {
