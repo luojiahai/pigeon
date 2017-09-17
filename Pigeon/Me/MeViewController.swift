@@ -11,6 +11,8 @@ import Firebase
 
 class MeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OptionsViewControllerDelegate {
     
+    var user: User?
+    
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -66,13 +68,14 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         
         navigationItem.title = "Me"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "ScanQR", style: .plain, target: self, action: #selector(handleQRScan))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-QR Code Filled-50"), style: .plain, target: self, action: #selector(handleQRCode))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOptions))
     }
     
-    @objc fileprivate func handleQRScan() {
-        let QRVC = QRScannerControllerViewController()
-        let vc = UINavigationController(rootViewController: QRVC)
+    @objc fileprivate func handleQRCode() {
+        let qrVC = QRCodeViewController()
+        qrVC.user = user
+        let vc = UINavigationController(rootViewController: qrVC)
         present(vc, animated: true, completion: nil)
     }
     
@@ -93,12 +96,11 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
     fileprivate func fetchUser() {
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("users").child(currentUser.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
-            guard let name = dataSnapshot.childSnapshot(forPath: "name").value as? String else { return }
-            guard let username = dataSnapshot.childSnapshot(forPath: "username").value as? String else { return }
-            guard let url = dataSnapshot.childSnapshot(forPath: "profilePhotoURL").value as? String else { return }
-            self.meView.nameLabel.text = name
-            self.meView.usernameLabel.text = "@" + username
-            self.meView.profilePhotoImageView.loadImageUsingCache(with: url)
+            guard let dictionary = dataSnapshot.value as? [String : AnyObject] else { return }
+            self.user = User(uid: dataSnapshot.key, dictionary)
+            self.meView.nameLabel.text = self.user?.name
+            self.meView.usernameLabel.text = "@" + (self.user?.username)!
+            self.meView.profilePhotoImageView.loadImageUsingCache(with: (self.user?.profilePhotoURL)!)
         }
     }
     

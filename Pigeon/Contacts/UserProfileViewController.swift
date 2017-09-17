@@ -54,12 +54,17 @@ class UserProfileViewController: UIViewController {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
         
-        if let uid = user?.uid, UserFriendsData.shared.isFriend(uid) {
+        if user?.uid == Auth.auth().currentUser?.uid {
             addFriendButton.isHidden = true
-            sendMessageButton.isHidden = false
-        } else {
-            addFriendButton.isHidden = false
             sendMessageButton.isHidden = true
+        } else {
+            if let uid = user?.uid, UserFriendsData.shared.isFriend(uid) {
+                addFriendButton.isHidden = true
+                sendMessageButton.isHidden = false
+            } else {
+                addFriendButton.isHidden = false
+                sendMessageButton.isHidden = true
+            }
         }
     }
 
