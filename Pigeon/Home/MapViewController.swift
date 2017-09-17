@@ -11,13 +11,7 @@ import MapKit
 import CoreLocation
 import Firebase
 
-protocol LocationSharingDataDelegate {
-    func update(location: CLLocation)
-}
-
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate {
-    
-    var delegate: LocationSharingDataDelegate?
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate, ARViewControllerDelegate {
     
     var manager: CLLocationManager!
     
@@ -31,6 +25,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var user: User?
     
+    let arVC = ARViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,6 +34,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         setupViews()
         setupLocationManager()
         setupMapView()
+        setupARVC()
     }
     
     func reloadData() {
@@ -82,6 +79,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             repeats: true)
     }
     
+    fileprivate func setupARVC() {
+        arVC.delegate = self
+        arVC.targetLocation = targetLocation
+    }
+    
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
@@ -118,7 +120,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         })
         
         if let delegateLocation = targetLocation {
-            delegate?.update(location: delegateLocation)
+            arVC.update(location: delegateLocation)
         }
     }
     
@@ -149,16 +151,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return nil
     }
     
-    @objc fileprivate func handleCancel() {
+    @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
     
     @objc fileprivate func handleAR() {
-        let arVC = ARViewController()
-        delegate = arVC
-        arVC.targetLocation = targetLocation
         let vc = UINavigationController(rootViewController: arVC)
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: false, completion: nil)
     }
     
     @objc fileprivate func handleMyLocation() {

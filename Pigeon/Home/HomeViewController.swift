@@ -341,6 +341,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         let imageView = sender.view as! UIImageView
         let vc = UserProfileViewController()
         vc.user = footprints[imageView.tag].user
+        vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
     

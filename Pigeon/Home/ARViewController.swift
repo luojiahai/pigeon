@@ -11,7 +11,13 @@ import SceneKit
 import MapKit
 //import CocoaLumberjack
 
-class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDelegate, LocationSharingDataDelegate {
+protocol ARViewControllerDelegate {
+    func handleCancel()
+}
+
+class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDelegate {
+    
+    var delegate: ARViewControllerDelegate?
     
     let sceneLocationView = SceneLocationView()
     
@@ -51,6 +57,7 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.title = "AR"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(handleMap))
         
         infoLabel.font = UIFont.systemFont(ofSize: 10)
         infoLabel.textAlignment = .left
@@ -114,7 +121,13 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     }
     
     @objc fileprivate func handleCancel() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: false) {
+            self.delegate?.handleCancel()
+        }
+    }
+    
+    @objc fileprivate func handleMap() {
+        dismiss(animated: false, completion: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -345,17 +358,17 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: pinLocationNode!)
         }
         
-        if distance >= 400 {
+        if distance >= 200 {
             guard let image = UIImage(named: "pin") else { return }
-            let plane = SCNPlane(width: image.size.width / 100 * 0.1, height: image.size.height / 100 * 0.1)
+            let plane = SCNPlane(width: image.size.width / 1000, height: image.size.height / 1000)
             plane.firstMaterial!.diffuse.contents = image
             plane.firstMaterial!.lightingModel = .constant
             pinLocationNode?.annotationNode.geometry = plane
             pinLocationNode?.location = targetLocation
         } else {
-            let scaleFactor: CGFloat = CGFloat(1 - (distance / 400) + 0.1)
+            let scaleFactor: CGFloat = CGFloat(1 - (distance / 200) + 0.2)
             guard let image = UIImage(named: "pin") else { return }
-            let plane = SCNPlane(width: image.size.width / 100 * scaleFactor, height: image.size.height / 100 * scaleFactor)
+            let plane = SCNPlane(width: image.size.width / 200 * scaleFactor, height: image.size.height / 200 * scaleFactor)
             plane.firstMaterial!.diffuse.contents = image
             plane.firstMaterial!.lightingModel = .constant
             pinLocationNode?.annotationNode.geometry = plane

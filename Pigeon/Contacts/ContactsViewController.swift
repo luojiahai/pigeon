@@ -177,6 +177,7 @@ extension ContactsViewController {
         if searchController.isActive && searchController.searchBar.text != "" {
             let vc = UserProfileViewController()
             vc.user = filteredContacts[indexPath.row]
+            vc.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(vc, animated: true)
         } else {
             if !searchController.isActive && indexPath.section == 0 {
@@ -186,6 +187,7 @@ extension ContactsViewController {
             } else {
                 let vc = UserProfileViewController()
                 vc.user = contacts[indexPath.row]
+                vc.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(vc, animated: true)
             }
         }
