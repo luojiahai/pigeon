@@ -53,6 +53,14 @@ class UserProfileViewController: UIViewController {
         if let url = user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
+        
+        if let uid = user?.uid, UserFriendsData.shared.isFriend(uid) {
+            addFriendButton.isHidden = true
+            sendMessageButton.isHidden = false
+        } else {
+            addFriendButton.isHidden = false
+            sendMessageButton.isHidden = true
+        }
     }
 
     fileprivate func setupNavigation() {
@@ -71,8 +79,20 @@ class UserProfileViewController: UIViewController {
         view.addSubview(nameLabel)
         view.addSubview(usernameLabel)
         view.addSubview(profilePhotoImageView)
+        view.addSubview(addFriendButton)
+        view.addSubview(sendMessageButton)
         
-        collectionView.topAnchor.constraint(equalTo: nameCardView.bottomAnchor).isActive = true
+        addFriendButton.topAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: 12).isActive = true
+        addFriendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        addFriendButton.widthAnchor.constraint(equalToConstant: 256).isActive = true
+        addFriendButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        sendMessageButton.topAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: 12).isActive = true
+        sendMessageButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        sendMessageButton.widthAnchor.constraint(equalToConstant: 256).isActive = true
+        sendMessageButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+        collectionView.topAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: 64).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -182,6 +202,38 @@ class UserProfileViewController: UIViewController {
         sender.view?.removeFromSuperview()
     }
     
+    @objc fileprivate func handleAddFriend(_ sender: UIButton) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let values = ["from": currentUser.uid, "to": targetUser.uid!, "timestamp": timestamp] as [String : Any]
+        Database.database().reference().child("pending-friends").childByAutoId().updateChildValues(values, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return
+            }
+            
+            DispatchQueue.main.async(execute: {
+                sender.isEnabled = false
+            })
+        })
+    }
+    
+    @objc fileprivate func handleSendMessage(_ sender: UIButton) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        Database.database().reference().child("user-conversations").child(currentUser.uid).child(targetUser.uid!).observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let cID = dataSnapshot.value as? String else { return }
+            let vc = ChatLogCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+            vc.conversationID = cID
+            vc.user = targetUser
+            vc.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(vc, animated: true)
+        })
+    }
+    
     let nameCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -217,6 +269,34 @@ class UserProfileViewController: UIViewController {
         imageView.layer.borderWidth = linePixel
         imageView.layer.borderColor = lineColor.cgColor
         return imageView
+    }()
+    
+    let addFriendButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitle("Add Friend", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.setTitle("Request Sent", for: .disabled)
+        button.setTitleColor(.lightGray, for: .disabled)
+        button.backgroundColor = .white
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        button.addTarget(self, action: #selector(handleAddFriend), for: .touchUpInside)
+        return button
+    }()
+    
+    let sendMessageButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.setTitle("Send Message", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.backgroundColor = .white
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        return button
     }()
 
 }

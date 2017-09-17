@@ -14,6 +14,8 @@ class ContactsViewController: UITableViewController {
     var contacts = [User]()
     var filteredContacts = [User]()
     
+    var pendingFriendsVC = PendingFriendsViewController(style: .plain)
+    
     var searchController: UISearchController!
     
     var timer: Timer?
@@ -89,6 +91,7 @@ class ContactsViewController: UITableViewController {
                     guard let dictionary = dataSnapshot.value as? [String: AnyObject] else { return }
                     let contact = User(uid: dataSnapshot.key, dictionary)
                     self.contacts.append(contact)
+                    UserFriendsData.shared.contacts.append(contact)
                     
                     DispatchQueue.main.async(execute: {
                         self.timer?.invalidate()
@@ -107,7 +110,7 @@ class ContactsViewController: UITableViewController {
     }
     
     @objc fileprivate func addContacts() {
-        let vc = AddContactsViewController()
+        let vc = AddContactsViewController(style: .plain)
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -177,9 +180,8 @@ extension ContactsViewController {
             navigationController?.pushViewController(vc, animated: true)
         } else {
             if !searchController.isActive && indexPath.section == 0 {
-                let vc = PendingFriendsViewController()
-                vc.hidesBottomBarWhenPushed = true
-                navigationController?.pushViewController(vc, animated: true)
+                pendingFriendsVC.hidesBottomBarWhenPushed = true
+                navigationController?.pushViewController(pendingFriendsVC, animated: true)
                 return
             } else {
                 let vc = UserProfileViewController()
@@ -216,9 +218,13 @@ extension ContactsViewController: UISearchResultsUpdating {
 extension ContactsViewController: LoginViewControllerDelegate {
     
     @objc func reloadData() {
+        UserFriendsData.shared.removeAll()
+        
         contacts.removeAll()
         filteredContacts.removeAll()
         tableView.reloadData()
+        
+        pendingFriendsVC.reloadData()
         
         fetchContacts()
     }

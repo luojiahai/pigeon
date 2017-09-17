@@ -52,6 +52,7 @@
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
 		00C73E541F6CA37700FAF85A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */; };
 		00C73E581F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */; };
+		00C73E5A1F6E6E1E00FAF85A /* UserFriendsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E591F6E6E1E00FAF85A /* UserFriendsData.swift */; };
 		00CF101F1F6532FE00BD906B /* Footprint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF101E1F6532FE00BD906B /* Footprint.swift */; };
 		00CF10211F681EB600BD906B /* NewChatPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */; };
 		00CF10231F68231800BD906B /* NewGroupChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */; };
@@ -172,6 +173,7 @@
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
 		00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintOnProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		00C73E591F6E6E1E00FAF85A /* UserFriendsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFriendsData.swift; sourceTree = "<group>"; };
 		00CF101E1F6532FE00BD906B /* Footprint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Footprint.swift; sourceTree = "<group>"; };
 		00CF10201F681EB600BD906B /* NewChatPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatPopoverViewController.swift; sourceTree = "<group>"; };
 		00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupChatTableViewController.swift; sourceTree = "<group>"; };
@@ -410,6 +412,7 @@
 				00962C791F59453400B4B7C0 /* PendingFriendsTableViewCell.swift */,
 				00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */,
 				00C73E571F6CA5B400FAF85A /* FootprintOnProfileCollectionViewCell.swift */,
+				00C73E591F6E6E1E00FAF85A /* UserFriendsData.swift */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -842,6 +845,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */,
+				00C73E5A1F6E6E1E00FAF85A /* UserFriendsData.swift in Sources */,
 				008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */,
 				008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */,
 				00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */,

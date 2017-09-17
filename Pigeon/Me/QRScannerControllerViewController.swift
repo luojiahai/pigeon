@@ -14,7 +14,6 @@ class QRScannerControllerViewController: UIViewController, AVCaptureMetadataOutp
     // video showing to user (camera)
     var video = AVCaptureVideoPreviewLayer()
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
@@ -51,19 +50,14 @@ class QRScannerControllerViewController: UIViewController, AVCaptureMetadataOutp
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
-        navigationItem.title = "Me"
+        
+        navigationItem.title = "QRScanner"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @objc fileprivate func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
-    
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         if metadataObjects != nil && metadataObjects.count != 0 {
@@ -79,16 +73,5 @@ class QRScannerControllerViewController: UIViewController, AVCaptureMetadataOutp
             }
         }
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
