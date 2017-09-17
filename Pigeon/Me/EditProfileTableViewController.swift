@@ -9,9 +9,14 @@
 import UIKit
 import Firebase
 
+protocol EditProfileDelegate {
+    func reloadData()
+    func handleChangeProfilePhoto(completion: (() -> Void)?)
+}
+
 class EditProfileTableViewController: UITableViewController {
     
-    var meVC: MeViewController?
+    var delegate: EditProfileDelegate?
     
     var options = [["Profile Photo", "Name", "Username"], ["Email Address"]]
     
@@ -129,9 +134,9 @@ class EditProfileTableViewController: UITableViewController {
     }
     
     fileprivate func handleChangeProfilePhoto() {
-        meVC?.handleChangeProfilePhoto(completion: {
+        delegate?.handleChangeProfilePhoto(completion: {
             self.reloadData()
-            self.meVC?.reloadData()
+            self.delegate?.reloadData()
         })
     }
     
@@ -164,7 +169,7 @@ class EditProfileTableViewController: UITableViewController {
                 DispatchQueue.main.async(execute: {
                     self.user?.name = textField?.text
                     self.tableView.reloadData()
-                    self.meVC?.reloadData()
+                    self.delegate?.reloadData()
                 })
             })
         }))

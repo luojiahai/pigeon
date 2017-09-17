@@ -64,6 +64,8 @@ class ContactsViewController: UITableViewController {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.sizeToFit()
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
     }

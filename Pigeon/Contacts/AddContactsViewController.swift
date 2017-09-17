@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class AddContactsViewController: UITableViewController, UISearchResultsUpdating {
+class AddContactsViewController: UITableViewController {
 
     var users = [User]()
     var filteredUsers = [User]()
@@ -55,6 +55,8 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
+        searchController.searchBar.searchBarStyle = .minimal
+        searchController.searchBar.sizeToFit()
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
     }
@@ -112,6 +114,60 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
             })
         })
     }
+    
+    fileprivate func sendRequestNotification(sender: String, receiver: String) {
+        Database.database().reference().child("users").child(sender).child("username").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let username = dataSnapshot.value as? String else { return }
+            
+            guard let url = URL(string: "https://onesignal.com/api/v1/notifications") else { return }
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let jsonObject: [String: Any] = [
+                "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
+                "filters": [
+                    [
+                        "field": "tag",
+                        "key": "uid",
+                        "relation": "=",
+                        "value": receiver
+                    ]
+                ],
+                "contents": [
+                    "en": "[\(String(describing: username))]: You've got a new friend request."
+                ]
+            ]
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+                request.httpBody = jsonData
+            } catch {
+                print("Error JSON")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(String(describing: response))")
+                }
+                
+                let responseString = String(data: data!, encoding: .utf8)
+                print("responseString = \(String(describing: responseString))")
+            }
+            task.resume()
+        }
+    }
+
+}
+
+extension AddContactsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -172,6 +228,10 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         }
     }
     
+}
+
+extension AddContactsViewController: UISearchResultsUpdating {
+    
     func filterContent(for searchText: String, scope: String = "All") {
         filteredUsers = users.filter { user in
             return (user.name?.lowercased().contains(searchText.lowercased()))! ||
@@ -186,54 +246,4 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         filterContent(for: searchController.searchBar.text!)
     }
     
-    fileprivate func sendRequestNotification(sender: String, receiver: String) {
-        Database.database().reference().child("users").child(sender).child("username").observeSingleEvent(of: .value) { (dataSnapshot) in
-            guard let username = dataSnapshot.value as? String else { return }
-            
-            guard let url = URL(string: "https://onesignal.com/api/v1/notifications") else { return }
-            var request = URLRequest(url: url)
-            request.httpMethod = "POST"
-            request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
-            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            let jsonObject: [String: Any] = [
-                "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
-                "filters": [
-                    [
-                        "field": "tag",
-                        "key": "uid",
-                        "relation": "=",
-                        "value": receiver
-                    ]
-                ],
-                "contents": [
-                    "en": "[\(String(describing: username))]: You've got a new friend request."
-                ]
-            ]
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
-                request.httpBody = jsonData
-            } catch {
-                print("Error JSON")
-                return
-            }
-            
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let error = error {
-                    print(error)
-                    return
-                }
-                
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(String(describing: response))")
-                }
-                
-                let responseString = String(data: data!, encoding: .utf8)
-                print("responseString = \(String(describing: responseString))")
-            }
-            task.resume()
-        }
-    }
-
 }

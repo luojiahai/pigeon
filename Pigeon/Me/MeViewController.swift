@@ -9,7 +9,7 @@
 import UIKit
 import Firebase
 
-class MeViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, OptionsViewControllerDelegate {
+class MeViewController: UIViewController, OptionsViewControllerDelegate, EditProfileDelegate {
     
     var user: User?
     
@@ -130,7 +130,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
     @objc func handleEditProfile() {
         let vc = EditProfileTableViewController(style: .grouped)
         vc.hidesBottomBarWhenPushed = true
-        vc.meVC = self
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -180,6 +180,23 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         }
     }
     
+}
+
+// MARK: - LoginViewControllerDelegate
+// MeViewController is a delegate for LoginViewController. 
+// It provides the functionality of cleaning and reloading data in the HomeViewController itself.
+extension MeViewController: LoginViewControllerDelegate {
+    
+    @objc func reloadData() {
+        fetchUser()
+        
+        reloadCollectionView()
+    }
+    
+}
+
+extension MeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return footprints.count
     }
@@ -211,19 +228,6 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
         footprintVC.footprint = footprints[indexPath.row]
         footprintVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(footprintVC, animated: true)
-    }
-    
-}
-
-// MARK: - LoginViewControllerDelegate
-// MeViewController is a delegate for LoginViewController. 
-// It provides the functionality of cleaning and reloading data in the HomeViewController itself.
-extension MeViewController: LoginViewControllerDelegate {
-    
-    @objc func reloadData() {
-        fetchUser()
-        
-        reloadCollectionView()
     }
     
 }
