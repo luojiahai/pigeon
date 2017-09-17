@@ -15,6 +15,8 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     // video showing to user (camera)
     var video = AVCaptureVideoPreviewLayer()
     
+    let activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigation()
@@ -44,6 +46,9 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         video = AVCaptureVideoPreviewLayer(session: session)
         video.frame = view.layer.bounds
         view.layer.addSublayer(video)
+        
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
     }
     
     fileprivate func setupNavigation() {
@@ -64,16 +69,22 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                     let prefix = str[..<index]
                     let suffix = str[index...]
                     if prefix == "pigeon://" {
+                        activityIndicator.startAnimating()
                         video.session?.stopRunning()
                         Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
                             if dataSnapshot.hasChild(String(suffix)) {
+                                self.activityIndicator.stopAnimating()
                                 guard let dictionary = dataSnapshot.childSnapshot(forPath: String(suffix)).value as? [String : AnyObject] else { return }
                                 let user = User(uid: String(suffix), dictionary)
                                 let vc = UserProfileViewController()
                                 vc.user = user
                                 self.navigationController?.pushViewController(vc, animated: true)
                             } else {
+                                self.activityIndicator.stopAnimating()
                                 self.video.session?.startRunning()
+                                let alert = UIAlertController(title: "QR Scan", message: "The user is not exist\nPlease try again", preferredStyle: .alert)
+                                alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+                                self.present(alert, animated: true, completion: nil)
                             }
                         })
                     } else {
