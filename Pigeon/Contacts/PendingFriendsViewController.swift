@@ -13,12 +13,27 @@ class PendingFriendsViewController: UITableViewController {
     
     var pendingFriends = [User]()
     
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+        
+        fetchPendingFriends()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavigation()
         setupViews()
         setupTableView()
+    }
+    
+    func reloadData() {
+        pendingFriends.removeAll()
+        tableView.reloadData()
         
         fetchPendingFriends()
     }
@@ -27,6 +42,7 @@ class PendingFriendsViewController: UITableViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Pending Friends"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     fileprivate func setupViews() {
@@ -74,55 +90,52 @@ class PendingFriendsViewController: UITableViewController {
     }
     
     fileprivate func fetchPendingFriends() {
-        var senders = [String]()
-        
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("pending-friends").observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+            var senders = [String]()
             for snapshot in snapshots {
                 if snapshot.childSnapshot(forPath: "to").value as? String == currentUser.uid {
                     guard let sender = snapshot.childSnapshot(forPath: "from").value as? String else { return }
                     senders.append(sender)
                 }
             }
-        }
-        
-        Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for sender in senders {
-                for snapshot in snapshots {
-                    if sender == snapshot.key {
-                        if let dictionary = snapshot.value as? [String: AnyObject] {
-                            let pendingFriend = User(uid: snapshot.key, dictionary)
-                            self.pendingFriends.append(pendingFriend)
+            
+            Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let snapshots = dataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                for sender in senders {
+                    for snapshot in snapshots {
+                        if sender == snapshot.key {
+                            if let dictionary = snapshot.value as? [String: AnyObject] {
+                                let pendingFriend = User(uid: snapshot.key, dictionary)
+                                self.pendingFriends.append(pendingFriend)
+                            }
                         }
                     }
                 }
-            }
-            
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
-            })
-        })
-        
-        Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
-            guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for friendship in friendships {
-                if friendship.childSnapshot(forPath: "to").value as? String != currentUser.uid {
-                    continue
-                }
                 
-                for pendingFriend in self.pendingFriends {
-                    if friendship.childSnapshot(forPath: "from").value as? String == pendingFriend.uid {
-                        pendingFriend.isApproved = true
+                Database.database().reference().child("friends").observeSingleEvent(of: .value, with: { (friendshipDataSnapshot) in
+                    guard let friendships = friendshipDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
+                    for friendship in friendships {
+                        if friendship.childSnapshot(forPath: "to").value as? String != currentUser.uid {
+                            continue
+                        }
+                        
+                        for pendingFriend in self.pendingFriends {
+                            if friendship.childSnapshot(forPath: "from").value as? String == pendingFriend.uid {
+                                pendingFriend.isApproved = true
+                            } else {
+                                UserFriendsData.shared.pendingFriends.append(pendingFriend)
+                            }
+                        }
                     }
-                }
-            }
-            
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.tableView.reloadData()
+                    })
+                })
             })
-        })
+        }
     }
     
     @objc fileprivate func handleApprove(sender: UIButton) {

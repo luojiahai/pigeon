@@ -16,6 +16,16 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
     
     var searchController: UISearchController!
     
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+        
+        fetchUsers()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,14 +33,13 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
         setupViews()
         setupSearchController()
         setupTableView()
-        
-        fetchUsers()
     }
     
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Add Contacts"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     fileprivate func setupViews() {
@@ -65,30 +74,24 @@ class AddContactsViewController: UITableViewController, UISearchResultsUpdating 
                 }
             }
             
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
-            })
-        }
-        
-        Database.database().reference().child("pending-friends").observeSingleEvent(of: .value, with: { (friendDataSnapshot) in
-            guard let friends = friendDataSnapshot.children.allObjects as? [DataSnapshot] else { return }
-            for friend in friends {
+            Database.database().reference().child("pending-friends").observe(.childAdded, with: { (friendDataSnapshot) in
+                guard let friend = friendDataSnapshot.value as? [String : AnyObject] else { return }
                 for user in self.users {
-                    if (friend.childSnapshot(forPath: "from").value as? String == currentUser.uid && friend.childSnapshot(forPath: "to").value as? String == user.uid) ||
-                        (friend.childSnapshot(forPath: "from").value as? String == user.uid &&
-                            friend.childSnapshot(forPath: "to").value as? String == currentUser.uid) {
+                    if (friend["from"] as? String == currentUser.uid && friend["to"] as? String == user.uid) ||
+                        (friend["from"] as? String == user.uid &&
+                            friend["to"] as? String == currentUser.uid) {
                         user.isPending = true
                     }
                 }
-            }
-            
-            DispatchQueue.main.async(execute: {
-                self.tableView.reloadData()
+                
+                DispatchQueue.main.async(execute: {
+                    self.tableView.reloadData()
+                })
             })
-        })
+        }
     }
     
-    @objc fileprivate func handleRequest(sender: UIButton) {
+    @objc fileprivate func handleRequest(_ sender: UIButton) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         let values = ["from": currentUser.uid, "to": users[sender.tag].uid!, "timestamp": timestamp] as [String : Any]
