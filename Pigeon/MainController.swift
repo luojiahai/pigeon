@@ -16,6 +16,7 @@ class MainController: UITabBarController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         
         // Setup tab bar
+        tabBar.tintColor = .black
         tabBar.barTintColor = .white
         tabBar.isTranslucent = false
         

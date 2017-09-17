@@ -76,7 +76,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Setup window
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.tintColor = .black
         window?.rootViewController = MainController()
         
         return true

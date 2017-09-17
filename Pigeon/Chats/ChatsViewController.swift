@@ -38,11 +38,11 @@ class ChatsViewController: UITableViewController {
     }
     
     fileprivate func setupNavigation() {
-        //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-        //
-        //        navigationController?.navigationBar.barTintColor = UIColor(red: 48/255, green: 48/255, blue: 48/255, alpha: 1)
-        //        navigationController?.navigationBar.tintColor = .white
-        //        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+//
+//        navigationController?.navigationBar.barTintColor = UIColor(red: 11/255, green: 41/255, blue: 51/255, alpha: 1)
+//        navigationController?.navigationBar.tintColor = .white
+//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.white]
         
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black

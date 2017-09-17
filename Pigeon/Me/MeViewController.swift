@@ -29,7 +29,7 @@ class MeViewController: UIViewController, UICollectionViewDataSource, UICollecti
     
     var footprints = [Footprint]()
     
-    var completion: (() -> Void)?
+    var profileChangedCompletion: (() -> Void)?
     
     let meView = MeView()
     
@@ -231,11 +231,32 @@ extension MeViewController: LoginViewControllerDelegate {
 extension MeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func handleChangeProfilePhoto(completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default) { (UIAlertAction) in self.openCamera() })
+        alert.addAction(UIAlertAction(title: "Photos", style: .default) { (UIAlertAction) in self.openPhotoLibrary() })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+        self.profileChangedCompletion = completion
+    }
+    
+    fileprivate func openCamera() {
         let picker = UIImagePickerController()
+        
         picker.delegate = self
+        picker.sourceType = UIImagePickerControllerSourceType.camera
         picker.allowsEditing = true
+        
         present(picker, animated: true, completion: nil)
-        self.completion = completion
+    }
+    
+    fileprivate func openPhotoLibrary() {
+        let picker = UIImagePickerController()
+        
+        picker.delegate = self
+        picker.sourceType = UIImagePickerControllerSourceType.photoLibrary
+        picker.allowsEditing = true
+        
+        present(picker, animated: true, completion: nil)
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
@@ -267,7 +288,7 @@ extension MeViewController: UIImagePickerControllerDelegate, UINavigationControl
                 }
                 
                 DispatchQueue.main.async(execute: {
-                    if let completion = self.completion {
+                    if let completion = self.profileChangedCompletion {
                         completion()
                     }
                 })
