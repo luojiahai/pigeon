@@ -134,7 +134,7 @@ class FootprintOnProfileCollectionViewCell: UICollectionViewCell {
         footprintTextLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
         footprintTextLabel.heightAnchor.constraint(equalToConstant: 32).isActive = true
         
-        footprintLocationLabel.bottomAnchor.constraint(equalTo: numLikesCommentsLabel.topAnchor, constant: -6).isActive = true
+        footprintLocationLabel.bottomAnchor.constraint(equalTo: timeLabel.topAnchor, constant: -6).isActive = true
         footprintLocationLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 12).isActive = true
         
         timeLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
