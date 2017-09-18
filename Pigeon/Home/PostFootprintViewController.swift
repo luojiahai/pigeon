@@ -27,7 +27,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         
         setupNavigation()
         setupViews()
-        setupMapView()
         setupLocationManager()
     }
 
@@ -81,14 +80,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         seperatorLine.leftAnchor.constraint(equalTo: imageContainerView.leftAnchor).isActive = true
         seperatorLine.rightAnchor.constraint(equalTo: imageContainerView.rightAnchor).isActive = true
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
-    }
-    
-    fileprivate func setupMapView() {
-        mapView.addSubview(myLocationButton)
-        myLocationButton.bottomAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -12).isActive = true
-        myLocationButton.rightAnchor.constraint(equalTo: mapView.rightAnchor, constant: -12).isActive = true
-        myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
-        myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }
     
     fileprivate func setupLocationManager() {
@@ -215,13 +206,21 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.first ?? nil
+        
+        UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+            self.mapView.setCenter((self.currentLocation?.coordinate)!, animated: false)
+        }, completion: {
+            _ in
+            self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
+        })
     }
     
     fileprivate func addCaptionImageView(_ image: UIImage) {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = image
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = linePixel
         imageView.layer.borderColor = lineColor.cgColor
         imageView.isUserInteractionEnabled = true
@@ -253,14 +252,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let alert = UIAlertController(title: "Delete Photo", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
-    }
-    
-    @objc fileprivate func handleMyLocation() {
-        guard let location = currentLocation else { return }
-        let span = MKCoordinateSpanMake(0.01, 0.01)
-        let myCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
-        let region = MKCoordinateRegionMake(myCoordinate, span)
-        mapView.setRegion(region, animated: true)
     }
     
     lazy var placeButton: UIButton = {
@@ -320,25 +311,15 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
         mapView.delegate = self
         mapView.mapType = .standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        mapView.isPitchEnabled = false
+        mapView.isRotateEnabled = false
         mapView.showsUserLocation = true
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
         return mapView
-    }()
-    
-    lazy var myLocationButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("myLocation", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = lineColor.cgColor
-        button.layer.borderWidth = linePixel
-        button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
-        return button
     }()
     
 }

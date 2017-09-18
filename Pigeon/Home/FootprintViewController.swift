@@ -550,7 +550,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         for _ in 0..<3 {
             let imageView = CustomImageView()
             imageView.translatesAutoresizingMaskIntoConstraints = false
-            imageView.contentMode = .scaleAspectFit
+            imageView.contentMode = .scaleAspectFill
+            imageView.layer.masksToBounds = true
             imageView.layer.borderWidth = linePixel
             imageView.layer.borderColor = lineColor.cgColor
             imageView.isUserInteractionEnabled = true
