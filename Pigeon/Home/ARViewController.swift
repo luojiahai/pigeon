@@ -9,14 +9,13 @@
 import UIKit
 import SceneKit
 import MapKit
-//import CocoaLumberjack
 
 protocol ARViewControllerDelegate {
     func updateLocation() -> CLLocation?
     func handleCancel()
 }
 
-class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDelegate {
+class ARViewController: UIViewController {
     
     var delegate: ARViewControllerDelegate?
     
@@ -94,13 +93,6 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
             sceneLocationView.showFeaturePoints = true
         }
         
-        //        // Currently set to coop bookshop unimelb
-        //        let pinCoordinate = CLLocationCoordinate2D(latitude: -37.800341, longitude: 144.963835)
-        //        let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: 50)
-        //        let pinImage = UIImage(named: "pin")!
-        //        let pinLocationNode = LocationAnnotationNode(location: pinLocation, image: pinImage)
-        //        sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: pinLocationNode)
-        
         if let targetLocation = targetLocation {
             let pinCoordinate = CLLocationCoordinate2D(latitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude)
             let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: targetLocation.altitude)
@@ -142,15 +134,13 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        DDLogDebug("run")
+
         sceneLocationView.run()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        DDLogDebug("pause")
-        // Pause the view's session
         sceneLocationView.pause()
     }
     
@@ -178,31 +168,11 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
             height: self.view.frame.size.height / 2)
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
     @objc func updateUserLocation() {
         targetLocation = delegate?.updateLocation()
         
         if let currentLocation = sceneLocationView.currentLocation() {
             DispatchQueue.main.async {
-                
-//                if let bestEstimate = self.sceneLocationView.bestLocationEstimate(),
-//                    let position = self.sceneLocationView.currentScenePosition() {
-//                    DDLogDebug("")
-//                    DDLogDebug("Fetch current location")
-//                    DDLogDebug("best location estimate, position: \(bestEstimate.position), location: \(bestEstimate.location.coordinate), accuracy: \(bestEstimate.location.horizontalAccuracy), date: \(bestEstimate.location.timestamp)")
-//                    DDLogDebug("current position: \(position)")
-//
-//                    let translation = bestEstimate.translatedLocation(to: position)
-//
-//                    DDLogDebug("translation: \(translation)")
-//                    DDLogDebug("translated location: \(currentLocation)")
-//                    DDLogDebug("")
-//                }
-                
                 if self.userAnnotation == nil {
                     self.userAnnotation = MKPointAnnotation()
                     self.mapView.addAnnotation(self.userAnnotation!)
@@ -306,7 +276,19 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         }
     }
     
-    //MARK: MKMapViewDelegate
+    let debugLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 3
+        label.sizeToFit()
+        label.font = UIFont.systemFont(ofSize: 11)
+        label.textColor = .white
+        return label
+    }()
+    
+}
+
+extension ARViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
@@ -331,14 +313,16 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         return nil
     }
     
-    //MARK: SceneLocationViewDelegate
+}
+
+extension ARViewController: SceneLocationViewDelegate {
     
     func sceneLocationViewDidAddSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation) {
-//        DDLogDebug("add scene location estimate, position: \(position), location: \(location.coordinate), accuracy: \(location.horizontalAccuracy), date: \(location.timestamp)")
+        //        DDLogDebug("add scene location estimate, position: \(position), location: \(location.coordinate), accuracy: \(location.horizontalAccuracy), date: \(location.timestamp)")
     }
     
     func sceneLocationViewDidRemoveSceneLocationEstimate(sceneLocationView: SceneLocationView, position: SCNVector3, location: CLLocation) {
-//        DDLogDebug("remove scene location estimate, position: \(position), location: \(location.coordinate), accuracy: \(location.horizontalAccuracy), date: \(location.timestamp)")
+        //        DDLogDebug("remove scene location estimate, position: \(position), location: \(location.coordinate), accuracy: \(location.horizontalAccuracy), date: \(location.timestamp)")
     }
     
     func sceneLocationViewDidConfirmLocationOfNode(sceneLocationView: SceneLocationView, node: LocationNode) {
@@ -387,19 +371,5 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
             pinLocationNode?.location = targetLocation
         }
     }
-    
-    func update(location: CLLocation) {
-        targetLocation = location
-    }
-    
-    let debugLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 3
-        label.sizeToFit()
-        label.font = UIFont.systemFont(ofSize: 11)
-        label.textColor = .white
-        return label
-    }()
     
 }

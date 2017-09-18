@@ -11,7 +11,7 @@ import Firebase
 import MapKit
 import CoreLocation
 
-class HomeViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, LoginViewControllerDelegate, FootprintViewControllerDelegate {
+class HomeViewController: UICollectionViewController {
     
     var footprints = [Footprint]()
     
@@ -36,15 +36,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         setupViews()
         setupCollectionView()
         setupRefreshControl()
-    }
-    
-    @objc func reloadData() {
-        footprints.removeAll()
-        collectionView?.reloadData()
-        
-        fetchFootprints()
-        
-        refreshControl?.endRefreshing()
     }
     
     fileprivate func setupNavigation() {
@@ -200,21 +191,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         sender.view?.removeFromSuperview()
     }
     
-    func finalizeLike(_ tag: Int) {
-        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
-            cell.likeButton.isEnabled = false
-            
-            var numLikesCommentsText = ""
-            if let likes = footprints[tag].likes {
-                numLikesCommentsText += String(likes.count) + " likes "
-            }
-            if let numComments = footprints[tag].numComments, numComments > 0 {
-                numLikesCommentsText += " " + String(numComments) + " comments"
-            }
-            cell.numLikesCommentsLabel.text = numLikesCommentsText
-        }
-    }
-    
     @objc fileprivate func handleLike(_ sender: UIButton) {
         sender.isEnabled = false
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -236,19 +212,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
                 self.footprints[sender.tag].likes?.append(currentUser.uid)
                 self.finalizeLike(sender.tag)
             })
-        }
-    }
-    
-    func finalizeComment(_ tag: Int) {
-        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
-            var numLikesCommentsText = ""
-            if let likes = footprints[tag].likes {
-                numLikesCommentsText += String(likes.count) + " likes "
-            }
-            if let numComments = footprints[tag].numComments, numComments > 0 {
-                numLikesCommentsText += " " + String(numComments) + " comments"
-            }
-            cell.numLikesCommentsLabel.text = numLikesCommentsText
         }
     }
     
@@ -296,7 +259,7 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     
 }
 
-extension HomeViewController {
+extension HomeViewController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return footprints.count
@@ -349,6 +312,51 @@ extension HomeViewController {
         footprintVC.footprint = footprints[indexPath.row]
         footprintVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(footprintVC, animated: true)
+    }
+    
+}
+
+extension HomeViewController: LoginViewControllerDelegate {
+    
+    @objc func reloadData() {
+        footprints.removeAll()
+        collectionView?.reloadData()
+        
+        fetchFootprints()
+        
+        refreshControl?.endRefreshing()
+    }
+    
+}
+
+extension HomeViewController: FootprintViewControllerDelegate {
+    
+    func finalizeLike(_ tag: Int) {
+        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
+            cell.likeButton.isEnabled = false
+            
+            var numLikesCommentsText = ""
+            if let likes = footprints[tag].likes {
+                numLikesCommentsText += String(likes.count) + " likes "
+            }
+            if let numComments = footprints[tag].numComments, numComments > 0 {
+                numLikesCommentsText += " " + String(numComments) + " comments"
+            }
+            cell.numLikesCommentsLabel.text = numLikesCommentsText
+        }
+    }
+    
+    func finalizeComment(_ tag: Int) {
+        if let cell = collectionView?.cellForItem(at: IndexPath(row: tag, section: 0)) as? FootprintCollectionViewCell {
+            var numLikesCommentsText = ""
+            if let likes = footprints[tag].likes {
+                numLikesCommentsText += String(likes.count) + " likes "
+            }
+            if let numComments = footprints[tag].numComments, numComments > 0 {
+                numLikesCommentsText += " " + String(numComments) + " comments"
+            }
+            cell.numLikesCommentsLabel.text = numLikesCommentsText
+        }
     }
     
 }

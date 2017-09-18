@@ -113,13 +113,12 @@ class MapViewController: UIViewController {
             }
         }
         
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let dictionary = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "location").value as? [String: CLLocationDegrees] else { return }
-            self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
-        })
+        if let currentUser = Auth.auth().currentUser, let targetUser = user {
+            Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let dictionary = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "location").value as? [String: CLLocationDegrees] else { return }
+                self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
+            })
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -197,10 +196,12 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
             if pointAnnotation == self.currentUserAnnotation {
                 marker.displayPriority = .required
                 marker.glyphImage = UIImage(named: "user")
-            } else {
+            } else if pointAnnotation == self.targetUserAnnotation {
                 marker.displayPriority = .required
                 marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
                 marker.glyphImage = UIImage(named: "compass")
+            } else {
+                // footprints maybe...
             }
             
             return marker

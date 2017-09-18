@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, ARViewControllerDelegate {
+class FootprintMapViewController: UIViewController {
     
     var manager: CLLocationManager!
     
@@ -23,8 +23,6 @@ class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocatio
     var centerMapOnUserLocation: Bool = true
     
     var updateUserLocationTimer: Timer?
-    
-    var user: User?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,18 +115,6 @@ class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocatio
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations.first ?? nil
-    }
-    
-    func updateLocation() -> CLLocation? {
-        return nil
-    }
-    
-    @objc func handleCancel() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @objc fileprivate func handleAR() {
         let arVC = ARViewController()
         arVC.delegate = self
@@ -193,4 +179,24 @@ class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocatio
         return button
     }()
 
+}
+
+extension FootprintMapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations.first ?? nil
+    }
+    
+}
+
+extension FootprintMapViewController: ARViewControllerDelegate {
+    
+    func updateLocation() -> CLLocation? {
+        return nil
+    }
+    
+    @objc func handleCancel() {
+        dismiss(animated: true, completion: nil)
+    }
+    
 }
