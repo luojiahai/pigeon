@@ -21,6 +21,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var currentUserAnnotation: MKPointAnnotation?
     var targetUserAnnotation: MKPointAnnotation?
     
+    var centerMapOnUserLocation: Bool = true
+    
     var updateUserLocationTimer: Timer?
     
     var user: User?
@@ -46,6 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         navigationController?.navigationBar.tintColor = .black
         navigationItem.title = "Map"
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "AR", style: .plain, target: self, action: #selector(handleAR))
     }
@@ -95,6 +98,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                     self.currentUserAnnotation?.coordinate = currentLocation.coordinate
                 }, completion: nil)
+                
+                if self.centerMapOnUserLocation {
+                    UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
+                    }, completion: {
+                        _ in
+                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                    })
+                }
             }
         }
         
@@ -121,6 +133,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         if let delegateLocation = targetLocation {
             arVC.update(location: delegateLocation)
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        if let touch = touches.first {
+            if touch.view != nil {
+                if (mapView == touch.view! ||
+                    mapView.recursiveSubviews().contains(touch.view!)) {
+                    centerMapOnUserLocation = false
+                }
+            }
         }
     }
     
@@ -161,6 +186,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @objc fileprivate func handleMyLocation() {
+        centerMapOnUserLocation = false
         guard let location = currentLocation else { return }
         let span = MKCoordinateSpanMake(0.01, 0.01)
         let myCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)

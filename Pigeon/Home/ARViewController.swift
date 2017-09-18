@@ -56,6 +56,7 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
         navigationItem.title = "AR"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(handleMap))
         
@@ -205,7 +206,7 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
                         self.mapView.setCenter(self.userAnnotation!.coordinate, animated: false)
                     }, completion: {
                         _ in
-                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.0005, longitudeDelta: 0.0005)
+                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                     })
                 }
                 
