@@ -254,6 +254,18 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         present(alert, animated: true, completion: nil)
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        if let touch = touches.first {
+            if touch.view != nil {
+                if view.recursiveSubviews().contains(touch.view!) {
+                    view.endEditing(true)
+                }
+            }
+        }
+    }
+    
     lazy var placeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
