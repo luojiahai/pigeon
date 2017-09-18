@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QRCodeViewController: UIViewController {
+class QRCodeViewController: UIViewController, QRScanViewControllerDelegate {
     
     var user: User? {
         didSet {
@@ -49,11 +49,13 @@ class QRCodeViewController: UIViewController {
     }
     
     @objc fileprivate func handleScan() {
-        let vc = QRScanViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        let scanVC = QRScanViewController()
+        scanVC.delegate = self
+        let vc = UINavigationController(rootViewController: scanVC)
+        present(vc, animated: false, completion: nil)
     }
     
-    @objc fileprivate func handleCancel() {
+    @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
     

@@ -246,6 +246,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
         
         profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForUser)))
+        
+        mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMap)))
     }
     
     fileprivate func fetchLikes() {
@@ -418,6 +420,28 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc fileprivate func handleMap() {
+        let mapVC = FootprintMapViewController()
+        let coordinate = CLLocationCoordinate2D(latitude: (footprint?.latitude)!, longitude: (footprint?.longitude)!)
+        let location = CLLocation(coordinate: coordinate, altitude: (footprint?.altitude)!)
+        mapVC.targetLocation = location
+        let vc = UINavigationController(rootViewController: mapVC)
+        present(vc, animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        if let touch = touches.first {
+            if touch.view != nil {
+                if (mapView == touch.view! ||
+                    mapView.recursiveSubviews().contains(touch.view!)) {
+                    print("mapView touched")        // bug
+                }
+            }
+        }
+    }
+    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: self.view.bounds)
         return scrollView
@@ -428,9 +452,11 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
         mapView.delegate = self
         mapView.mapType = .standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-        mapView.showsUserLocation = true
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        mapView.isPitchEnabled = false
+        mapView.isRotateEnabled = false
+        mapView.showsUserLocation = false
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true
@@ -601,11 +627,28 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let commentPopoverVC = CommentPopoverViewController()
+        commentPopoverVC.comment = comments[indexPath.row]
+        commentPopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        commentPopoverVC.preferredContentSize = CGSize(width: 256, height: 256)
+        commentPopoverVC.popoverPresentationController?.sourceView = view
+        commentPopoverVC.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+        commentPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+        commentPopoverVC.popoverPresentationController?.delegate = self
         
+        present(commentPopoverVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
+    }
+    
+}
+
+extension FootprintViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
 }

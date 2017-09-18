@@ -10,7 +10,13 @@ import UIKit
 import AVFoundation
 import Firebase
 
+protocol QRScanViewControllerDelegate {
+    func handleCancel()
+}
+
 class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
+    
+    var delegate: QRScanViewControllerDelegate?
     
     // video showing to user (camera)
     var video = AVCaptureVideoPreviewLayer()
@@ -57,6 +63,8 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         
         navigationItem.title = "QR Scan"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Code", style: .plain, target: self, action: #selector(handleCode))
     }
     
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
@@ -101,6 +109,16 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         super.viewDidAppear(animated)
         
         video.session?.startRunning()
+    }
+    
+    @objc fileprivate func handleCancel() {
+        dismiss(animated: false) {
+            self.delegate?.handleCancel()
+        }
+    }
+    
+    @objc fileprivate func handleCode() {
+        dismiss(animated: false, completion: nil)
     }
 
 }

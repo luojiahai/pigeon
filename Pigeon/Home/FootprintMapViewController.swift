@@ -1,17 +1,16 @@
 //
-//  MapViewController.swift
+//  FootprintMapViewController.swift
 //  Pigeon
 //
-//  Created by Pei Yun Sun on 2017/9/5.
+//  Created by Geoffrey Ka-Hoi Law on 18/9/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
 
 import UIKit
 import MapKit
 import CoreLocation
-import Firebase
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate, ARViewControllerDelegate {
+class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, ARViewControllerDelegate {
     
     var manager: CLLocationManager!
     
@@ -26,7 +25,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     var updateUserLocationTimer: Timer?
     
     var user: User?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,10 +33,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         setupViews()
         setupLocationManager()
         setupMapView()
-    }
-    
-    func reloadData() {
-        // ...
     }
     
     fileprivate func setupNavigation() {
@@ -71,6 +66,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         myLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
         myLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
+        mapView.addSubview(footprintLocationButton)
+        footprintLocationButton.bottomAnchor.constraint(equalTo: myLocationButton.topAnchor, constant: -12).isActive = true
+        footprintLocationButton.rightAnchor.constraint(equalTo: myLocationButton.rightAnchor).isActive = true
+        footprintLocationButton.widthAnchor.constraint(equalToConstant: 128).isActive = true
+        footprintLocationButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
         updateUserLocationTimer = Timer.scheduledTimer(
             timeInterval: 0.5,
             target: self,
@@ -80,28 +81,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @objc func updateUserLocation() {
-        if let currentLocation = currentLocation {
-            DispatchQueue.main.async {
-                if self.currentUserAnnotation == nil {
-                    self.currentUserAnnotation = MKPointAnnotation()
-                    self.mapView.addAnnotation(self.currentUserAnnotation!)
-                }
-                
-                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                    self.currentUserAnnotation?.coordinate = currentLocation.coordinate
-                }, completion: nil)
-                
-                if self.centerMapOnUserLocation {
-                    UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
-                    }, completion: {
-                        _ in
-                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
-                    })
-                }
-            }
-        }
-        
         if let targetLocation = targetLocation {
             DispatchQueue.main.async {
                 if self.targetUserAnnotation == nil {
@@ -112,16 +91,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                     self.targetUserAnnotation?.coordinate = targetLocation.coordinate
                 }, completion: nil)
+                
+                if self.centerMapOnUserLocation {
+                    UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                        self.mapView.setCenter(self.targetUserAnnotation!.coordinate, animated: false)
+                    }, completion: {
+                        _ in
+                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                    })
+                }
             }
         }
-        
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let dictionary = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "location").value as? [String: CLLocationDegrees] else { return }
-            self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
-        })
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -141,31 +121,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         currentLocation = locations.first ?? nil
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
-        
-        if let pointAnnotation = annotation as? MKPointAnnotation {
-            let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
-            
-            if pointAnnotation == self.currentUserAnnotation {
-                marker.displayPriority = .required
-                marker.glyphImage = UIImage(named: "user")
-            } else {
-                marker.displayPriority = .required
-                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
-                marker.glyphImage = UIImage(named: "compass")
-            }
-            
-            return marker
-        }
-        
-        return nil
-    }
-    
     func updateLocation() -> CLLocation? {
-        return targetLocation
+        return nil
     }
     
     @objc func handleCancel() {
@@ -178,6 +135,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         arVC.targetLocation = targetLocation
         let vc = UINavigationController(rootViewController: arVC)
         present(vc, animated: false, completion: nil)
+    }
+    
+    @objc fileprivate func handleFootprintLocation() {
+        centerMapOnUserLocation = false
+        guard let location = targetLocation else { return }
+        let span = MKCoordinateSpanMake(0.01, 0.01)
+        let myCoordinate = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude)
+        let region = MKCoordinateRegionMake(myCoordinate, span)
+        mapView.setRegion(region, animated: true)
     }
     
     @objc fileprivate func handleMyLocation() {
@@ -203,6 +169,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return mapView
     }()
     
+    let footprintLocationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitle("fpLocation", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        button.addTarget(self, action: #selector(handleFootprintLocation), for: .touchUpInside)
+        return button
+    }()
+    
     let myLocationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -214,5 +192,5 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
         return button
     }()
-    
+
 }

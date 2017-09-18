@@ -12,6 +12,7 @@ import MapKit
 //import CocoaLumberjack
 
 protocol ARViewControllerDelegate {
+    func updateLocation() -> CLLocation?
     func handleCancel()
 }
 
@@ -55,7 +56,9 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
+        
         navigationItem.title = "AR"
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(handleMap))
         
@@ -174,6 +177,8 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     }
     
     @objc func updateUserLocation() {
+        targetLocation = delegate?.updateLocation()
+        
         if let currentLocation = sceneLocationView.currentLocation() {
             DispatchQueue.main.async {
                 
@@ -205,7 +210,7 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
                         self.mapView.setCenter(self.userAnnotation!.coordinate, animated: false)
                     }, completion: {
                         _ in
-                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.0005, longitudeDelta: 0.0005)
+                        self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                     })
                 }
                 
@@ -390,23 +395,4 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         return label
     }()
     
-}
-
-extension DispatchQueue {
-    func asyncAfter(timeInterval: TimeInterval, execute: @escaping () -> Void) {
-        self.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(timeInterval * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: execute)
-    }
-}
-
-extension UIView {
-    func recursiveSubviews() -> [UIView] {
-        var recursiveSubviews = self.subviews
-        
-        for subview in subviews {
-            recursiveSubviews.append(contentsOf: subview.recursiveSubviews())
-        }
-        
-        return recursiveSubviews
-    }
 }
