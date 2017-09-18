@@ -246,6 +246,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         numLikesCommentsLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowLikes)))
         
         profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfileForUser)))
+        
+        mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMap)))
     }
     
     fileprivate func fetchLikes() {
@@ -418,6 +420,28 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc fileprivate func handleMap() {
+        let mapVC = FootprintMapViewController()
+        let coordinate = CLLocationCoordinate2D(latitude: (footprint?.latitude)!, longitude: (footprint?.longitude)!)
+        let location = CLLocation(coordinate: coordinate, altitude: (footprint?.altitude)!)
+        mapVC.targetLocation = location
+        let vc = UINavigationController(rootViewController: mapVC)
+        present(vc, animated: true, completion: nil)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+        if let touch = touches.first {
+            if touch.view != nil {
+                if (mapView == touch.view! ||
+                    mapView.recursiveSubviews().contains(touch.view!)) {
+                    print("mapView touched")        // bug
+                }
+            }
+        }
+    }
+    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: self.view.bounds)
         return scrollView
@@ -428,9 +452,11 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         mapView.frame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: self.view.frame.height/4)
         mapView.delegate = self
         mapView.mapType = .standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-        mapView.showsUserLocation = true
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        mapView.isPitchEnabled = false
+        mapView.isRotateEnabled = false
+        mapView.showsUserLocation = false
         mapView.showsScale = true
         mapView.showsCompass = true
         mapView.showsBuildings = true

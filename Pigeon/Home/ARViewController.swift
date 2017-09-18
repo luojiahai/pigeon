@@ -392,22 +392,3 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     }()
     
 }
-
-extension DispatchQueue {
-    func asyncAfter(timeInterval: TimeInterval, execute: @escaping () -> Void) {
-        self.asyncAfter(
-            deadline: DispatchTime.now() + Double(Int64(timeInterval * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: execute)
-    }
-}
-
-extension UIView {
-    func recursiveSubviews() -> [UIView] {
-        var recursiveSubviews = self.subviews
-        
-        for subview in subviews {
-            recursiveSubviews.append(contentsOf: subview.recursiveSubviews())
-        }
-        
-        return recursiveSubviews
-    }
-}

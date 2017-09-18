@@ -59,6 +59,7 @@
 		00CF10271F6834DC00BD906B /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10261F6834DC00BD906B /* UserListTableViewController.swift */; };
 		00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */; };
 		00F3FB521F6E825A003812B5 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F3FB511F6E825A003812B5 /* QRCodeViewController.swift */; };
+		00F3FB541F6F83C9003812B5 /* FootprintMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */; };
 		260C73D01F56D4470032E26E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C73CF1F56D4460032E26E /* LoginView.swift */; };
 		343CB43B4F7304A500D2AAD7 /* Pods_OneSignalNotificationServiceExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */; };
 		75FAB363AB63BC6A6245EE2B /* Pods_PigeonUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */; };
@@ -181,6 +182,7 @@
 		00CF10261F6834DC00BD906B /* UserListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
 		00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		00F3FB511F6E825A003812B5 /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
+		00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintMapViewController.swift; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
 				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
+				00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */,
 				00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */,
 				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
 				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
@@ -848,6 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */,
+				00F3FB541F6F83C9003812B5 /* FootprintMapViewController.swift in Sources */,
 				00C73E5A1F6E6E1E00FAF85A /* UserFriendsData.swift in Sources */,
 				008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */,
 				008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */,
