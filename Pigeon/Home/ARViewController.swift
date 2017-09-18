@@ -12,6 +12,7 @@ import MapKit
 //import CocoaLumberjack
 
 protocol ARViewControllerDelegate {
+    func updateLocation() -> CLLocation?
     func handleCancel()
 }
 
@@ -55,6 +56,7 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
+        
         navigationItem.title = "AR"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
@@ -175,6 +177,8 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     }
     
     @objc func updateUserLocation() {
+        targetLocation = delegate?.updateLocation()
+        
         if let currentLocation = sceneLocationView.currentLocation() {
             DispatchQueue.main.async {
                 

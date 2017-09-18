@@ -27,8 +27,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var user: User?
     
-    let arVC = ARViewController()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,7 +34,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         setupViews()
         setupLocationManager()
         setupMapView()
-        setupARVC()
     }
     
     func reloadData() {
@@ -82,11 +79,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             repeats: true)
     }
     
-    fileprivate func setupARVC() {
-        arVC.delegate = self
-        arVC.targetLocation = targetLocation
-    }
-    
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
@@ -130,10 +122,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             guard let dictionary = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "location").value as? [String: CLLocationDegrees] else { return }
             self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
         })
-        
-        if let delegateLocation = targetLocation {
-            arVC.update(location: delegateLocation)
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -176,11 +164,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         return nil
     }
     
+    func updateLocation() -> CLLocation? {
+        return targetLocation
+    }
+    
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
     
     @objc fileprivate func handleAR() {
+        let arVC = ARViewController()
+        arVC.delegate = self
+        arVC.targetLocation = targetLocation
         let vc = UINavigationController(rootViewController: arVC)
         present(vc, animated: false, completion: nil)
     }

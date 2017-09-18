@@ -627,11 +627,28 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        let commentPopoverVC = CommentPopoverViewController()
+        commentPopoverVC.comment = comments[indexPath.row]
+        commentPopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        commentPopoverVC.preferredContentSize = CGSize(width: 256, height: 256)
+        commentPopoverVC.popoverPresentationController?.sourceView = view
+        commentPopoverVC.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+        commentPopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+        commentPopoverVC.popoverPresentationController?.delegate = self
         
+        present(commentPopoverVC, animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
+    }
+    
+}
+
+extension FootprintViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
 }

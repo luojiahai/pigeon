@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, ARViewControllerDelegate {
     
     var manager: CLLocationManager!
     
@@ -42,6 +42,7 @@ class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocatio
         
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "AR", style: .plain, target: self, action: #selector(handleAR))
     }
     
     fileprivate func setupViews() {
@@ -120,8 +121,20 @@ class FootprintMapViewController: UIViewController, MKMapViewDelegate, CLLocatio
         currentLocation = locations.first ?? nil
     }
     
+    func updateLocation() -> CLLocation? {
+        return nil
+    }
+    
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+    @objc fileprivate func handleAR() {
+        let arVC = ARViewController()
+        arVC.delegate = self
+        arVC.targetLocation = targetLocation
+        let vc = UINavigationController(rootViewController: arVC)
+        present(vc, animated: false, completion: nil)
     }
     
     @objc fileprivate func handleFootprintLocation() {
