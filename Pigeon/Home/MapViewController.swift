@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import Firebase
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, LoginViewControllerDelegate, ARViewControllerDelegate {
+class MapViewController: UIViewController {
     
     var manager: CLLocationManager!
     
@@ -27,6 +27,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var user: User?
     
+    var footprints: [Footprint]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,10 +36,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         setupViews()
         setupLocationManager()
         setupMapView()
-    }
-    
-    func reloadData() {
-        // ...
     }
     
     fileprivate func setupNavigation() {
@@ -137,41 +135,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        currentLocation = locations.first ?? nil
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
-        
-        if let pointAnnotation = annotation as? MKPointAnnotation {
-            let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
-            
-            if pointAnnotation == self.currentUserAnnotation {
-                marker.displayPriority = .required
-                marker.glyphImage = UIImage(named: "user")
-            } else {
-                marker.displayPriority = .required
-                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
-                marker.glyphImage = UIImage(named: "compass")
-            }
-            
-            return marker
-        }
-        
-        return nil
-    }
-    
-    func updateLocation() -> CLLocation? {
-        return targetLocation
-    }
-    
-    @objc func handleCancel() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     @objc fileprivate func handleAR() {
         let arVC = ARViewController()
         arVC.delegate = self
@@ -214,5 +177,48 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
         return button
     }()
+    
+}
+
+extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        currentLocation = locations.first ?? nil
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        if let pointAnnotation = annotation as? MKPointAnnotation {
+            let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
+            
+            if pointAnnotation == self.currentUserAnnotation {
+                marker.displayPriority = .required
+                marker.glyphImage = UIImage(named: "user")
+            } else {
+                marker.displayPriority = .required
+                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
+                marker.glyphImage = UIImage(named: "compass")
+            }
+            
+            return marker
+        }
+        
+        return nil
+    }
+    
+}
+
+extension MapViewController: ARViewControllerDelegate {
+    
+    func updateLocation() -> CLLocation? {
+        return targetLocation
+    }
+    
+    @objc func handleCancel() {
+        dismiss(animated: true, completion: nil)
+    }
     
 }

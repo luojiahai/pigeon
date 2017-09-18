@@ -54,6 +54,11 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavigation()
+        setupSceneLocationView()
+    }
+    
+    fileprivate func setupNavigation() {
         navigationController?.navigationBar.tintColor = .black
         navigationController?.navigationBar.isTranslucent = false
         
@@ -61,7 +66,9 @@ class ARViewController: UIViewController, MKMapViewDelegate, SceneLocationViewDe
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(handleMap))
-        
+    }
+    
+    fileprivate func setupSceneLocationView() {
         infoLabel.font = UIFont.systemFont(ofSize: 10)
         infoLabel.textAlignment = .left
         infoLabel.textColor = UIColor.white

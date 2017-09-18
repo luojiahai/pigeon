@@ -155,7 +155,9 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
     }
     
     @objc fileprivate func handlePresentMap() {
-        let vc = UINavigationController(rootViewController: MapViewController())
+        let mapVC = MapViewController()
+        mapVC.footprints = footprints
+        let vc = UINavigationController(rootViewController: mapVC)
         navigationItem.leftBarButtonItem?.isEnabled = false
         present(vc, animated: true) {
             self.navigationItem.leftBarButtonItem?.isEnabled = true
@@ -168,59 +170,6 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         present(vc, animated: true) {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
         }
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return footprints.count
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FootprintCell", for: indexPath)
-        
-        if let cell = cell as? FootprintCollectionViewCell {
-            cell.footprint = footprints[indexPath.row]
-            cell.footprintImageViews.forEach({ (imageView) in
-                imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
-            })
-            cell.profilePhotoImageView.tag = indexPath.row
-            cell.profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfile)))
-            cell.likeButton.tag = indexPath.row
-            cell.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
-            cell.commentButton.tag = indexPath.row
-            cell.commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
-            if let likes = footprints[indexPath.row].likes, let currentUser = Auth.auth().currentUser, likes.contains(currentUser.uid) {
-                cell.likeButton.isEnabled = false
-            } else {
-                cell.likeButton.isEnabled = true
-            }
-        }
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        if footprints[indexPath.row].imageURLs == nil {
-            return CGSize(width: view.frame.width, height: 200)
-        } else {
-            return CGSize(width: view.frame.width, height: 280)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 8
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let footprintVC = FootprintViewController()
-        footprintVC.delegate = self
-        footprintVC.footprintTag = indexPath.row
-        footprintVC.footprint = footprints[indexPath.row]
-        footprintVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(footprintVC, animated: true)
     }
     
     @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
@@ -343,6 +292,63 @@ class HomeViewController: UICollectionViewController, UICollectionViewDelegateFl
         vc.user = footprints[imageView.tag].user
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+extension HomeViewController {
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return footprints.count
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FootprintCell", for: indexPath)
+        
+        if let cell = cell as? FootprintCollectionViewCell {
+            cell.footprint = footprints[indexPath.row]
+            cell.footprintImageViews.forEach({ (imageView) in
+                imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowFullImage)))
+            })
+            cell.profilePhotoImageView.tag = indexPath.row
+            cell.profilePhotoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleShowUserProfile)))
+            cell.likeButton.tag = indexPath.row
+            cell.likeButton.addTarget(self, action: #selector(handleLike), for: .touchUpInside)
+            cell.commentButton.tag = indexPath.row
+            cell.commentButton.addTarget(self, action: #selector(handleComment), for: .touchUpInside)
+            if let likes = footprints[indexPath.row].likes, let currentUser = Auth.auth().currentUser, likes.contains(currentUser.uid) {
+                cell.likeButton.isEnabled = false
+            } else {
+                cell.likeButton.isEnabled = true
+            }
+        }
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if footprints[indexPath.row].imageURLs == nil {
+            return CGSize(width: view.frame.width, height: 200)
+        } else {
+            return CGSize(width: view.frame.width, height: 280)
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 8
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 8, left: 0, bottom: 0, right: 0)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let footprintVC = FootprintViewController()
+        footprintVC.delegate = self
+        footprintVC.footprintTag = indexPath.row
+        footprintVC.footprint = footprints[indexPath.row]
+        footprintVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(footprintVC, animated: true)
     }
     
 }
