@@ -70,6 +70,7 @@
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
+		7C3D11391F71087000EFF185 /* FootprintPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */; };
 		7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B1D1F5E3BE900A60E6D /* MeView.swift */; };
 		7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */; };
 		7C488B321F5EA04300A60E6D /* ARViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B311F5EA04300A60E6D /* ARViewController.swift */; };
@@ -198,6 +199,7 @@
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintPopOverViewController.swift; sourceTree = "<group>"; };
 		7C488B1D1F5E3BE900A60E6D /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		7C488B311F5EA04300A60E6D /* ARViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewController.swift; sourceTree = "<group>"; };
@@ -377,17 +379,11 @@
 		00BED2CB1F57E9BA000FEBD3 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				7C3D11371F71082D00EFF185 /* Footprint */,
 				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
-				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
 				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
-				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
-				00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */,
-				00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */,
-				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
-				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
-				7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */,
-				00DD30081F6F9471006AE1E2 /* CommentPopoverViewController.swift */,
+				7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -450,6 +446,21 @@
 				E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7C3D11371F71082D00EFF185 /* Footprint */ = {
+			isa = PBXGroup;
+			children = (
+				7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */,
+				7C488B331F5EA07400A60E6D /* FootprintViewController.swift */,
+				00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */,
+				00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */,
+				001ED8A91F62BED90000D84B /* PostFootprintViewController.swift */,
+				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
+				7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */,
+				00DD30081F6F9471006AE1E2 /* CommentPopoverViewController.swift */,
+			);
+			path = Footprint;
 			sourceTree = "<group>";
 		};
 		8CA86DE5DA9DEE66A6F0F184 /* Pods */ = {
@@ -912,6 +923,7 @@
 				008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */,
 				001ED8AA1F62BED90000D84B /* PostFootprintViewController.swift in Sources */,
 				006F19F51F3DA27D004C20B3 /* AppDelegate.swift in Sources */,
+				7C3D11391F71087000EFF185 /* FootprintPopOverViewController.swift in Sources */,
 				00CF101F1F6532FE00BD906B /* Footprint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
