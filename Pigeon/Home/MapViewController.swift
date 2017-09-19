@@ -29,9 +29,11 @@ class MapViewController: UIViewController {
     
     var footprints: [Footprint]?
     
+    var routeShown: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupNavigation()
         setupViews()
         setupLocationManager()
@@ -77,6 +79,60 @@ class MapViewController: UIViewController {
             repeats: true)
     }
     
+    func setRoute() {
+        // get coordinates
+        let sourceCoordinate = currentLocation?.coordinate
+        let destCoordinate = targetLocation?.coordinate
+        
+        // create Placemarks
+        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate!)
+        let destPlaceMark = MKPlacemark(coordinate: destCoordinate!)
+        
+        // create MapItems
+        let sourceItem = MKMapItem(placemark: sourcePlaceMark)  // POI on map
+        let destItem = MKMapItem(placemark: destPlaceMark)
+        
+        // Name the MapItems
+        sourceItem.name = "Source"
+        destItem.name = "Destination"
+        
+        // Create a direction request
+        let directionRequest = MKDirectionsRequest()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destItem
+        directionRequest.transportType = .any  // can modify transport type
+        let directions = MKDirections(request: directionRequest) // computes directions and travel time
+        
+        // Find direction and draw route
+        directions.calculate(completionHandler: {
+            response, error in
+            
+            // check response
+            guard let response = response else {
+                if error != nil {
+                    print("Error during calculation of directions")
+                }
+                return
+            }
+            
+            // draw route
+            let route = response.routes[0]  // 0 for the fastest route
+            self.mapView.add(route.polyline, level: .aboveRoads)
+            
+//            // set region
+//            let rect = route.polyline.boundingMapRect
+//            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+        })
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        // return a renderer for rendering polyline of the route
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .blue  // color of the polyline
+        renderer.lineWidth = 5.0
+        return renderer
+    }
+    
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
@@ -119,6 +175,15 @@ class MapViewController: UIViewController {
                 self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
             })
         }
+        
+        // set the route from current location to target location
+        if currentLocation != nil &&
+            targetLocation != nil &&
+            !routeShown {
+            setRoute()
+            routeShown = true
+        }
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -213,7 +278,7 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
 }
 
 extension MapViewController: ARViewControllerDelegate {
-    
+
     func updateLocation() -> CLLocation? {
         return targetLocation
     }
