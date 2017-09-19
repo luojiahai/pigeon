@@ -38,6 +38,47 @@ class MapViewController: UIViewController {
         setupViews()
         setupLocationManager()
         setupMapView()
+        renderFootprint()
+    }
+    
+    @objc fileprivate func handleAnnotationTap(_ gesture: UITapGestureRecognizer) {
+        print("Annotation Tapped")
+        let marker = gesture.view as? MKMarkerAnnotationView
+        let annotation = marker?.annotation
+        let vc = FootprintopoverViewController()
+        for footprint in footprints! {
+            // find the footprint of the annotaiton with footprintID
+            if footprint.footprintID == (annotation?.subtitle)! {
+                vc.footprint = footprint // pass the footprint
+            }
+        }
+        
+        // setup the popover controller
+        vc.modalPresentationStyle = UIModalPresentationStyle.popover
+        vc.preferredContentSize = CGSize(width: 256, height: 256)
+        vc.popoverPresentationController?.sourceView = view
+        vc.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+        vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+        vc.popoverPresentationController?.delegate = self
+        
+        present(vc, animated: true, completion: nil)
+        
+    }
+    
+    fileprivate func renderFootprint() {
+        if footprints == nil {
+            return
+        }
+        
+        // render each footprint
+        for footprint in footprints! {
+            let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = footprint.user?.name
+            annotation.subtitle = footprint.footprintID
+            mapView.addAnnotation(annotation)
+        }
     }
     
     fileprivate func setupNavigation() {
@@ -266,7 +307,13 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
                 marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
                 marker.glyphImage = UIImage(named: "compass")
             } else {
-                // footprints maybe...
+                // footprints
+                marker.displayPriority = .required
+                marker.markerTintColor = .gray
+                marker.glyphImage = UIImage(named: "icons8-Cat Footprint Filled-50")
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(handleAnnotationTap))
+                marker.addGestureRecognizer(gesture)
+
             }
             
             return marker
@@ -285,6 +332,14 @@ extension MapViewController: ARViewControllerDelegate {
     
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension MapViewController: UIPopoverPresentationControllerDelegate {
+    
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return UIModalPresentationStyle.none
     }
     
 }
