@@ -82,7 +82,7 @@ class AddContactsViewController: UITableViewController {
                     if (friend["from"] as? String == currentUser.uid && friend["to"] as? String == user.uid) ||
                         (friend["from"] as? String == user.uid &&
                             friend["to"] as? String == currentUser.uid) {
-                        user.isPending = true
+                        user.isSent = true
                     }
                 }
                 
@@ -196,7 +196,7 @@ extension AddContactsViewController {
         
         if let cell = cell as? AddContactsTableViewCell {
             cell.user = user
-            if let isPending = user.isPending, isPending {
+            if let isSent = user.isSent, isSent {
                 cell.requestButton.isEnabled = false
                 cell.requestButton.setTitle("Sent", for: .disabled)
                 cell.requestButton.backgroundColor = .lightGray

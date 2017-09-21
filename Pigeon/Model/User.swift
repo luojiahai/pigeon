@@ -16,7 +16,7 @@ class User: NSObject {
     var email: String?
     var profilePhotoURL: String?
     
-    var isPending: Bool?
+    var isSent: Bool?
     var isApproved: Bool?
     
     init(uid: String, _ dictionary: [String: AnyObject]) {
