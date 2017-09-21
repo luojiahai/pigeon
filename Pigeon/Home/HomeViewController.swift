@@ -205,6 +205,8 @@ class HomeViewController: UICollectionViewController {
                 return
             }
             
+            AppNotification.shared.sendLikeNotification(sender: currentUser.uid, receiver: (self.footprints[sender.tag].user?.uid)!)
+            
             DispatchQueue.main.async(execute: {
                 if self.footprints[sender.tag].likes == nil {
                     self.footprints[sender.tag].likes = [String]()
@@ -233,6 +235,8 @@ class HomeViewController: UICollectionViewController {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
+                    
+                    AppNotification.shared.sendCommentNotification(sender: currentUser.uid, receiver: (self.footprints[sender.tag].user?.uid)!)
                     
                     DispatchQueue.main.async(execute: {
                         if let numComments = self.footprints[sender.tag].numComments {

@@ -109,7 +109,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         
         navigationItem.title = "Footprint"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOption))
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOption))
     }
     
     fileprivate func setupViews() {
@@ -330,6 +330,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
                 return
             }
             
+            AppNotification.shared.sendLikeNotification(sender: currentUser.uid, receiver: (self.footprint?.user?.uid)!)
+            
             DispatchQueue.main.async(execute: {
                 if self.footprint?.likes == nil {
                     self.footprint?.likes = [String]()
@@ -369,6 +371,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
                         self.present(alert, animated: true, completion: nil)
                         return
                     }
+                    
+                    AppNotification.shared.sendCommentNotification(sender: currentUser.uid, receiver: (self.footprint?.user?.uid)!)
                     
                     DispatchQueue.main.async(execute: {
                         if let numComments = self.footprint?.numComments {

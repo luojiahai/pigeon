@@ -56,11 +56,15 @@ class UserProfileViewController: UIViewController {
         
         if user?.uid == Auth.auth().currentUser?.uid {
             addFriendButton.isHidden = true
-            sendMessageButton.isHidden = true
+            sendMessageButton.isHidden = false
         } else {
             if let uid = user?.uid, UserFriendsData.shared.isFriend(uid) {
                 addFriendButton.isHidden = true
                 sendMessageButton.isHidden = false
+            } else if let uid = user?.uid, UserFriendsData.shared.isPendingFriend(uid) {
+                addFriendButton.isHidden = false
+                addFriendButton.isEnabled = false
+                sendMessageButton.isHidden = true
             } else {
                 addFriendButton.isHidden = false
                 sendMessageButton.isHidden = true
@@ -297,6 +301,8 @@ class UserProfileViewController: UIViewController {
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
         button.setTitle("Send Message", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.setTitle("Your Profile", for: .disabled)
+        button.setTitleColor(.lightGray, for: .disabled)
         button.backgroundColor = .white
         button.layer.borderColor = lineColor.cgColor
         button.layer.borderWidth = linePixel
