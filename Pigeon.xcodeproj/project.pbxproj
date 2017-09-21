@@ -58,6 +58,7 @@
 		00CF10231F68231800BD906B /* NewGroupChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */; };
 		00CF10271F6834DC00BD906B /* UserListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CF10261F6834DC00BD906B /* UserListTableViewController.swift */; };
 		00DD30091F6F9471006AE1E2 /* CommentPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00DD30081F6F9471006AE1E2 /* CommentPopoverViewController.swift */; };
+		00E687B11F73D8E9008752C6 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E687B01F73D8E9008752C6 /* AppNotification.swift */; };
 		00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */; };
 		00F3FB521F6E825A003812B5 /* QRCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F3FB511F6E825A003812B5 /* QRCodeViewController.swift */; };
 		00F3FB541F6F83C9003812B5 /* FootprintMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */; };
@@ -183,6 +184,7 @@
 		00CF10221F68231800BD906B /* NewGroupChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewGroupChatTableViewController.swift; sourceTree = "<group>"; };
 		00CF10261F6834DC00BD906B /* UserListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListTableViewController.swift; sourceTree = "<group>"; };
 		00DD30081F6F9471006AE1E2 /* CommentPopoverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPopoverViewController.swift; sourceTree = "<group>"; };
+		00E687B01F73D8E9008752C6 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		00F3FB511F6E825A003812B5 /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintMapViewController.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				006F19F41F3DA27D004C20B3 /* AppDelegate.swift */,
 				006F19F61F3DA27F004C20B3 /* MainController.swift */,
 				7A4878041F529B540018A715 /* Extensions.swift */,
+				00E687B01F73D8E9008752C6 /* AppNotification.swift */,
 				00962C6A1F58E65000B4B7C0 /* Model */,
 				00BED2CA1F57E988000FEBD3 /* Authentication */,
 				00BED2CB1F57E9BA000FEBD3 /* Home */,
@@ -912,6 +915,7 @@
 				006F19F71F3DA27F004C20B3 /* MainController.swift in Sources */,
 				00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */,
 				00962C721F58E8A700B4B7C0 /* AddContactsViewController.swift in Sources */,
+				00E687B11F73D8E9008752C6 /* AppNotification.swift in Sources */,
 				7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */,
 				00C73E541F6CA37700FAF85A /* UserProfileViewController.swift in Sources */,
 				008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */,

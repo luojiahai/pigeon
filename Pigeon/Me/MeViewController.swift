@@ -123,7 +123,7 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
                 self.present(alert, animated: true, completion: nil)
             }
         }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
