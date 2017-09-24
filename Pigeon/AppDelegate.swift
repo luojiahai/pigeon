@@ -153,43 +153,43 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // Quick action
     func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
         
+        if Auth.auth().currentUser == nil {  // not logged in
+            // do nothing, present login page
+            return
+        }
+        
+        
         if let tabVC = self.window?.rootViewController {
-            
-            if Auth.auth().currentUser == nil {  // not logged in
-                // just present login page
-                tabVC.present(LoginViewController.sharedInstance, animated: false, completion: nil)
-            }
             
             if shortcutItem.type == "com.elroot.Pigeon.post" {  // Footprints
                 
                 // Go to view controller where user can post footprints
-                let homeVC = tabVC.childViewControllers[0].childViewControllers[0] as! HomeViewController
                 let postVC = PostFootprintViewController()
                 let vc = UINavigationController(rootViewController: postVC)
-                homeVC.present(vc, animated: true, completion: nil)
+                tabVC.present(vc, animated: true, completion: nil)
                 
             } else if shortcutItem.type == "com.elroot.Pigeon.qr" {  // QR Code
                 
                 // Go to view controller where QR Code is shown
-                let meVC = tabVC.childViewControllers[3].childViewControllers[0] as! MeViewController
+                guard let currentUser = Auth.auth().currentUser else { return }
+                let user = User(uid: currentUser.uid, [:])  // create a user with uid only
                 let qrVC = QRCodeViewController()
-//                meVC.fetchUser()
-                qrVC.user = meVC.user
+                qrVC.user = user
                 let vc = UINavigationController(rootViewController: qrVC)
-                meVC.present(vc, animated: true, completion: nil)
-                
-            } else if shortcutItem.type == "com.elroot.Pigeon.map" {  // Map
-                
-                // Go to view controller where QR Code is shown
-                let homeVC = tabVC.childViewControllers[0].childViewControllers[0] as! HomeViewController
-                let mapVC = MapViewController()
-                mapVC.footprints = homeVC.footprints
-                let vc = UINavigationController(rootViewController: mapVC)
-                homeVC.present(vc, animated: true, completion: nil)
+                tabVC.present(vc, animated: true, completion: nil)
                 
             }
+                
+//            } else if shortcutItem.type == "com.elroot.Pigeon.map" {  // Map
+//
+//                // Go to view controller where QR Code is shown
+//                let homeVC = tabVC.childViewControllers[0].childViewControllers[0] as! HomeViewController
+//                let mapVC = MapViewController()
+//                mapVC.footprints = homeVC.footprints  // pass footprints to map
+//                let vc = UINavigationController(rootViewController: mapVC)
+//                tabVC.present(vc, animated: true, completion: nil)
+//            }
         }
     }
-
 }
 
