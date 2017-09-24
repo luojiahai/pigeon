@@ -71,6 +71,7 @@
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
+		7A4E71EF1F77E9B000FB15CE /* testQuickAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */; };
 		7C3D11391F71087000EFF185 /* FootprintPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */; };
 		7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B1D1F5E3BE900A60E6D /* MeView.swift */; };
 		7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */; };
@@ -80,6 +81,7 @@
 		7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */; };
 		7C5B4BB11F68F72800FEA1D9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */; };
 		7CE5BD491F6CE28C002FA29E /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */; };
+		7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CF607F21F77A0B6000802C5 /* infoPlist.strings */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -201,6 +203,7 @@
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testQuickAction.swift; sourceTree = "<group>"; };
 		7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintPopOverViewController.swift; sourceTree = "<group>"; };
 		7C488B1D1F5E3BE900A60E6D /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -210,6 +213,7 @@
 		7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
+		7CF607F21F77A0B6000802C5 /* infoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = infoPlist.strings; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -328,6 +332,7 @@
 		006F1A0B1F3DA288004C20B3 /* PigeonTests */ = {
 			isa = PBXGroup;
 			children = (
+				7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */,
 				00C49F691F6017AF006508EA /* testAuthentication.swift */,
 				006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */,
 				006F1A0E1F3DA28A004C20B3 /* Info.plist */,
@@ -347,6 +352,7 @@
 		006F1A251F3DA2D3004C20B3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7CF607F21F77A0B6000802C5 /* infoPlist.strings */,
 				006F19F81F3DA280004C20B3 /* Main.storyboard */,
 				006F19FE1F3DA284004C20B3 /* Assets.xcassets */,
 				006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */,
@@ -639,6 +645,7 @@
 				00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */,
 				006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */,
 				006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */,
+				7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -936,6 +943,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A4E71EF1F77E9B000FB15CE /* testQuickAction.swift in Sources */,
 				006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */,
 				00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */,
 			);
