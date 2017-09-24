@@ -93,7 +93,8 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
         collectionView.addSubview(refreshControl!)
     }
     
-    fileprivate func fetchUser() {
+    // Not fileprivate
+    func fetchUser() {
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("users").child(currentUser.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let dictionary = dataSnapshot.value as? [String : AnyObject] else { return }

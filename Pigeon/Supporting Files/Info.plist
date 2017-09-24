@@ -2,6 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeMarkLocation</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.elroot.Pigeon.map</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Map</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.elroot.Pigeon.qr</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>My QR Code</string>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>icons8-QR Code Filled-50</string>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconType</key>
+			<string>UIApplicationShortcutIconTypeCompose</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.elroot.Pigeon.post</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Post Footprint</string>
+		</dict>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
