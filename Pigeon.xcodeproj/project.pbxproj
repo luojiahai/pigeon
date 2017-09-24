@@ -80,6 +80,7 @@
 		7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */; };
 		7C5B4BB11F68F72800FEA1D9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */; };
 		7CE5BD491F6CE28C002FA29E /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */; };
+		7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CF607F21F77A0B6000802C5 /* infoPlist.strings */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 /* End PBXBuildFile section */
@@ -210,6 +211,7 @@
 		7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
+		7CF607F21F77A0B6000802C5 /* infoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = infoPlist.strings; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -347,6 +349,7 @@
 		006F1A251F3DA2D3004C20B3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				7CF607F21F77A0B6000802C5 /* infoPlist.strings */,
 				006F19F81F3DA280004C20B3 /* Main.storyboard */,
 				006F19FE1F3DA284004C20B3 /* Assets.xcassets */,
 				006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */,
@@ -639,6 +642,7 @@
 				00052BB31F50383500E9A27B /* GoogleService-Info.plist in Resources */,
 				006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */,
 				006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */,
+				7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
