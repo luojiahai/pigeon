@@ -22,6 +22,13 @@ target 'Pigeon' do
     # Pods for testing
   end
   
+  target 'PigeonTestsNew' do
+      inherit! :search_paths
+      
+      # Pods for testing
+      pod 'Firebase'
+  end
+  
   target 'PigeonUITests' do
     inherit! :search_paths
     

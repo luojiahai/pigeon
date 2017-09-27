@@ -9,7 +9,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>GoogleToolboxForMac.xcscheme</key>
+		<key>GoogleToolboxForMac-615f275e.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>GoogleToolboxForMac-Defines-NSData+zlib.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -25,6 +30,11 @@
 			<false/>
 		</dict>
 		<key>Pods-PigeonTests.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-PigeonTestsNew.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
