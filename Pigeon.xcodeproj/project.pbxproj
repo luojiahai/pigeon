@@ -189,7 +189,6 @@
 		00EAC0961F6ADDBE0012EE08 /* OptionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsTableViewController.swift; sourceTree = "<group>"; };
 		00F3FB511F6E825A003812B5 /* QRCodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewController.swift; sourceTree = "<group>"; };
 		00F3FB531F6F83C8003812B5 /* FootprintMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintMapViewController.swift; sourceTree = "<group>"; };
-		03B7D79061CD9A7634F2AE93 /* Pods-PigeonTestsNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTestsNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew.debug.xcconfig"; sourceTree = "<group>"; };
 		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -218,7 +217,6 @@
 		939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.release.xcconfig"; sourceTree = "<group>"; };
 		94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests.release.xcconfig"; sourceTree = "<group>"; };
-		BE9B41C6C3C9C4BE49A34AA7 /* Pods-PigeonTestsNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTestsNew.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew.release.xcconfig"; sourceTree = "<group>"; };
 		E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pigeon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -483,8 +481,6 @@
 				32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */,
 				94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */,
 				A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */,
-				03B7D79061CD9A7634F2AE93 /* Pods-PigeonTestsNew.debug.xcconfig */,
-				BE9B41C6C3C9C4BE49A34AA7 /* Pods-PigeonTestsNew.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
