@@ -21,28 +21,28 @@ class ARViewController: UIViewController {
     
     let sceneLocationView = SceneLocationView()
     
-    var userAnnotation: MKPointAnnotation?
-    
-    var locationEstimateAnnotation: MKPointAnnotation? // cannot get best location estimate, use last one
-    
-    var updateLocationTimer: Timer?
-    
+    // Target user
     var targetLocation: CLLocation?
-    
     var targetLocationNode: LocationAnnotationNode?
-    
     var targetUserAnnotation: MKPointAnnotation?
     
+    // Updating timer
+    var updateLocationTimer: Timer?
     var updateInfoLabelTimer: Timer?
     
-//    var adjustNorthByTappingSidesOfScreen = true
+    // Footprints
+    var footprints: [Footprint]?
+    var footprintsNode: [LocationAnnotationNode]?
+    
+    //    var adjustNorthByTappingSidesOfScreen = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initTargetAnnotation()
         setupNavigation()
         setupViews()
+        initTargetAnnotation()
+        initFootprints()
         setupTimers()
     }
     
@@ -65,6 +65,63 @@ class ARViewController: UIViewController {
             targetLocationNode = LocationAnnotationNode(location: location, image: image)
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: targetLocationNode!)
         }
+    }
+    
+    fileprivate func initFootprints() {
+        
+        if footprints == nil {  // not footprints
+            return
+        }
+        
+        // rendering each footprint
+        for footprint in footprints! {
+            
+            let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
+            let footprintLocation = CLLocation(coordinate: coordinate, altitude: footprint.altitude!)
+            
+            // Calculate distance
+            guard let currentLocation = sceneLocationView.currentLocation() else { return }
+            let distance = currentLocation.distance(from: footprintLocation)
+            
+            // Popover view controller
+            let vc = FootprintopoverViewController()
+            vc.footprint = footprint
+            
+            // setup the popover controller
+            //            vc.modalPresentationStyle = UIModalPresentationStyle.popover
+            //            vc.preferredContentSize = CGSize(width: 256, height: 256)
+            //            vc.popoverPresentationController?.sourceView = view
+            //            vc.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+            //            vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
+            //            vc.popoverPresentationController?.delegate = self
+            
+            
+            // Get the view and conver into image
+            let image = UIImage(view: vc.view)
+            
+            let locationNode = LocationAnnotationNode(location: footprintLocation, image: image)
+            
+//            var scaleFactor: CGFloat
+//
+//            // Show footprints within 100 metres only
+//            if distance <= 100 {
+//                scaleFactor = CGFloat(1 - (distance / 100) + 0.2)
+//            } else {
+//                scaleFactor = 0
+//            }
+
+//            // Adjust annotation scale
+//            let plane = SCNPlane(width: image.size.width / 5 * scaleFactor, height: image.size.height / 5 * scaleFactor)
+//            plane.firstMaterial!.diffuse.contents = image
+//            plane.firstMaterial!.lightingModel = .constant
+//            locationNode.annotationNode.geometry = plane
+            
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
+            
+            // Store the node in the array
+            footprintsNode?.append(locationNode)
+        }
+        
     }
     
     func setupTimers() {
@@ -115,13 +172,13 @@ class ARViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        
         sceneLocationView.run()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
+        
         sceneLocationView.pause()
     }
     
@@ -139,25 +196,18 @@ class ARViewController: UIViewController {
         infoLabel.frame.origin.y = self.view.frame.size.height - infoLabel.frame.size.height
     }
     
-    @objc func updateLocation() {
-        updateUserLocation()
-        updateAnnotationLocation()
+    @objc fileprivate func updateLocation() {
+        updateTarget()
+        updateFootprints()
     }
     
-    func updateUserLocation() {
-        targetLocation = delegate?.updateLocation()
+    fileprivate func updateFootprints() {
         
-        if let currentLocation = sceneLocationView.currentLocation() {
-            DispatchQueue.main.async {
-                if self.userAnnotation == nil {
-                    self.userAnnotation = MKPointAnnotation()
-                }
-                
-                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                    self.userAnnotation?.coordinate = currentLocation.coordinate
-                }, completion: nil)
-            }
-        }
+    }
+    
+    fileprivate func updateTarget() {  // ???
+        
+        targetLocation = delegate?.updateLocation()
         
         if let targetLocation = targetLocation {
             DispatchQueue.main.async {
@@ -170,9 +220,42 @@ class ARViewController: UIViewController {
                 }, completion: nil)
             }
         }
-    }
-    
-    func updateAnnotationLocation() {
+        
+        guard let currentLocation = sceneLocationView.currentLocation() else { return }
+        guard let targetLocation = targetLocation else { return }
+        let distance = currentLocation.distance(from: targetLocation)
+        
+        var debugText = String()
+        debugText += "target distance: " + String(Int(distance)) + " metres\n"
+        debugText += "target coordinate: (" + String(Double(targetLocation.coordinate.latitude)) + ", " + String(Double(targetLocation.coordinate.longitude)) + ")\n"
+        debugText += "target altitude: " + String(Double(targetLocation.altitude))
+        debugLabel.text = debugText
+        
+        if targetLocationNode == nil {
+            let pinCoordinate = CLLocationCoordinate2D(latitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude)
+            let pinLocation = CLLocation(coordinate: pinCoordinate, altitude: targetLocation.altitude)
+            let pinImage = UIImage(named: "pin")!
+            targetLocationNode = LocationAnnotationNode(location: pinLocation, image: pinImage)
+            sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: targetLocationNode!)
+        }
+        
+        // Adjust annotation scale
+        if distance >= 200 {
+            guard let image = UIImage(named: "pin") else { return }
+            let plane = SCNPlane(width: image.size.width / 1000, height: image.size.height / 1000)
+            plane.firstMaterial!.diffuse.contents = image
+            plane.firstMaterial!.lightingModel = .constant
+            targetLocationNode?.annotationNode.geometry = plane
+            targetLocationNode?.location = targetLocation
+        } else {
+            let scaleFactor: CGFloat = CGFloat(1 - (distance / 200) + 0.2)
+            guard let image = UIImage(named: "pin") else { return }
+            let plane = SCNPlane(width: image.size.width / 200 * scaleFactor, height: image.size.height / 200 * scaleFactor)
+            plane.firstMaterial!.diffuse.contents = image
+            plane.firstMaterial!.lightingModel = .constant
+            targetLocationNode?.annotationNode.geometry = plane
+            targetLocationNode?.location = targetLocation
+        }
         
     }
     
@@ -198,34 +281,34 @@ class ARViewController: UIViewController {
         }
     }
     
-//    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        super.touchesBegan(touches, with: event)
-//
-//        if let touch = touches.first {
-//            if touch.view != nil {
-////                if (mapView == touch.view! ||
-////                    mapView.recursiveSubviews().contains(touch.view!)) {
-////                    centerMapOnUserLocation = false
-////                } else {
-//
-//                    let location = touch.location(in: self.view)
-//
-//                    if location.x <= 40 && adjustNorthByTappingSidesOfScreen {
-//                        print("left side of the screen")
-//                        sceneLocationView.moveSceneHeadingAntiClockwise()
-//                    } else if location.x >= view.frame.size.width - 40 && adjustNorthByTappingSidesOfScreen {
-//                        print("right side of the screen")
-//                        sceneLocationView.moveSceneHeadingClockwise()
-//                    } else {
-//                        //                        let image = UIImage(named: "pin")!
-//                        //                        let annotationNode = LocationAnnotationNode(location: nil, image: image)
-//                        //                        annotationNode.scaleRelativeToDistance = true
-//                        //                        sceneLocationView.addLocationNodeForCurrentPosition(locationNode: annotationNode)
-//                    }
-////                }
-//            }
-//        }
-//    }
+    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    //        super.touchesBegan(touches, with: event)
+    //
+    //        if let touch = touches.first {
+    //            if touch.view != nil {
+    ////                if (mapView == touch.view! ||
+    ////                    mapView.recursiveSubviews().contains(touch.view!)) {
+    ////                    centerMapOnUserLocation = false
+    ////                } else {
+    //
+    //                    let location = touch.location(in: self.view)
+    //
+    //                    if location.x <= 40 && adjustNorthByTappingSidesOfScreen {
+    //                        print("left side of the screen")
+    //                        sceneLocationView.moveSceneHeadingAntiClockwise()
+    //                    } else if location.x >= view.frame.size.width - 40 && adjustNorthByTappingSidesOfScreen {
+    //                        print("right side of the screen")
+    //                        sceneLocationView.moveSceneHeadingClockwise()
+    //                    } else {
+    //                        //                        let image = UIImage(named: "pin")!
+    //                        //                        let annotationNode = LocationAnnotationNode(location: nil, image: image)
+    //                        //                        annotationNode.scaleRelativeToDistance = true
+    //                        //                        sceneLocationView.addLocationNodeForCurrentPosition(locationNode: annotationNode)
+    //                    }
+    ////                }
+    //            }
+    //        }
+    //    }
     
     let debugLabel: UILabel = {
         let label = UILabel()

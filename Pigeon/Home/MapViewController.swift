@@ -244,6 +244,7 @@ class MapViewController: UIViewController {
         let arVC = ARViewController()
         arVC.delegate = self
         arVC.targetLocation = targetLocation
+        arVC.footprints = footprints
         let vc = UINavigationController(rootViewController: arVC)
         present(vc, animated: false, completion: nil)
     }
