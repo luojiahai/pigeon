@@ -1,8 +1,8 @@
 //
-//  PigeonTestsNew.swift
+//  testAuthentication.swift
 //  PigeonTestsNew
 //
-//  Created by Geoffrey Ka-Hoi Law on 27/9/17.
+//  Created by Meng Yuan on 29/9/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
 
@@ -11,20 +11,27 @@ import Firebase
 
 @testable import Pigeon
 
-class PigeonTestsNew: XCTestCase {
+
+class testAuthentication: XCTestCase {
     
     var loginVC: LoginViewController!
     
     override func setUp() {
         super.setUp()
         loginVC = Pigeon.LoginViewController(nibName: "Login", bundle: Bundle.main)
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+    
+    func testViewLoad() {
+        let loginView = loginVC.loginView
+        
+        XCTAssertNil(loginView, "view did not load")
+    }
+    
     func testEmailPassword() {
         //should be false
         let loginView = loginVC.loginView
@@ -48,5 +55,13 @@ class PigeonTestsNew: XCTestCase {
             XCTAssertNotNil(user, "login failed")
         }
     }
+    
+    func testEmailIsValid() {
+        XCTAssert(!loginVC.isValidEmail("123"), "numbers should be invalid")
+        XCTAssert(!loginVC.isValidEmail("123@c"), "no extension should be false")
+        XCTAssert(loginVC.isValidEmail("abby@aaa.com"), "should be valid")
+    }
+    
+    
     
 }

@@ -73,6 +73,11 @@
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
 		7A4E71EF1F77E9B000FB15CE /* testQuickAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */; };
+		7A596EC11F7E222D0046ABE2 /* testHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC01F7E222D0046ABE2 /* testHome.swift */; };
+		7A596EC31F7E223B0046ABE2 /* testMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC21F7E223B0046ABE2 /* testMe.swift */; };
+		7A596EC51F7E22470046ABE2 /* testChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC41F7E22470046ABE2 /* testChat.swift */; };
+		7A596EC71F7E225A0046ABE2 /* testFriendList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC61F7E225A0046ABE2 /* testFriendList.swift */; };
+		7AB20E331F7E1B5A00903622 /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB20E321F7E1B5A00903622 /* testAuthentication.swift */; };
 		7C3D11391F71087000EFF185 /* FootprintPopOverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */; };
 		7C488B1E1F5E3BE900A60E6D /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B1D1F5E3BE900A60E6D /* MeView.swift */; };
 		7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */; };
@@ -217,6 +222,11 @@
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testQuickAction.swift; sourceTree = "<group>"; };
+		7A596EC01F7E222D0046ABE2 /* testHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testHome.swift; sourceTree = "<group>"; };
+		7A596EC21F7E223B0046ABE2 /* testMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMe.swift; sourceTree = "<group>"; };
+		7A596EC41F7E22470046ABE2 /* testChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testChat.swift; sourceTree = "<group>"; };
+		7A596EC61F7E225A0046ABE2 /* testFriendList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testFriendList.swift; sourceTree = "<group>"; };
+		7AB20E321F7E1B5A00903622 /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintPopOverViewController.swift; sourceTree = "<group>"; };
 		7C488B1D1F5E3BE900A60E6D /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -472,6 +482,11 @@
 		00F78C121F7B70D1001912F3 /* PigeonTestsNew */ = {
 			isa = PBXGroup;
 			children = (
+				7A596EC61F7E225A0046ABE2 /* testFriendList.swift */,
+				7A596EC41F7E22470046ABE2 /* testChat.swift */,
+				7A596EC21F7E223B0046ABE2 /* testMe.swift */,
+				7A596EC01F7E222D0046ABE2 /* testHome.swift */,
+				7AB20E321F7E1B5A00903622 /* testAuthentication.swift */,
 				00F78C131F7B70D1001912F3 /* PigeonTestsNew.swift */,
 				00F78C151F7B70D1001912F3 /* Info.plist */,
 			);
@@ -1083,7 +1098,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A596EC11F7E222D0046ABE2 /* testHome.swift in Sources */,
+				7A596EC71F7E225A0046ABE2 /* testFriendList.swift in Sources */,
+				7A596EC31F7E223B0046ABE2 /* testMe.swift in Sources */,
 				00F78C141F7B70D1001912F3 /* PigeonTestsNew.swift in Sources */,
+				7AB20E331F7E1B5A00903622 /* testAuthentication.swift in Sources */,
+				7A596EC51F7E22470046ABE2 /* testChat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
