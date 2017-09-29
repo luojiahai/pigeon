@@ -7,6 +7,9 @@
 //
 
 import XCTest
+import Firebase
+
+@testable import Pigeon
 
 class testFriendList: XCTestCase {
     

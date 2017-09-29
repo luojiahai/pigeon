@@ -22,6 +22,7 @@ class testAuthentication: XCTestCase {
     }
     
     override func tearDown() {
+        loginVC = nil
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
