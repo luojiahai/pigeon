@@ -70,7 +70,7 @@ class ARViewController: UIViewController {
     
     fileprivate func setupFootprints() {
         
-        guard footprints != nil else { return }
+        guard footprints?.count != 0 else { return }
         
         // rendering each footprint
         for footprint in footprints! {
@@ -82,7 +82,7 @@ class ARViewController: UIViewController {
             let vc = FootprintopoverViewController()
             vc.footprint = footprint
             
-            vc.view.frame = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+            vc.view.frame = CGRect(x: 0, y: 0, width: 256, height: 256)
             
             // Get the view and conver into image
             let image = UIImage(view: vc.view)
@@ -187,7 +187,7 @@ class ARViewController: UIViewController {
     
     fileprivate func updateFootprints() {
         
-        guard footprints != nil else { return }
+        guard footprints?.count != 0 else { return }
         
         let count = footprintNodes.count - 1
         
