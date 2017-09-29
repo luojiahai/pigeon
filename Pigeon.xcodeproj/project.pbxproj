@@ -80,6 +80,7 @@
 		7C488B361F5EA0A700A60E6D /* FootprintCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */; };
 		7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */; };
 		7C5B4BB11F68F72800FEA1D9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */; };
+		7C6239C91F7DBC59009AC3CB /* ARExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C6239C81F7DBC59009AC3CB /* ARExtension.swift */; };
 		7CE5BD491F6CE28C002FA29E /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */; };
 		7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CF607F21F77A0B6000802C5 /* infoPlist.strings */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
@@ -212,6 +213,7 @@
 		7C488B351F5EA0A700A60E6D /* FootprintCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintCollectionViewCell.swift; sourceTree = "<group>"; };
 		7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
+		7C6239C81F7DBC59009AC3CB /* ARExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARExtension.swift; sourceTree = "<group>"; };
 		7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScanViewController.swift; sourceTree = "<group>"; };
 		7CF607F21F77A0B6000802C5 /* infoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = infoPlist.strings; sourceTree = "<group>"; };
 		916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OneSignalNotificationServiceExtension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,6 +395,7 @@
 				7A4877FA1F5290770018A715 /* HomeViewController.swift */,
 				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
+				7C6239C81F7DBC59009AC3CB /* ARExtension.swift */,
 				7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */,
 			);
 			path = Home;
@@ -915,6 +918,7 @@
 				7C5B4BAF1F68F4AD00FEA1D9 /* PlacesViewController.swift in Sources */,
 				00962C6C1F58E6F800B4B7C0 /* ContactsTableViewCell.swift in Sources */,
 				260C73D01F56D4470032E26E /* LoginView.swift in Sources */,
+				7C6239C91F7DBC59009AC3CB /* ARExtension.swift in Sources */,
 				00052BB11F5032EC00E9A27B /* SCNNode+Extensions.swift in Sources */,
 				7C488B301F5E9F6800A60E6D /* MapViewController.swift in Sources */,
 				00EAC0971F6ADDBE0012EE08 /* OptionsTableViewController.swift in Sources */,
