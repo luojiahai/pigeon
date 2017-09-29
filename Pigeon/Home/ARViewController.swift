@@ -32,7 +32,8 @@ class ARViewController: UIViewController {
     
     // Footprints
     var footprints: [Footprint]?
-    var footprintsNode: [LocationAnnotationNode]?
+    var footprintNodes: [LocationAnnotationNode] = []
+    var footprintViewImages: [UIImage] = []
     
     //    var adjustNorthByTappingSidesOfScreen = true
     
@@ -41,8 +42,8 @@ class ARViewController: UIViewController {
         
         setupNavigation()
         setupViews()
-        initTargetAnnotation()
-        initFootprints()
+        setupTargetAnnotation()
+        setupFootprints()
         setupTimers()
     }
     
@@ -56,7 +57,7 @@ class ARViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Map", style: .plain, target: self, action: #selector(handleMap))
     }
     
-    fileprivate func initTargetAnnotation() {
+    fileprivate func setupTargetAnnotation() {
         if let targetLocation = targetLocation {
             // Add pin
             let coordinate = CLLocationCoordinate2D(latitude: targetLocation.coordinate.latitude, longitude: targetLocation.coordinate.longitude)
@@ -67,11 +68,9 @@ class ARViewController: UIViewController {
         }
     }
     
-    fileprivate func initFootprints() {
+    fileprivate func setupFootprints() {
         
-        if footprints == nil {  // not footprints
-            return
-        }
+        guard footprints != nil else { return }
         
         // rendering each footprint
         for footprint in footprints! {
@@ -79,38 +78,32 @@ class ARViewController: UIViewController {
             let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
             let footprintLocation = CLLocation(coordinate: coordinate, altitude: footprint.altitude!)
             
-//            // Calculate distance
-//            guard let currentLocation = sceneLocationView.currentLocation() else { return }
-//            let distance = currentLocation.distance(from: footprintLocation)
-            
             // Popover view controller
             let vc = FootprintopoverViewController()
             vc.footprint = footprint
             
+            vc.view.frame = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
+            
             // Get the view and conver into image
             let image = UIImage(view: vc.view)
             
+            // Store the image in the array
+            footprintViewImages.append(image)
+            
             let locationNode = LocationAnnotationNode(location: footprintLocation, image: image)
             
-//            var scaleFactor: CGFloat
-//
-//            // Show footprints within 100 metres only
-//            if distance <= 100 {
-//                scaleFactor = CGFloat(1 - (distance / 100) + 0.2)
-//            } else {
-//                scaleFactor = 0
-//            }
-
-//            // Adjust annotation scale
-//            let plane = SCNPlane(width: image.size.width / 5 * scaleFactor, height: image.size.height / 5 * scaleFactor)
-//            plane.firstMaterial!.diffuse.contents = image
-//            plane.firstMaterial!.lightingModel = .constant
-//            locationNode.annotationNode.geometry = plane
+            let scaleFactor: CGFloat = 0
+            
+            // Adjust annotation scale
+            let plane = SCNPlane(width: image.size.width / 100 * scaleFactor, height: image.size.height / 100 * scaleFactor)
+            plane.firstMaterial!.diffuse.contents = image
+            plane.firstMaterial!.lightingModel = .constant
+            locationNode.annotationNode.geometry = plane
             
             sceneLocationView.addLocationNodeWithConfirmedLocation(locationNode: locationNode)
             
             // Store the node in the array
-            footprintsNode?.append(locationNode)
+            footprintNodes.append(locationNode)
         }
         
     }
@@ -194,6 +187,33 @@ class ARViewController: UIViewController {
     
     fileprivate func updateFootprints() {
         
+        guard footprints != nil else { return }
+        
+        let count = footprintNodes.count - 1
+        
+        for i in 0...count {
+            let footprintNode = footprintNodes[i]
+            let image = footprintViewImages[i]
+            
+            // Calculate distance
+            guard let currentLocation = sceneLocationView.currentLocation() else { return }
+            let distance = currentLocation.distance(from: footprintNode.location)
+            
+            var scaleFactor: CGFloat
+            
+            // Show footprints within 100 metres only
+            if distance <= 100 {
+                scaleFactor = CGFloat(1 - (distance / 100) + 0.2)
+            } else {
+                scaleFactor = 0
+            }
+            
+            // Adjust annotation scale
+            let plane = SCNPlane(width: image.size.width / 100 * scaleFactor, height: image.size.height / 100 * scaleFactor)
+            plane.firstMaterial!.diffuse.contents = image
+            plane.firstMaterial!.lightingModel = .constant
+            footprintNode.annotationNode.geometry = plane
+        }
     }
     
     fileprivate func updateTarget() {  // ???
