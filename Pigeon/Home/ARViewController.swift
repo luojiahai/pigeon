@@ -201,9 +201,9 @@ class ARViewController: UIViewController {
             
             var scaleFactor: CGFloat
             
-            // Show footprints within 100 metres only
-            if distance <= 100 {
-                scaleFactor = CGFloat(1 - (distance / 100) + 0.2)
+            // Show footprints within 200 metres only
+            if distance <= 200 {
+                scaleFactor = CGFloat(1 - (distance / 200) + 0.2)
             } else {
                 scaleFactor = 0
             }
