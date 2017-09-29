@@ -59,7 +59,8 @@ class testMe: XCTestCase {
         
         //will pass after posting at least one footprint
         
-        XCTAssertNil(meVC.footprints, "footprints not loaded")
+        
+        XCTAssert(meVC.footprints.count == 0, "footprints not loaded")
     }
     
     
