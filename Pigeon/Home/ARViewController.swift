@@ -79,22 +79,13 @@ class ARViewController: UIViewController {
             let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
             let footprintLocation = CLLocation(coordinate: coordinate, altitude: footprint.altitude!)
             
-            // Calculate distance
-            guard let currentLocation = sceneLocationView.currentLocation() else { return }
-            let distance = currentLocation.distance(from: footprintLocation)
+//            // Calculate distance
+//            guard let currentLocation = sceneLocationView.currentLocation() else { return }
+//            let distance = currentLocation.distance(from: footprintLocation)
             
             // Popover view controller
             let vc = FootprintopoverViewController()
             vc.footprint = footprint
-            
-            // setup the popover controller
-            //            vc.modalPresentationStyle = UIModalPresentationStyle.popover
-            //            vc.preferredContentSize = CGSize(width: 256, height: 256)
-            //            vc.popoverPresentationController?.sourceView = view
-            //            vc.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
-            //            vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
-            //            vc.popoverPresentationController?.delegate = self
-            
             
             // Get the view and conver into image
             let image = UIImage(view: vc.view)
