@@ -30,6 +30,10 @@ class testChat: XCTestCase {
         super.tearDown()
     }
     
+    func testChats() {
+        
+    }
+    
     
     
 }
