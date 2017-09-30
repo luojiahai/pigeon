@@ -70,7 +70,9 @@ class ARViewController: UIViewController {
     
     fileprivate func setupFootprints() {
         
-        guard footprints?.count != 0 else { return }
+        if footprints == nil || footprints?.count == 0 {
+            return
+        }
         
         // rendering each footprint
         for footprint in footprints! {
@@ -187,7 +189,9 @@ class ARViewController: UIViewController {
     
     fileprivate func updateFootprints() {
         
-        guard footprints?.count != 0 else { return }
+        if footprints == nil || footprints?.count == 0 {
+            return
+        }
         
         let count = footprintNodes.count - 1
         

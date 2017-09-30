@@ -396,7 +396,6 @@
 				7C488B2F1F5E9F6800A60E6D /* MapViewController.swift */,
 				7C488B311F5EA04300A60E6D /* ARViewController.swift */,
 				7C6239C81F7DBC59009AC3CB /* ARExtension.swift */,
-				7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -471,6 +470,7 @@
 				7C5B4BAE1F68F4AD00FEA1D9 /* PlacesViewController.swift */,
 				7C5B4BB01F68F72800FEA1D9 /* PlacesTableViewCell.swift */,
 				00DD30081F6F9471006AE1E2 /* CommentPopoverViewController.swift */,
+				7C3D11381F71087000EFF185 /* FootprintPopOverViewController.swift */,
 			);
 			path = Footprint;
 			sourceTree = "<group>";

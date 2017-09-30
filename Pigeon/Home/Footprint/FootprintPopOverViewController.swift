@@ -45,7 +45,7 @@ class FootprintopoverViewController: UIViewController {
     }
     
     fileprivate func setupViews() {
-        
+        // gray
         view.backgroundColor = UIColor(white: 0.8, alpha: 0.5)
         
         view.addSubview(profilePhotoImageView)
