@@ -91,6 +91,7 @@
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 		EFC7EC42A8B5827FE21C9BDD /* Pods_PigeonTestsNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 724ADF7CB329E89E288DBC92 /* Pods_PigeonTestsNew.framework */; };
+		FF74B2231F7F7AB300EF7590 /* testHomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -244,6 +245,7 @@
 		DBA60CF7C6A602BDC6FF252A /* Pods-PigeonTestsNew.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTestsNew.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew.debug.xcconfig"; sourceTree = "<group>"; };
 		E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pigeon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testHomeUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,6 +381,7 @@
 			children = (
 				006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */,
 				006F1A191F3DA28E004C20B3 /* Info.plist */,
+				FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */,
 			);
 			path = PigeonUITests;
 			sourceTree = "<group>";
@@ -946,9 +949,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-Defines-NSData+zlib/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1090,6 +1098,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF74B2231F7F7AB300EF7590 /* testHomeUI.swift in Sources */,
 				006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

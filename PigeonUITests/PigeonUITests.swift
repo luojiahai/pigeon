@@ -7,12 +7,12 @@
 //
 
 import XCTest
+import Firebase
+
+@testable import Pigeon
 
 class PigeonUITests: XCTestCase {
     
-    
-   
-        
     override func setUp() {
         super.setUp()
         
