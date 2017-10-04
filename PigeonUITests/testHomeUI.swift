@@ -40,15 +40,16 @@ class testHomeUI: XCTestCase {
         
         pigeonNavigationBar.buttons["icons8 Cat Footprint Filled 50"].tap()
         app.navigationBars["Post Footprint"].buttons["Cancel"].tap()
-        app.collectionViews/*@START_MENU_TOKEN@*/.cells.containing(.staticText, identifier:"@jeffrey")/*[[".cells.containing(.staticText, identifier:\"📍University of Melbourne\")",".cells.containing(.staticText, identifier:\"15:10 30\/09\/2017\")",".cells.containing(.staticText, identifier:\"@jeffrey\")",".cells.containing(.staticText, identifier:\"JEFFREY\")"],[[[-1,3],[-1,2],[-1,1],[-1,0]]],[1]]@END_MENU_TOKEN@*/.buttons["icons8 Heart 50"].tap()
+        app.collectionViews.cells.containing(.staticText, identifier:"00:23 05/10/2017").buttons["icons8 Heart 50"].tap()
         
         let collectionView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .collectionView).element
         collectionView.tap()
-        app.navigationBars["Footprint"].buttons[""].tap()
+        
+        let navigationBarsQuery = app.navigationBars
+        let footprintButton = navigationBarsQuery.buttons["Footprint"].tap()
+        //app.navigationBars["Footprint"].buttons[""].tap() // unable to tap 'back' button
         //collectionView.cells.containing(.staticText, identifier: "@jeffrey").buttons["FootprintCell"].tap()
         //collectionView.swipeUp()
-        
-        
     }
     
 }

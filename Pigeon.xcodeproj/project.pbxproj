@@ -92,6 +92,9 @@
 		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 		EFC7EC42A8B5827FE21C9BDD /* Pods_PigeonTestsNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 724ADF7CB329E89E288DBC92 /* Pods_PigeonTestsNew.framework */; };
 		FF74B2231F7F7AB300EF7590 /* testHomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */; };
+		FF8825451F8548D3005BA929 /* testChatUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8825441F8548D3005BA929 /* testChatUI.swift */; };
+		FFECF7AF1F854C9000752444 /* testContactUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFECF7AE1F854C8F00752444 /* testContactUI.swift */; };
+		FFECF7B11F854CA800752444 /* testMeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFECF7B01F854CA800752444 /* testMeUI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +249,9 @@
 		E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Pigeon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testHomeUI.swift; sourceTree = "<group>"; };
+		FF8825441F8548D3005BA929 /* testChatUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testChatUI.swift; sourceTree = "<group>"; };
+		FFECF7AE1F854C8F00752444 /* testContactUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testContactUI.swift; sourceTree = "<group>"; };
+		FFECF7B01F854CA800752444 /* testMeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMeUI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +388,9 @@
 				006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */,
 				006F1A191F3DA28E004C20B3 /* Info.plist */,
 				FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */,
+				FF8825441F8548D3005BA929 /* testChatUI.swift */,
+				FFECF7AE1F854C8F00752444 /* testContactUI.swift */,
+				FFECF7B01F854CA800752444 /* testMeUI.swift */,
 			);
 			path = PigeonUITests;
 			sourceTree = "<group>";
@@ -1098,8 +1107,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FFECF7AF1F854C9000752444 /* testContactUI.swift in Sources */,
+				FF8825451F8548D3005BA929 /* testChatUI.swift in Sources */,
 				FF74B2231F7F7AB300EF7590 /* testHomeUI.swift in Sources */,
 				006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */,
+				FFECF7B11F854CA800752444 /* testMeUI.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
