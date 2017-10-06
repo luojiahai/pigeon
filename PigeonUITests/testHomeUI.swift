@@ -42,14 +42,8 @@ class testHomeUI: XCTestCase {
         app.navigationBars["Post Footprint"].buttons["Cancel"].tap()
         app.collectionViews.cells.containing(.staticText, identifier:"00:23 05/10/2017").buttons["icons8 Heart 50"].tap()
         
-        let collectionView = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .collectionView).element
-        collectionView.tap()
-        
-        let navigationBarsQuery = app.navigationBars
-        let footprintButton = navigationBarsQuery.buttons["Footprint"].tap()
-        //app.navigationBars["Footprint"].buttons[""].tap() // unable to tap 'back' button
-        //collectionView.cells.containing(.staticText, identifier: "@jeffrey").buttons["FootprintCell"].tap()
-        //collectionView.swipeUp()
+        let navigationBarsQuery = app.navigationBars["Footprint"]
+        navigationBarsQuery.buttons["Pigeon"].tap()
     }
     
 }

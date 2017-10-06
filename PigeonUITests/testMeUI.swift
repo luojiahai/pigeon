@@ -29,8 +29,20 @@ class testMeUI: XCTestCase {
     }
     
     func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let app = XCUIApplication()
+        app.tabBars.buttons["Me"].tap()
+        app.buttons["Edit Profile"].tap()
+        app.navigationBars["Edit Profile"].buttons["Me"].tap()
+        app.collectionViews/*@START_MENU_TOKEN@*/.staticTexts["你们都不用这个app了"]/*[[".cells.staticTexts[\"你们都不用这个app了\"]",".staticTexts[\"你们都不用这个app了\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.navigationBars["Footprint"].buttons["Me"].tap()
+        
+        let navigationBarsQuery = app.navigationBars
+        navigationBarsQuery.buttons["icons8 QR Code Filled 50"].tap()
+        app.navigationBars["QR Code"].buttons["Cancel"].tap()
+        navigationBarsQuery.buttons["icons8 More Filled 50"].tap()
+        app.navigationBars["Options"].buttons["Me"].tap()
+        
     }
     
 }
