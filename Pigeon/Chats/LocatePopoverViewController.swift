@@ -5,7 +5,6 @@
 //  Created by Pei Yun Sun on 2017/9/4.
 //  Copyright © 2017 El Root. All rights reserved.
 //
-
 import UIKit
 import Firebase
 
@@ -19,8 +18,14 @@ class LocatePopoverViewController: UITableViewController {
     
     var user: User?
     
+    var targetUserIsSharing: Bool!
+    var currentUserIsSharing: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        targetUserIsSharing = false
+        currentUserIsSharing = false
         
         tableView.isScrollEnabled = false
         tableView.tableFooterView = UIView()
@@ -59,15 +64,37 @@ class LocatePopoverViewController: UITableViewController {
                     }
                     if value == true {
                         cell.switchControl.isOn = true
+                        self.currentUserIsSharing = true
                     } else {
                         cell.switchControl.isOn = false
+                        self.currentUserIsSharing = false
                     }
                     
                     DispatchQueue.main.async(execute: {
                         cell.switchControl.isEnabled = true
                     })
                 })
+                
+                print("heyyyy")
+                
+                // Check if targetUser is sharing loc
+            Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in
+                
+                //print("yeah" + dataSnapshot.key)
+                
+                    if dataSnapshot.key == "sharing"  {
+                        if let value = dataSnapshot.value as? Bool {
+                            if value == true { 
+                                self.targetUserIsSharing = true
+                                //self.mutualSharing()
+                            }
+                        }
+                    }
+                })
+                
+                
             }
+                
         case 1:
             cell.textLabel?.text = "Request Location"
             if let cell = cell as? SwitchTableViewCell {
@@ -85,6 +112,10 @@ class LocatePopoverViewController: UITableViewController {
         return cell
     }
     
+    func mutualSharing() {
+        print("In Func mutual sharing ")
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
@@ -92,7 +123,13 @@ class LocatePopoverViewController: UITableViewController {
         case 1:
             requestLocation()
         case 2:
-            presentMap()
+            if (currentUserIsSharing == true && targetUserIsSharing == true) {
+                presentMap()
+
+            } else {
+                print("I'm: " + currentUserIsSharing.description + " t: " + targetUserIsSharing.description)
+                
+            }
         default:
             break
         }
@@ -105,6 +142,7 @@ class LocatePopoverViewController: UITableViewController {
         switchControl.isEnabled = false
         
         if switchControl.isOn {
+            currentUserIsSharing = true
             let values = ["sharing": true]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
                 if let error = error {
@@ -120,6 +158,8 @@ class LocatePopoverViewController: UITableViewController {
                 })
             })
         } else {
+            currentUserIsSharing = false
+
             let values = ["sharing": false]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
                 if let error = error {
