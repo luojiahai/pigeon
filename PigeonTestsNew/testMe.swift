@@ -21,8 +21,7 @@ class testMe: XCTestCase {
         loginVC = Pigeon.LoginViewController(nibName: "Login", bundle: Bundle.main)
         loginVC.loginToDatabase(email: "test123@gmail.com", password: "abcabcabc")
         meVC = Pigeon.MeViewController(nibName: "Me", bundle: Bundle.main)
-        let meView = meVC.meView
-        let user = Auth.auth().currentUser
+        
     }
     
     override func tearDown() {

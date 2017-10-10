@@ -32,6 +32,9 @@ class testChat: XCTestCase {
     
     func testChats() {
         
+        XCTAssert(chatsVC.messages != nil, "chats view not fetched.")
+        
+        
     }
     
     
