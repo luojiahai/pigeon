@@ -5,7 +5,6 @@
 //  Created by Pei Yun Sun on 2017/9/4.
 //  Copyright © 2017 El Root. All rights reserved.
 //
-
 import UIKit
 import CoreLocation
 import Firebase
@@ -54,7 +53,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         
         manager.stopUpdatingLocation()
     }
-    
+    /*
     fileprivate func setupNavigation() {
         if user != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
@@ -62,6 +61,32 @@ class ChatLogCollectionViewController: UICollectionViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
         }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }*/
+    
+    fileprivate func setupNavigation() {
+        if user != nil {
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
+        } else if users != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+        }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    @objc fileprivate func handleLocate(_ sender: UIBarButtonItem) {
+        //        guard let currentUser = Auth.auth().currentUser else { return }
+        //        guard let targetUserUID = user?.uid else { return }
+        //
+        //        Database.database().reference().child("locations").child(targetUserUID).observe(.childChanged) { (dataSnapshot) in
+        //            print("OK")
+        //            print(dataSnapshot)
+        //        }
+        
+        locatePopoverVC.popoverPresentationController?.delegate = self
+        locatePopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        locatePopoverVC.popoverPresentationController?.permittedArrowDirections = .any
+        
+        present(locatePopoverVC, animated: true, completion: nil)
     }
     
     fileprivate func setupCollectionView() {
@@ -284,7 +309,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
                         return
                     }
                     
-                    AppNotification.shared.sendMessageNotification(sender: fromUID, receiver: targetUser.uid!)
+                    self.sendMessageNotification(sender: fromUID, receiver: targetUser.uid!)
                     
                     self.inputTextField.text = nil
                     
@@ -316,6 +341,56 @@ class ChatLogCollectionViewController: UICollectionViewController {
         }
     }
     
+    fileprivate func sendMessageNotification(sender: String, receiver: String) {
+        Database.database().reference().child("users").child(sender).child("username").observeSingleEvent(of: .value) { (dataSnapshot) in
+            guard let username = dataSnapshot.value as? String else { return }
+            
+            guard let url = URL(string: "https://onesignal.com/api/v1/notifications") else { return }
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let jsonObject: [String: Any] = [
+                "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
+                "filters": [
+                    [
+                        "field": "tag",
+                        "key": "uid",
+                        "relation": "=",
+                        "value": receiver
+                    ]
+                ],
+                "contents": [
+                    "en": "[\(String(describing: username))]: You've got a new message."
+                ]
+            ]
+            do {
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
+                request.httpBody = jsonData
+            } catch {
+                print("Error JSON")
+                return
+            }
+            
+            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(String(describing: response))")
+                }
+                
+                let responseString = String(data: data!, encoding: .utf8)
+                print("responseString = \(String(describing: responseString))")
+            }
+            task.resume()
+        }
+    }
+   /* 
     @objc fileprivate func handleLocate(_ sender: UIBarButtonItem) {
         //        guard let currentUser = Auth.auth().currentUser else { return }
         //        guard let targetUserUID = user?.uid else { return }
@@ -330,7 +405,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         locatePopoverVC.popoverPresentationController?.permittedArrowDirections = .any
         
         present(locatePopoverVC, animated: true, completion: nil)
-    }
+    }*/
     
     @objc fileprivate func handleShowMembers() {
         let vc = UserListTableViewController()
@@ -430,5 +505,3 @@ extension ChatLogCollectionViewController: UICollectionViewDelegateFlowLayout {
     }
     
 }
-
-
