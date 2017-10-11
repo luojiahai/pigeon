@@ -5,7 +5,6 @@
 //  Created by Pei Yun Sun on 2017/9/5.
 //  Copyright © 2017 El Root. All rights reserved.
 //
-
 import UIKit
 import MapKit
 import CoreLocation
@@ -29,56 +28,41 @@ class MapViewController: UIViewController {
     
     var footprints: [Footprint]?
     
-    var routeShown: Bool = false
+    //...
+    
+    
+    fileprivate func checkMutualSharing() {
+        // Using the same function that the LocatePopOverVC has, so probably delegate can be used??
+        
+        if let currentUser = Auth.auth().currentUser, let targetUser = user {
+            Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in
+                
+                //print("yeah" + dataSnapshot.key)
+                
+                if dataSnapshot.key == "sharing"  {
+                    if let value = dataSnapshot.value as? Bool {
+                        if value == false {
+                            print("target is not sharing")
+                            self.dismiss(animated: false, completion: nil)
+                        }
+                    }
+                }
+	        })
+        }
+        
+        
+    }
+    
+    //...
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupNavigation()
         setupViews()
         setupLocationManager()
         setupMapView()
-        renderFootprint()
-    }
-    
-    @objc fileprivate func handleAnnotationTap(_ gesture: UITapGestureRecognizer) {
-        print("Annotation Tapped")
-        let marker = gesture.view as? MKMarkerAnnotationView
-        let annotation = marker?.annotation
-        let vc = FootprintopoverViewController()
-        for footprint in footprints! {
-            // find the footprint of the annotaiton with footprintID
-            if footprint.footprintID == (annotation?.subtitle)! {
-                vc.footprint = footprint // pass the footprint
-            }
-        }
-        
-        // setup the popover controller
-        vc.modalPresentationStyle = UIModalPresentationStyle.popover
-        vc.preferredContentSize = CGSize(width: 256, height: 256)
-        vc.popoverPresentationController?.sourceView = view
-        vc.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 256)/2, width: 256, height: 256)
-        vc.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0)
-        vc.popoverPresentationController?.delegate = self
-        
-        present(vc, animated: true, completion: nil)
-        
-    }
-    
-    fileprivate func renderFootprint() {
-        if footprints == nil {
-            return
-        }
-        
-        // render each footprint
-        for footprint in footprints! {
-            let coordinate = CLLocationCoordinate2D(latitude: footprint.latitude!, longitude: footprint.longitude!)
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = footprint.user?.name
-            annotation.subtitle = footprint.footprintID
-            mapView.addAnnotation(annotation)
-        }
+        checkMutualSharing()
     }
     
     fileprivate func setupNavigation() {
@@ -118,60 +102,6 @@ class MapViewController: UIViewController {
             selector: #selector(updateUserLocation),
             userInfo: nil,
             repeats: true)
-    }
-    
-    func setRoute() {
-        // get coordinates
-        let sourceCoordinate = currentLocation?.coordinate
-        let destCoordinate = targetLocation?.coordinate
-        
-        // create Placemarks
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate!)
-        let destPlaceMark = MKPlacemark(coordinate: destCoordinate!)
-        
-        // create MapItems
-        let sourceItem = MKMapItem(placemark: sourcePlaceMark)  // POI on map
-        let destItem = MKMapItem(placemark: destPlaceMark)
-        
-        // Name the MapItems
-        sourceItem.name = "Source"
-        destItem.name = "Destination"
-        
-        // Create a direction request
-        let directionRequest = MKDirectionsRequest()
-        directionRequest.source = sourceItem
-        directionRequest.destination = destItem
-        directionRequest.transportType = .any  // can modify transport type
-        let directions = MKDirections(request: directionRequest) // computes directions and travel time
-        
-        // Find direction and draw route
-        directions.calculate(completionHandler: {
-            response, error in
-            
-            // check response
-            guard let response = response else {
-                if error != nil {
-                    print("Error during calculation of directions")
-                }
-                return
-            }
-            
-            // draw route
-            let route = response.routes[0]  // 0 for the fastest route
-            self.mapView.add(route.polyline, level: .aboveRoads)
-            
-//            // set region
-//            let rect = route.polyline.boundingMapRect
-//            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
-        })
-    }
-    
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        // return a renderer for rendering polyline of the route
-        let renderer = MKPolylineRenderer(overlay: overlay)
-        renderer.strokeColor = .blue  // color of the polyline
-        renderer.lineWidth = 5.0
-        return renderer
     }
     
     @objc func updateUserLocation() {
@@ -216,15 +146,6 @@ class MapViewController: UIViewController {
                 self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
             })
         }
-        
-        // set the route from current location to target location
-        if currentLocation != nil &&
-            targetLocation != nil &&
-            !routeShown {
-            setRoute()
-            routeShown = true
-        }
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -244,7 +165,6 @@ class MapViewController: UIViewController {
         let arVC = ARViewController()
         arVC.delegate = self
         arVC.targetLocation = targetLocation
-        arVC.footprints = footprints
         let vc = UINavigationController(rootViewController: arVC)
         present(vc, animated: false, completion: nil)
     }
@@ -308,13 +228,7 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
                 marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
                 marker.glyphImage = UIImage(named: "compass")
             } else {
-                // footprints
-                marker.displayPriority = .required
-                marker.markerTintColor = .gray
-                marker.glyphImage = UIImage(named: "icons8-Cat Footprint Filled-50")
-                let gesture = UITapGestureRecognizer(target: self, action: #selector(handleAnnotationTap))
-                marker.addGestureRecognizer(gesture)
-
+                // footprints maybe...
             }
             
             return marker
@@ -326,21 +240,13 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
 }
 
 extension MapViewController: ARViewControllerDelegate {
-
+    
     func updateLocation() -> CLLocation? {
         return targetLocation
     }
     
     @objc func handleCancel() {
         dismiss(animated: true, completion: nil)
-    }
-    
-}
-
-extension MapViewController: UIPopoverPresentationControllerDelegate {
-    
-    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
-        return UIModalPresentationStyle.none
     }
     
 }
