@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// The view as register page
 class RegisterView: UIView {
     
     override init(frame: CGRect) {
@@ -26,7 +26,7 @@ class RegisterView: UIView {
         setupInputsContainerView()
         setupRegisterButton()
     }
-    
+    // Set up the layout of the container for the textfields
     fileprivate func setupInputsContainerView() {
         addSubview(inputsContainerView)
         inputsContainerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -78,6 +78,7 @@ class RegisterView: UIView {
         confirmPasswordTextField.heightAnchor.constraint(equalTo: inputsContainerView.heightAnchor, multiplier: 1/4).isActive = true
     }
     
+    // Set up the layout of the button for register
     fileprivate func setupRegisterButton() {
         addSubview(registerButton)
         registerButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -92,6 +93,7 @@ class RegisterView: UIView {
         loginText.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
 
+    // A container (rectangle) for all textfields
     let inputsContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -102,6 +104,7 @@ class RegisterView: UIView {
         return view
     }()
     
+    // A button for register
     let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -115,6 +118,7 @@ class RegisterView: UIView {
         return button
     }()
     
+    // A text field that allows user to type in username
     let usernameTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -125,6 +129,7 @@ class RegisterView: UIView {
         return textField
     }()
     
+    // A black line seperating different textfields
     let usernameSeparatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -132,6 +137,7 @@ class RegisterView: UIView {
         return view
     }()
     
+    // A text field that allows user to type in email address
     let emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -143,6 +149,7 @@ class RegisterView: UIView {
         return textField
     }()
     
+    // A black line seperating different textfields
     let emailSeparatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -150,6 +157,7 @@ class RegisterView: UIView {
         return view
     }()
     
+    // A text field that allows user to type in password
     let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -158,6 +166,7 @@ class RegisterView: UIView {
         return textField
     }()
     
+    // A black line seperating different textfields
     let passwordSeparatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -165,6 +174,7 @@ class RegisterView: UIView {
         return view
     }()
     
+    // A text field that allows user to type in password again
     let confirmPasswordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -173,6 +183,7 @@ class RegisterView: UIView {
         return textField
     }()
     
+    // A button that allows user to switch to the login page if they've got an account
     let loginText: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
