@@ -49,6 +49,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupKeyboardObservers()
         setupLocationManager()
         setupLocatePopoverVC()
+        setupLocateBar()
         
         setUpSwitch()
     }
@@ -60,11 +61,50 @@ class ChatLogCollectionViewController: UICollectionViewController {
         manager.stopUpdatingLocation()
     }
     
-    fileprivate func setUpSwitch() {
-        view.addSubview(switchControl)
+    fileprivate func setupLocateBar() {
+        view.addSubview(containerView)
+        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        containerView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
-        switchControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
-        switchControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -60)
+        containerView.addSubview(seperatorLineView)
+        seperatorLineView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        seperatorLineView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
+        seperatorLineView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        seperatorLineView.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
+        
+        containerView.addSubview(statusTextLabel)
+        containerView.addSubview(onSharingButton)
+        containerView.addSubview(offSharingButton)
+        containerView.addSubview(presentMapButton)
+        
+        statusTextLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 4).isActive = true
+        statusTextLabel.rightAnchor.constraint(equalTo: onSharingButton.leftAnchor, constant: -4).isActive = true
+        statusTextLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
+        statusTextLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
+        
+        onSharingButton.rightAnchor.constraint(equalTo: offSharingButton.leftAnchor, constant: -4).isActive = true
+        onSharingButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
+        onSharingButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
+        onSharingButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
+        
+        offSharingButton.rightAnchor.constraint(equalTo: presentMapButton.leftAnchor, constant: -4).isActive = true
+        offSharingButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
+        offSharingButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
+        offSharingButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
+        
+        presentMapButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -4).isActive = true
+        presentMapButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
+        presentMapButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
+        presentMapButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
+    }
+    
+    fileprivate func setUpSwitch() {
+//        view.addSubview(switchControl)
+        
+//        switchControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+//        switchControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -60)
         
         switchControl.addTarget(self, action: #selector(switchIsChanged), for: .valueChanged)
         
@@ -103,8 +143,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         guard let targetUser = user else { return }
         
         switchControl.isEnabled = false
-        if switchControl.isOn {
-       
+        
         if switchControl.isOn {
             currentUserIsSharing = true
             let values = ["sharing": true]
@@ -153,32 +192,31 @@ class ChatLogCollectionViewController: UICollectionViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }*/
     
+    @objc fileprivate func handleLocation() {
+        containerView.isHidden = !containerView.isHidden
+    }
+    
     fileprivate func setupNavigation() {
-        let topRightView = TopRightView(frame: CGRect(x: 0, y: 0, width: 142, height: 44))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topRightView)
-        /*if user != nil {
-            print("if")
-            //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
-            
-            let topRightView = TopRightView(frame: CGRect(x: 0, y: 0, width: 88, height: 44))
-            /*
-            topRightView.moreButton.addTarget(self, action: #selector(handlePopover), for: .touchUpInside)
-            topRightView.moreButton.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
-            */
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topRightView)
-            
+        
+        if user != nil {
+//            let topRightView = TopRightView(frame: CGRect(x: 0, y: 0, width: 142, height: 44))
+//            //let topRightView = TopRightView(frame: CGRect(x: (view.frame.width - 142)/2, y: 0, width: 142, height: 44))
+//            
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topRightView)
+//            topRightView.isUserInteractionEnabled = true
+//            topRightView.isExclusiveTouch = true
+//            topRightView.statusButton.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
+//            topRightView.moreButton.isUserInteractionEnabled = true
+//            topRightView.moreButton.addTarget(self, action: #selector(handlePopover), for: .touchUpInside)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocation))
         } else if users != nil {
-            print("elseif")
-             //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            
+             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
             //let rightBarButtonItem1 = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
             //navigationItem.rightBarButtonItems?.append(rightBarButtonItem1)
             //navigationItem.rightBarButtonItems?.append(rightBarButtonItem2)
-            
-             
         }
- */
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-  
     }
     
     @objc fileprivate func changeStatus(sender: UIButton) {
@@ -187,6 +225,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
     }
     
     @objc fileprivate func handlePopover(_ sender: UIButton) {
+        print("in function.... ")
         //        guard let currentUser = Auth.auth().currentUser else { return }
         //        guard let targetUserUID = user?.uid else { return }
         //
@@ -315,7 +354,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
             })
         })
     }
-     
+    
     fileprivate func scrollToBottom(animated: Bool) {
         let indexPath = NSIndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: animated)  
@@ -565,6 +604,61 @@ class ChatLogCollectionViewController: UICollectionViewController {
         return button
     }()
     
+    let containerView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .white
+        return view
+    }()
+    
+    let seperatorLineView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = lineColor
+        return view
+    }()
+    
+    let statusTextLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.sizeToFit()
+        label.text = "text"
+        label.textColor = .black
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.layer.borderColor = lineColor.cgColor
+        label.layer.borderWidth = linePixel
+        label.layer.cornerRadius = 4
+        return label
+    }()
+    
+    let onSharingButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
+        button.setTitle("A", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    
+    let offSharingButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
+        button.setTitle("B", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    
+    let presentMapButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+//        button.setImage(#imageLiteral(resourceName: "icons8-Map Marker Filled-50"), for: .normal)
+        button.setTitle("C", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+    
 }
 
 extension ChatLogCollectionViewController: LocationSharingStateDelegate {
@@ -642,17 +736,13 @@ class TopRightView: UIView {
         
         addSubview(statusButton)
         statusButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -128).isActive = true
-        print(statusButton.leftAnchor)
-        print(self.leftAnchor)
-        print(self.rightAnchor)
         statusButton.widthAnchor.constraint(equalToConstant: 88).isActive = true
         statusButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
         statusButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
  
 	
         addSubview(moreButton)
-        //moreButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        moreButton.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        moreButton.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         moreButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
         moreButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
         moreButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
@@ -670,7 +760,6 @@ class TopRightView: UIView {
         //sbutton.backgroundColor = .black
         button.setTitle("Location Sharing: OFF", for: .normal)
         button.setTitleColor(.blue, for: UIControlState.normal)
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
