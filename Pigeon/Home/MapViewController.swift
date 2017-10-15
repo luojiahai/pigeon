@@ -42,8 +42,13 @@ class MapViewController: UIViewController {
                 if dataSnapshot.key == "sharing"  {
                     if let value = dataSnapshot.value as? Bool {
                         if value == false {
-                            print("target is not sharing")
-                            self.dismiss(animated: false, completion: nil)
+                            let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+                                self.dismiss(animated: false, completion: nil)
+                            }))
+                            self.present(alert, animated: true, completion: nil)
+                            
+                            //self.dismiss(animated: false, completion: nil)
                         }
                     }
                 }
