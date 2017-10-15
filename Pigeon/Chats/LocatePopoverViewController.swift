@@ -56,15 +56,12 @@ class LocatePopoverViewController: UIViewController {
         presentMapButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 85).isActive = true
         
         view.addSubview(friendSettingButton)
-        //friendSettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //friendSettingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         friendSettingButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         friendSettingButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         friendSettingButton.topAnchor.constraint(equalTo: presentMapButton.bottomAnchor).isActive = true
         friendSettingButton.bottomAnchor.constraint(equalTo: friendSettingButton.topAnchor, constant: 85).isActive = true        
+        
         view.addSubview(searchChatHistoryButton)
-        //searchChatHistoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        //searchChatHistoryButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         searchChatHistoryButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         searchChatHistoryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         searchChatHistoryButton.topAnchor.constraint(equalTo: friendSettingButton.bottomAnchor).isActive = true
