@@ -26,13 +26,13 @@ class LocatePopoverViewController: UIViewController {
         setupView()
 	    // targetUserIsSharing = false
 	    // currentUserIsSharing = false
-        
+        setupButtons()
     }
     fileprivate func setupView() {
-        view.backgroundColor = .white
+        //view.backgroundColor = .blue
         view.addSubview(blurryView)
-        setupCenterWindow()
-        setupButtons()
+        //setupCenterWindow()
+        //setupButtons()
     }
     let blurryView: UIVisualEffectView = {
         let blurry = UIVisualEffectView()
@@ -42,16 +42,33 @@ class LocatePopoverViewController: UIViewController {
     
     fileprivate func setupCenterWindow() {
         view.addSubview(centerWindow)
-        centerWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        centerWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        centerWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        centerWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         centerWindow.backgroundColor = .red
     }
     fileprivate func setupButtons() {
         view.addSubview(presentMapButton)
-        presentMapButton.centerYAnchor.constraint(equalTo: centerWindow.centerYAnchor)
+        presentMapButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        presentMapButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        presentMapButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        presentMapButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        presentMapButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        presentMapButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 85).isActive = true
         
         view.addSubview(friendSettingButton)
+        //friendSettingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //friendSettingButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        friendSettingButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        friendSettingButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        friendSettingButton.topAnchor.constraint(equalTo: presentMapButton.bottomAnchor).isActive = true
+        friendSettingButton.bottomAnchor.constraint(equalTo: friendSettingButton.topAnchor, constant: 85).isActive = true        
         view.addSubview(searchChatHistoryButton)
+        //searchChatHistoryButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //searchChatHistoryButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        searchChatHistoryButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        searchChatHistoryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        searchChatHistoryButton.topAnchor.constraint(equalTo: friendSettingButton.bottomAnchor).isActive = true
+        searchChatHistoryButton.bottomAnchor.constraint(equalTo: searchChatHistoryButton.topAnchor, constant: 85).isActive = true
 	}
     
     let centerWindow: UIView = {
@@ -61,7 +78,8 @@ class LocatePopoverViewController: UIViewController {
     
     let presentMapButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Present Image", for: .normal)
+        
+        button.setTitle("Present Map", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.gray, for: .normal)
         return button
@@ -77,7 +95,7 @@ class LocatePopoverViewController: UIViewController {
     
     let searchChatHistoryButton: UIButton = {
         let button = UIButton()
-        button.setTitle("search Chat History", for: .normal)
+        button.setTitle("Search Chat History", for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitleColor(.gray, for: .normal)
         return button
