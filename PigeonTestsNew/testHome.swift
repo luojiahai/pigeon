@@ -8,6 +8,7 @@
 
 import XCTest
 import Firebase
+import CoreLocation
 
 @testable import Pigeon
 
@@ -55,8 +56,17 @@ class testHome: XCTestCase {
         
         postFootprintVC.captionTextView.text = "a test for p[osting footprints"
         
-        postFootprintVC.handleDone()
         
+        
+        let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
+        let place = placeVC.likeHoodList?.likelihoods[0].place
+        
+        let values = ["user": Auth.auth().currentUser?.uid as Any, "timestamp": timestamp, "text": "a test text", "place": place?.name as Any] as [String : Any]
+        let images:[UIImage]? = [UIImage]()
+        
+        let location = CLLocation(latitude: 1.22334, longitude: 3.343242)
+        
+        postFootprintVC.updatePosts(values, location, images)
     }
     
     func testPerformanceExample() {
