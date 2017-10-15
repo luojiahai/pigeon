@@ -103,7 +103,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
         guard let targetUser = user else { return }
         
         switchControl.isEnabled = false
-        
+        if switchControl.isOn {
+       
         if switchControl.isOn {
             currentUserIsSharing = true
             let values = ["sharing": true]
@@ -153,25 +154,39 @@ class ChatLogCollectionViewController: UICollectionViewController {
     }*/
     
     fileprivate func setupNavigation() {
-        if user != nil {
+        let topRightView = TopRightView(frame: CGRect(x: 0, y: 0, width: 142, height: 44))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topRightView)
+        /*if user != nil {
+            print("if")
+            //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
             
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
+            let topRightView = TopRightView(frame: CGRect(x: 0, y: 0, width: 88, height: 44))
+            /*
+            topRightView.moreButton.addTarget(self, action: #selector(handlePopover), for: .touchUpInside)
+            topRightView.moreButton.addTarget(self, action: #selector(changeStatus), for: .touchUpInside)
+            */
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: topRightView)
+            
         } else if users != nil {
-             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            print("elseif")
+             //navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
             //let rightBarButtonItem1 = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
-            
             //navigationItem.rightBarButtonItems?.append(rightBarButtonItem1)
             //navigationItem.rightBarButtonItems?.append(rightBarButtonItem2)
+            
+             
         }
+ */
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-        
-
-
+  
     }
     
+    @objc fileprivate func changeStatus(sender: UIButton) {
+        
     
-    @objc fileprivate func handleLocate(_ sender: UIBarButtonItem) {
+    }
+    
+    @objc fileprivate func handlePopover(_ sender: UIButton) {
         //        guard let currentUser = Auth.auth().currentUser else { return }
         //        guard let targetUserUID = user?.uid else { return }
         //
@@ -300,7 +315,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
             })
         })
     }
-    
+     
     fileprivate func scrollToBottom(animated: Bool) {
         let indexPath = NSIndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: animated)  
@@ -615,4 +630,57 @@ extension ChatLogCollectionViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: view.frame.width, height: height)
     }
     
+}
+
+class TopRightView: UIView {
+    
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        backgroundColor = .red
+        
+        addSubview(statusButton)
+        statusButton.leftAnchor.constraint(equalTo: rightAnchor, constant: -128).isActive = true
+        print(statusButton.leftAnchor)
+        print(self.leftAnchor)
+        print(self.rightAnchor)
+        statusButton.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        statusButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        statusButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+ 
+	
+        addSubview(moreButton)
+        //moreButton.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        moreButton.rightAnchor.constraint(equalTo: rightAnchor, constant: 0).isActive = true
+        moreButton.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        moreButton.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        moreButton.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    let statusButton: UIButton = {
+        let button = UIButton()
+        //sbutton.backgroundColor = .black
+        button.setTitle("Location Sharing: OFF", for: .normal)
+        button.setTitleColor(.blue, for: UIControlState.normal)
+        
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    
+    let moreButton: UIButton = {
+        let button = UIButton()
+        //button.backgroundColor = .blue
+        button.setImage(#imageLiteral(resourceName: "icons8-More Filled-50"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 }
