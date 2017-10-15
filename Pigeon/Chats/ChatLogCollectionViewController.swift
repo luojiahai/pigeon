@@ -101,6 +101,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         
         onSharingButton.addTarget(self, action: #selector(turnOnLocationSharing), for: .touchUpInside)
         offSharingButton.addTarget(self, action: #selector(turnOffLocationSharing), for: .touchUpInside)
+        presentMapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
     }
     
     @objc fileprivate func turnOnLocationSharing() {
@@ -161,7 +162,12 @@ class ChatLogCollectionViewController: UICollectionViewController {
         
     }
     
-    
+    @objc fileprivate func presentMap() {
+        let mapVC = MapViewController()
+        mapVC.user = user
+        let vc = UINavigationController(rootViewController: mapVC)
+        present(vc, animated: true, completion: nil)
+    }
     
     
     fileprivate func setUpSwitch() {
@@ -700,7 +706,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
-        button.setTitle("A", for: .normal)
+        button.setTitle("ON", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
@@ -709,7 +715,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
-        button.setTitle("B", for: .normal)
+        button.setTitle("FF", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
@@ -718,7 +724,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Marker Filled-50"), for: .normal)
-        button.setTitle("C", for: .normal)
+        button.setTitle("Mp", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
