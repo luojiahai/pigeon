@@ -51,7 +51,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupLocatePopoverVC()
         setupLocateBar()
         
-        setUpSwitch()
+        //setUpSwitch()
     }
     
     
@@ -98,7 +98,71 @@ class ChatLogCollectionViewController: UICollectionViewController {
         presentMapButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
         presentMapButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
         presentMapButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
+        
+        onSharingButton.addTarget(self, action: #selector(turnOnLocationSharing), for: .touchUpInside)
+        offSharingButton.addTarget(self, action: #selector(turnOffLocationSharing), for: .touchUpInside)
     }
+    
+    @objc fileprivate func turnOnLocationSharing() {
+        
+        //print("current: ", currentUserIsSharing)
+        if currentUserIsSharing == false {
+            onSharingButton.isEnabled = false
+            
+            guard let currentUser = Auth.auth().currentUser else { return }
+            guard let targetUser = user else { return }
+            
+            currentUserIsSharing = true
+            //print("turn on")
+            let values = ["sharing": true]
+            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.onSharingButton.isEnabled = true
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    self.onSharingButton.isEnabled = true
+                    //self.delegate?.change(state: true)
+                    self.change(state: true)
+                })
+            })
+        }
+    }
+    
+    @objc fileprivate func turnOffLocationSharing() {
+        //print("current: ", currentUserIsSharing)
+        
+        if currentUserIsSharing == true {
+            offSharingButton.isEnabled = false
+            guard let currentUser = Auth.auth().currentUser else { return }
+            guard let targetUser = user else { return }
+            
+            currentUserIsSharing = false
+            //print("turn OFF")
+            let values = ["sharing": false]
+            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    self.offSharingButton.isEnabled = true
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    self.offSharingButton.isEnabled = true
+                    //self.delegate?.change(state: false)
+                    self.change(state: false)
+                })
+            })
+        }
+        
+    }
+    
+    
+    
     
     fileprivate func setUpSwitch() {
 //        view.addSubview(switchControl)
@@ -147,19 +211,19 @@ class ChatLogCollectionViewController: UICollectionViewController {
         if switchControl.isOn {
             currentUserIsSharing = true
             let values = ["sharing": true]
-            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    switchControl.isEnabled = true
-                }
-                
-                DispatchQueue.main.async(execute: {
-                    switchControl.isEnabled = true
-                    //self.delegate?.change(state: true)
-                    self.change(state: true)
-                })
+        Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+            if let error = error {
+                let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                switchControl.isEnabled = true
+            }
+            
+            DispatchQueue.main.async(execute: {
+                switchControl.isEnabled = true
+                //self.delegate?.change(state: true)
+                self.change(state: true)
+            })
             })
         } else {
             currentUserIsSharing = false
