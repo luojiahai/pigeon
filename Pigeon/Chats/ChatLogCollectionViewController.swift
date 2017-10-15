@@ -37,6 +37,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
+    var targetUserIsSharing: Bool = false
+    var currentUserIsSharing: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,13 +49,99 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupKeyboardObservers()
         setupLocationManager()
         setupLocatePopoverVC()
+        
+        setUpSwitch()
     }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         manager.stopUpdatingLocation()
     }
+    
+    fileprivate func setUpSwitch() {
+        view.addSubview(switchControl)
+        
+        switchControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 0)
+        switchControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -60)
+        
+        switchControl.addTarget(self, action: #selector(switchIsChanged), for: .valueChanged)
+        
+        switchControl.isEnabled = false
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
+                self.switchControl.isEnabled = true
+                return
+            }
+            if value == true {
+                self.switchControl.isOn = true
+                self.currentUserIsSharing = true
+            } else {
+                self.switchControl.isOn = false
+                self.currentUserIsSharing = false
+            }
+            
+            DispatchQueue.main.async(execute: {
+                self.switchControl.isEnabled = true
+            })
+        })
+    }
+    
+    let switchControl: UISwitch = {
+        let switchControl = UISwitch()
+        switchControl.translatesAutoresizingMaskIntoConstraints = false
+        return switchControl
+    }()
+    
+    @objc fileprivate func switchIsChanged(switchControl: UISwitch) {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        switchControl.isEnabled = false
+        
+        if switchControl.isOn {
+            currentUserIsSharing = true
+            let values = ["sharing": true]
+            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    switchControl.isEnabled = true
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    switchControl.isEnabled = true
+                    //self.delegate?.change(state: true)
+                    self.change(state: true)
+                })
+            })
+        } else {
+            currentUserIsSharing = false
+            
+            let values = ["sharing": false]
+            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                    switchControl.isEnabled = true
+                }
+                
+                DispatchQueue.main.async(execute: {
+                    switchControl.isEnabled = true
+                    //self.delegate?.change(state: false)
+                    self.change(state: false)
+                })
+            })
+        }
+    }
+    
     /*
     fileprivate func setupNavigation() {
         if user != nil {
@@ -68,10 +157,19 @@ class ChatLogCollectionViewController: UICollectionViewController {
             
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocate))
         } else if users != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            //let rightBarButtonItem1 = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+            
+            //navigationItem.rightBarButtonItems?.append(rightBarButtonItem1)
+            //navigationItem.rightBarButtonItems?.append(rightBarButtonItem2)
         }
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        
+
+
     }
+    
     
     @objc fileprivate func handleLocate(_ sender: UIBarButtonItem) {
         //        guard let currentUser = Auth.auth().currentUser else { return }
@@ -82,11 +180,21 @@ class ChatLogCollectionViewController: UICollectionViewController {
         //            print(dataSnapshot)
         //        }
         
+        
+        //locatePopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        
+        locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
+        locatePopoverVC.preferredContentSize = CGSize(width: 256, height: 256)
+        locatePopoverVC.popoverPresentationController?.sourceView = view
+        locatePopoverVC.popoverPresentationController?.sourceRect = CGRect(x: (view.frame.width - 256)/2, y: (view.frame.height - 400)/2, width: 256, height: 256)
+        locatePopoverVC.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.init(rawValue: 0) 
         locatePopoverVC.popoverPresentationController?.delegate = self
-        locatePopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-        locatePopoverVC.popoverPresentationController?.permittedArrowDirections = .any
+        
+        locatePopoverVC.currentUserIsSharing = currentUserIsSharing
+        locatePopoverVC.targetUserIsSharing = targetUserIsSharing
         
         present(locatePopoverVC, animated: true, completion: nil)
+        
     }
     
     fileprivate func setupCollectionView() {
@@ -155,7 +263,10 @@ class ChatLogCollectionViewController: UICollectionViewController {
         locatePopoverVC.delegate = self
         locatePopoverVC.user = user
         locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
-        locatePopoverVC.preferredContentSize = CGSize(width: 250, height: 44 * locatePopoverVC.tableView.numberOfRows(inSection: 0))
+        //locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.blurOverFullScreen
+        
+       
+        //locatePopoverVC.preferredContentSize = CGSize(width: 250, height: 44 * locatePopoverVC.tableView.numberOfRows(inSection: 0))
         
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
