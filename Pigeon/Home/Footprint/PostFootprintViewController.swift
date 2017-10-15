@@ -108,7 +108,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         }
     }
     
-    @objc fileprivate func handleDone() {
+    @objc  fileprivate func handleDone() {   //add fileprivate back after testing
         guard let currentUser = Auth.auth().currentUser else { return }
         
         var images: [UIImage]?
