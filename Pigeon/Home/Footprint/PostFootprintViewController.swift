@@ -143,6 +143,72 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         
         let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text, "place": place.name] as [String : Any]
+        
+        self.updatePosts(values, location, images)
+//        Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
+//            if let error = error {
+//                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+//                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                self.present(alert, animated: true, completion: nil)
+//                return
+//            }
+//
+//            let locationValues = ["latitude": location.coordinate.latitude, "longitude": location.coordinate.longitude, "altitude": location.altitude]
+//            Database.database().reference().child("footprints").child(ref.key).child("location").updateChildValues(locationValues, withCompletionBlock: { (error, ref) in
+//                if let error = error {
+//                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                    self.present(alert, animated: true, completion: nil)
+//                    return
+//                }
+//            })
+//
+//            var index: Int = 0
+//            images?.forEach({ (image) in
+//                let imageName = NSUUID().uuidString
+//                let uploadData = UIImageJPEGRepresentation(image, 0.25)
+//                Storage.storage().reference().child("footprint_images").child(ref.key).child("\(imageName).png").putData(uploadData!, metadata: nil, completion: { (metadata, error) in
+//                    if let error = error {
+//                        let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+//                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                        self.present(alert, animated: true, completion: nil)
+//                        return
+//                    }
+//
+//                    if let url = metadata?.downloadURL()?.absoluteString {
+//                        Database.database().reference().child("footprints").child(ref.key).child("images").updateChildValues(["image\(index)": url], withCompletionBlock: { (error, ref) in
+//                            if let error = error {
+//                                let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+//                                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                                self.present(alert, animated: true, completion: nil)
+//                                return
+//                            }
+//                        })
+//                    }
+//
+//                    index += 1
+//                })
+//            })
+//
+//            let footprintValues = [ref.key: timestamp]
+//            Database.database().reference().child("user-footprints").child(currentUser.uid).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
+//                if let error = error {
+//                    let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
+//                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//                    self.present(alert, animated: true, completion: nil)
+//                    return
+//                }
+//            })
+//
+//            DispatchQueue.main.async(execute: {
+//                self.dismiss(animated: true, completion: nil)
+//            })
+//        }
+    }
+    
+    
+    
+    func updatePosts(_ values: [String: Any], _ location: CLLocation, _ images: [UIImage]?){
         Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
@@ -188,8 +254,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
                 })
             })
             
-            let footprintValues = [ref.key: timestamp]
-            Database.database().reference().child("user-footprints").child(currentUser.uid).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
+            let footprintValues = [ref.key: values["timestamp"]]
+            Database.database().reference().child("user-footprints").child(values["user"] as! String).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
                 if let error = error {
                     let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -203,7 +269,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             })
         }
     }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.first ?? nil
         
