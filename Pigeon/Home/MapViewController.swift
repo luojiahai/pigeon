@@ -28,11 +28,11 @@ class MapViewController: UIViewController {
     
     var footprints: [Footprint]?
     
-    //...
+    
     
     
     fileprivate func checkMutualSharing() {
-        // Using the same function that the LocatePopOverVC has, so probably delegate can be used??
+        // Using the same function that the ChatLogCollectionVC has, so probably delegate can be used??
         
         if let currentUser = Auth.auth().currentUser, let targetUser = user {
             Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in

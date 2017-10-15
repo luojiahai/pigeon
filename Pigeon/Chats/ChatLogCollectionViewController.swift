@@ -48,9 +48,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupInputComponents()
         setupKeyboardObservers()
         setupLocationManager()
-        setupLocatePopoverVC()
+        //setupLocatePopoverVC()
         setupLocateBar()
-        
+        checkMutalSharing()
         //setUpSwitch()
     }
     
@@ -99,9 +99,46 @@ class ChatLogCollectionViewController: UICollectionViewController {
         presentMapButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
         presentMapButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
         
+        setupButtonsOnBar()
+    }
+    
+    fileprivate func setupButtonsOnBar() {
         onSharingButton.addTarget(self, action: #selector(turnOnLocationSharing), for: .touchUpInside)
         offSharingButton.addTarget(self, action: #selector(turnOffLocationSharing), for: .touchUpInside)
         presentMapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
+        
+        onSharingButton.isEnabled = false
+        offSharingButton.isEnabled = false
+        presentMapButton.isEnabled = false
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
+                return
+            }
+            self.currentUserIsSharing = value
+        })
+        
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let value = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "sharing").value as? Bool else {
+                self.onSharingButton.isEnabled = true
+                self.offSharingButton.isEnabled = true
+                self.presentMapButton.isEnabled = true
+                return
+            }
+            
+            self.targetUserIsSharing = value
+                
+            DispatchQueue.main.async(execute: {
+                self.onSharingButton.isEnabled = true
+                self.offSharingButton.isEnabled = true
+                self.presentMapButton.isEnabled = true
+            })
+        })
+        
+        print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)        
     }
     
     @objc fileprivate func turnOnLocationSharing() {
@@ -163,12 +200,40 @@ class ChatLogCollectionViewController: UICollectionViewController {
     }
     
     @objc fileprivate func presentMap() {
-        let mapVC = MapViewController()
-        mapVC.user = user
-        let vc = UINavigationController(rootViewController: mapVC)
-        present(vc, animated: true, completion: nil)
+        print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)
+        var msg: String
+        if currentUserIsSharing == true && targetUserIsSharing == true {
+            let mapVC = MapViewController()
+            mapVC.user = user
+            let vc = UINavigationController(rootViewController: mapVC)
+            present(vc, animated: true, completion: nil)
+            return
+            
+        } else if currentUserIsSharing == false && targetUserIsSharing == true {
+            msg = "You haven't turned on Location Sharing."
+        } else if currentUserIsSharing == true && targetUserIsSharing == false{
+            msg = "Your friend hasn't turned on Location Sharing."
+        } else {
+            msg = "Neither you nor your friend hasn't turned on Location Sharing"
+        }
+        let alert = UIAlertController(title: "Cannot Open Map", message: msg, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(alert, animated: true, completion: nil)
+        
     }
     
+    fileprivate func checkMutalSharing () {
+        if let currentUser = Auth.auth().currentUser, let targetUser = user {
+        Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in
+            
+                if dataSnapshot.key == "sharing"  {
+                    if let value = dataSnapshot.value as? Bool {
+                        self.targetUserIsSharing = value
+                    }
+                }
+            })
+        }
+    }
     
     fileprivate func setUpSwitch() {
 //        view.addSubview(switchControl)
@@ -388,8 +453,6 @@ class ChatLogCollectionViewController: UICollectionViewController {
         locatePopoverVC.user = user
         locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
         //locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.blurOverFullScreen
-        
-       
         //locatePopoverVC.preferredContentSize = CGSize(width: 250, height: 44 * locatePopoverVC.tableView.numberOfRows(inSection: 0))
         
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -699,8 +762,15 @@ class ChatLogCollectionViewController: UICollectionViewController {
         label.layer.borderColor = lineColor.cgColor
         label.layer.borderWidth = linePixel
         label.layer.cornerRadius = 4
+        
         return label
     }()
+    
+    fileprivate func changeStatusText() {
+        if currentUserIsSharing == true {
+            
+        }
+    }
     
     let onSharingButton: UIButton = {
         let button = UIButton()
@@ -827,7 +897,7 @@ class TopRightView: UIView {
     
     let statusButton: UIButton = {
         let button = UIButton()
-        //sbutton.backgroundColor = .black
+        //button.backgroundColor = .black
         button.setTitle("Location Sharing: OFF", for: .normal)
         button.setTitleColor(.blue, for: UIControlState.normal)
         button.translatesAutoresizingMaskIntoConstraints = false
