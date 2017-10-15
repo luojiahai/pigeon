@@ -27,39 +27,7 @@ class MapViewController: UIViewController {
     var user: User?
     
     var footprints: [Footprint]?
-    
-    
-    
-    
-    fileprivate func checkMutualSharing() {
-        // Using the same function that the ChatLogCollectionVC has, so probably delegate can be used??
-        
-        if let currentUser = Auth.auth().currentUser, let targetUser = user {
-            Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in
-                
-                //print("yeah" + dataSnapshot.key)
-                
-                if dataSnapshot.key == "sharing"  {
-                    if let value = dataSnapshot.value as? Bool {
-                        if value == false {
-                            let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-                                self.dismiss(animated: false, completion: nil)
-                            }))
-                            self.present(alert, animated: true, completion: nil)
-                            
-                            //self.dismiss(animated: false, completion: nil)
-                        }
-                    }
-                }
-	        })
-        }
-        
-        
-    }
-    
-    //...
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +35,6 @@ class MapViewController: UIViewController {
         setupViews()
         setupLocationManager()
         setupMapView()
-        checkMutualSharing()
     }
     
     fileprivate func setupNavigation() {
@@ -254,4 +221,14 @@ extension MapViewController: ARViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+}
+
+extension MapViewController: LocationSharingStatusListener {
+    func dismissMap() {
+        let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 }

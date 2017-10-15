@@ -9,7 +9,13 @@ import UIKit
 import CoreLocation
 import Firebase
 
+protocol LocationSharingStatusListener {
+    func dismissMap()
+}
+
 class ChatLogCollectionViewController: UICollectionViewController {
+    
+    var listener: LocationSharingStatusListener?
     
     var manager: CLLocationManager!
     
@@ -48,7 +54,6 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupLocationManager()
 
         setupLocateBar()
-        checkMutalSharing()
     }
     
     
@@ -76,8 +81,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
         containerView.addSubview(offSharingButton)
         containerView.addSubview(presentMapButton)
         
-        statusTextLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 4).isActive = true
-        statusTextLabel.rightAnchor.constraint(equalTo: onSharingButton.leftAnchor, constant: -4).isActive = true
+        statusTextLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8).isActive = true
+        statusTextLabel.rightAnchor.constraint(equalTo: onSharingButton.leftAnchor, constant: -8).isActive = true
         statusTextLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
         statusTextLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
         
@@ -91,7 +96,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         offSharingButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
         offSharingButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
         
-        presentMapButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -4).isActive = true
+        presentMapButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8).isActive = true
         presentMapButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
         presentMapButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -4).isActive = true
         presentMapButton.widthAnchor.constraint(equalTo: onSharingButton.heightAnchor).isActive = true
@@ -111,8 +116,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
         
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot)
-            in
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
             if !dataSnapshot.hasChild(currentUser.uid) || !dataSnapshot.childSnapshot(forPath: currentUser.uid).hasChild(targetUser.uid!) {
                 let values = ["sharing": false]
                 Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
@@ -122,7 +126,9 @@ class ChatLogCollectionViewController: UICollectionViewController {
                         self.present(alert, animated: true, completion: nil)
                     }
                     
-                    //setupMutualSharingStatus()
+                    self.setupMutualSharingStatus()
+                    
+                    self.checkMutalSharing()
                     
                     DispatchQueue.main.async(execute: {
                         //self.delegate?.change(state: true)
@@ -130,36 +136,49 @@ class ChatLogCollectionViewController: UICollectionViewController {
                     })
                 })
             } else {
-                //setupMutualSharingStatus()
-            }
-        })
-        
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
-                return
-            }
-            self.currentUserIsSharing = value
-        })
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let value = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "sharing").value as? Bool else {
-                self.onSharingButton.isEnabled = true
-                self.offSharingButton.isEnabled = true
-                self.presentMapButton.isEnabled = true
-                return
-            }
-            
-            self.targetUserIsSharing = value
+                self.setupMutualSharingStatus()
                 
-            DispatchQueue.main.async(execute: {
-                self.onSharingButton.isEnabled = true
-                self.offSharingButton.isEnabled = true
-                self.presentMapButton.isEnabled = true
-            })
+                self.checkMutalSharing()
+            }
         })
+        
+        
         
         print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)        
+    }
+    
+    fileprivate func setupMutualSharingStatus() {
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else { return }
+            
+            self.currentUserIsSharing = value
+            
+            Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let value = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "sharing").value as? Bool else {
+                    self.onSharingButton.isEnabled = true
+                    self.offSharingButton.isEnabled = true
+                    self.presentMapButton.isEnabled = true
+                    return
+                }
+                
+                self.targetUserIsSharing = value
+                
+                DispatchQueue.main.async(execute: {
+                    self.onSharingButton.isEnabled = true
+                    self.offSharingButton.isEnabled = true
+                    self.presentMapButton.isEnabled = true
+                    
+                    self.changeStatusText()
+                })
+            })
+            
+        })
+        
+        
     }
     
     @objc fileprivate func turnOnLocationSharing() {
@@ -172,7 +191,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
             guard let targetUser = user else { return }
             
             currentUserIsSharing = true
-            //print("turn on")
+            changeStatusText()
+            
             let values = ["sharing": true]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
                 if let error = error {
@@ -200,7 +220,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
             guard let targetUser = user else { return }
             
             currentUserIsSharing = false
-            //print("turn OFF")
+            changeStatusText()
+            
             let values = ["sharing": false]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
                 if let error = error {
@@ -226,6 +247,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         if currentUserIsSharing == true && targetUserIsSharing == true {
             let mapVC = MapViewController()
             mapVC.user = user
+            listener = mapVC
             let vc = UINavigationController(rootViewController: mapVC)
             present(vc, animated: true, completion: nil)
             return
@@ -245,12 +267,13 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     fileprivate func checkMutalSharing () {
         if let currentUser = Auth.auth().currentUser, let targetUser = user {
-        Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).observe(.childChanged, with: { (dataSnapshot) in
-            
-                if dataSnapshot.key == "sharing"  {
-                    if let value = dataSnapshot.value as? Bool {
-                        self.targetUserIsSharing = value
-                    }
+        Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).child("sharing").observe(.value, with: { (dataSnapshot) in
+  
+                if let value = dataSnapshot.value as? Bool {
+                    self.targetUserIsSharing = value
+                    self.changeStatusText()
+                    
+                    self.listener?.dismissMap()
                 }
             })
         }
@@ -628,9 +651,10 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.sizeToFit()
-        label.text = "text"
+        label.text = ""
         label.textColor = .black
         label.textAlignment = .center
+//        label.font = UIFont.systemFont(ofSize: <#T##CGFloat#>)
         label.backgroundColor = .white
         label.layer.borderColor = lineColor.cgColor
         label.layer.borderWidth = linePixel
@@ -639,17 +663,26 @@ class ChatLogCollectionViewController: UICollectionViewController {
         return label
     }()
     
+    
     fileprivate func changeStatusText() {
-        if currentUserIsSharing == true {
-            
+        var text: String?
+        if currentUserIsSharing == false && targetUserIsSharing == false {
+            text = "Me: OFF   Friend: OFF"
+        } else if currentUserIsSharing == false && targetUserIsSharing == true {
+            text = "Me: OFF   Friend: ON"
+        } else if currentUserIsSharing == true && targetUserIsSharing == false {
+            text = "Me: ON    Friend: OFF"
+        } else if currentUserIsSharing == true && targetUserIsSharing == true {
+            text = "Me: ON    Friend: ON"
         }
+        statusTextLabel.text = text
     }
     
     let onSharingButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
-        button.setTitle("ON", for: .normal)
+        button.setTitle("On", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
@@ -658,7 +691,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), for: .normal)
-        button.setTitle("FF", for: .normal)
+        button.setTitle("Off", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
@@ -667,7 +700,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
 //        button.setImage(#imageLiteral(resourceName: "icons8-Map Marker Filled-50"), for: .normal)
-        button.setTitle("Mp", for: .normal)
+        button.setTitle("Map", for: .normal)
         button.setTitleColor(.black, for: .normal)
         return button
     }()
