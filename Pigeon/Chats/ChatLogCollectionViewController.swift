@@ -111,6 +111,30 @@ class ChatLogCollectionViewController: UICollectionViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
         
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot)
+            in
+            if !dataSnapshot.hasChild(currentUser.uid) || !dataSnapshot.childSnapshot(forPath: currentUser.uid).hasChild(targetUser.uid!) {
+                let values = ["sharing": false]
+                Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                        self.present(alert, animated: true, completion: nil)
+                    }
+                    
+                    //setupMutualSharingStatus()
+                    
+                    DispatchQueue.main.async(execute: {
+                        //self.delegate?.change(state: true)
+                        self.change(state: false)
+                    })
+                })
+            } else {
+                //setupMutualSharingStatus()
+            }
+        })
+        
+        
         Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
             guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
                 return
@@ -314,7 +338,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         manager.requestWhenInUseAuthorization()
     }
     
-    fileprivate func setupLocatePopoverVC() {
+    /*fileprivate func setupLocatePopoverVC() {
         locatePopoverVC.delegate = self
         locatePopoverVC.user = user
         locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
@@ -332,7 +356,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
                 self.change(state: false)
             }
         })
-    }
+    }*/
     
     fileprivate func observeMessages() {
         Database.database().reference().child("conversations").child(conversationID!).observe(.childAdded, with: { (snapshot) in
