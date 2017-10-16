@@ -261,6 +261,7 @@ class MapViewController: UIViewController {
                                 if let coordinate = targetUserLocation.location?.coordinate {
                                     targetUserAnnotation.coordinate = coordinate
                                 }
+                                break
                             }
                         }
                     }, completion: nil)
