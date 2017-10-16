@@ -15,8 +15,10 @@ protocol LocationSharingStatusListener {
 
 class ChatLogCollectionViewController: UICollectionViewController {
     
+    // The listener only pays attention when the target user changes its sharing status
     var listener: LocationSharingStatusListener?
     
+    // The manager also need to pay attention when sharing status changes
     var manager: CLLocationManager!
     
     var messages = [Message]()
@@ -27,12 +29,13 @@ class ChatLogCollectionViewController: UICollectionViewController {
         }
     }
     
+    // Users in group chat
     var users: [User]? {
         didSet {
             navigationItem.title = "Group"
         }
     }
-    
+    // targetUser (Friend) in a one-to-one conversation
     var user: User? {
         didSet {
             navigationItem.title = user?.username
@@ -41,9 +44,11 @@ class ChatLogCollectionViewController: UICollectionViewController {
     
     var containerViewBottomAnchor: NSLayoutConstraint?
     
+    // Users' locatin sharing status
     var targetUserIsSharing: Bool = false
     var currentUserIsSharing: Bool = false
     
+    // After the view loaded
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,17 +57,27 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupInputComponents()
         setupKeyboardObservers()
         setupLocationManager()
-
         setupLocateBar()
     }
     
-    
+    // Before the view disappear
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         manager.stopUpdatingLocation()
     }
     
+    // Setup the layout of the navigation bar
+    fileprivate func setupNavigation() {
+        if user != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(presentLocateBar))
+        } else if users != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+        }
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    // Setup the layout of the bar under navigation
     fileprivate func setupLocateBar() {
         view.addSubview(containerView)
         containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -104,11 +119,14 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupButtonsOnBar()
     }
     
+    // Funtionalities related to tree buttons on the bar
     fileprivate func setupButtonsOnBar() {
         onSharingButton.addTarget(self, action: #selector(turnOnLocationSharing), for: .touchUpInside)
         offSharingButton.addTarget(self, action: #selector(turnOffLocationSharing), for: .touchUpInside)
         presentMapButton.addTarget(self, action: #selector(presentMap), for: .touchUpInside)
         
+        // Disable the buttons first 
+        // In order to avoid the button being touched up too frequently before initialisation of sharing status
         onSharingButton.isEnabled = false
         offSharingButton.isEnabled = false
         presentMapButton.isEnabled = false
@@ -116,18 +134,25 @@ class ChatLogCollectionViewController: UICollectionViewController {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
         
+        // Initialise the child "sharing" of currentUser into database 
+        // (Not yet into this viewcontroller)
         Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
             if !dataSnapshot.hasChild(currentUser.uid) || !dataSnapshot.childSnapshot(forPath: currentUser.uid).hasChild(targetUser.uid!) {
                 let values = ["sharing": false]
                 Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                    
+                    // Pop over alert due to initialisation failure
                     if let error = error {
                         let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                     }
                     
+                    // Initialise the sharing status for current user and target user in this viewcontroller 
+                    // (Here is where initialisation in vc happens)
                     self.setupMutualSharingStatus()
                     
+                    // Keep observing their sharing statuses in database and keep updating the data in this vc
                     self.checkMutalSharing()
                     
                     DispatchQueue.main.async(execute: {
@@ -136,65 +161,37 @@ class ChatLogCollectionViewController: UICollectionViewController {
                     })
                 })
             } else {
-                self.setupMutualSharingStatus()
                 
+                // Similarly, initialising and observing the sharing status of current user and target user
+                self.setupMutualSharingStatus()
                 self.checkMutalSharing()
             }
         })
         
-        
-        
-        print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)        
+        //print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)        
     }
     
-    fileprivate func setupMutualSharingStatus() {
-        
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else { return }
-            
-            self.currentUserIsSharing = value
-            
-            Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let value = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "sharing").value as? Bool else {
-                    self.onSharingButton.isEnabled = true
-                    self.offSharingButton.isEnabled = true
-                    self.presentMapButton.isEnabled = true
-                    return
-                }
-                
-                self.targetUserIsSharing = value
-                
-                DispatchQueue.main.async(execute: {
-                    self.onSharingButton.isEnabled = true
-                    self.offSharingButton.isEnabled = true
-                    self.presentMapButton.isEnabled = true
-                    
-                    self.changeStatusText()
-                })
-            })
-            
-        })
-        
-        
-    }
-    
+    // When the onSharingButton has been touched up
     @objc fileprivate func turnOnLocationSharing() {
-        
-        //print("current: ", currentUserIsSharing)
+	
+        // Only turn on sharing when it was off
         if currentUserIsSharing == false {
+            
+            // Disable button to avoid the button being touched too frequently before the operations get done
             onSharingButton.isEnabled = false
             
             guard let currentUser = Auth.auth().currentUser else { return }
             guard let targetUser = user else { return }
             
+            // Update cooresponding data and text label in this vc
             currentUserIsSharing = true
             changeStatusText()
             
+            // Update database
             let values = ["sharing": true]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                
+                // Pop over alert due to db updating failure
                 if let error = error {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -204,26 +201,34 @@ class ChatLogCollectionViewController: UICollectionViewController {
                 
                 DispatchQueue.main.async(execute: {
                     self.onSharingButton.isEnabled = true
-                    //self.delegate?.change(state: true)
+                    
+                    // Update locationsharing manager
                     self.change(state: true)
                 })
             })
         }
     }
     
+    // When the offSharingButton has been touched up
     @objc fileprivate func turnOffLocationSharing() {
-        //print("current: ", currentUserIsSharing)
         
+        // Only turn off sharing when it was on
         if currentUserIsSharing == true {
+            
+            // Disable button to avoid the button being touched too frequently before the operations get done
             offSharingButton.isEnabled = false
             guard let currentUser = Auth.auth().currentUser else { return }
             guard let targetUser = user else { return }
             
+            // Update cooresponding data and text label in this vc
             currentUserIsSharing = false
             changeStatusText()
             
+            // Update database
             let values = ["sharing": false]
             Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
+                
+                // Pop over alert due to db updating failure
                 if let error = error {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -233,7 +238,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
                 
                 DispatchQueue.main.async(execute: {
                     self.offSharingButton.isEnabled = true
-                    //self.delegate?.change(state: false)
+                    
+                    // Update locationsharing manager
                     self.change(state: false)
                 })
             })
@@ -241,17 +247,21 @@ class ChatLogCollectionViewController: UICollectionViewController {
         
     }
     
+    // When the presentMap button has been touched up
     @objc fileprivate func presentMap() {
-        print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)
+        //print("cur: " , currentUserIsSharing, " tar: ", targetUserIsSharing)
+        
+        // Only present map when both the current user and target user have turned on location ssharing
         var msg: String
         if currentUserIsSharing == true && targetUserIsSharing == true {
             let mapVC = MapViewController()
             mapVC.user = user
-            listener = mapVC
+            listener = mapVC    
             let vc = UINavigationController(rootViewController: mapVC)
             present(vc, animated: true, completion: nil)
             return
-            
+        
+        // Pop over alert according to their sharing status
         } else if currentUserIsSharing == false && targetUserIsSharing == true {
             msg = "You haven't turned on Location Sharing."
         } else if currentUserIsSharing == true && targetUserIsSharing == false{
@@ -263,6 +273,43 @@ class ChatLogCollectionViewController: UICollectionViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
         
+    }
+    
+    // Initialsation of sharing status in this viewcontroller
+    fileprivate func setupMutualSharingStatus() {
+        
+        guard let currentUser = Auth.auth().currentUser else { return }
+        guard let targetUser = user else { return }
+        
+        // Fetch the sharing status data for current user
+        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else { return }
+            
+            // Assignment according to db
+            self.currentUserIsSharing = value
+            
+            // Fetch the sharing status data for target user
+            Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
+                guard let value = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "sharing").value as? Bool else {
+                    self.onSharingButton.isEnabled = true
+                    self.offSharingButton.isEnabled = true
+                    self.presentMapButton.isEnabled = true
+                    return
+                }
+                
+                // Assignment according to db
+                self.targetUserIsSharing = value
+                
+                // Enable the buttons and update the text label after finished those operations above
+                DispatchQueue.main.async(execute: {
+                    self.onSharingButton.isEnabled = true
+                    self.offSharingButton.isEnabled = true
+                    self.presentMapButton.isEnabled = true
+                    
+                    self.changeStatusText()
+                })
+            })
+        })  
     }
     
     fileprivate func checkMutalSharing () {
@@ -279,26 +326,26 @@ class ChatLogCollectionViewController: UICollectionViewController {
         }
     }
     
-
-    @objc fileprivate func handleLocation() {
+	// When the top right button has been touched up Present or dismiss the locate Bar
+    @objc fileprivate func presentLocateBar() {
         containerView.isHidden = !containerView.isHidden
     }
     
-    fileprivate func setupNavigation() {
-        if user != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "icons8-Map Pinpoint Filled-50"), style: .plain, target: self, action: #selector(handleLocation))
-        } else if users != nil {
-             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Info Filled-50"), style: .plain, target: self, action: #selector(handleShowMembers))
+    // Update the status text label according to the current status
+    fileprivate func changeStatusText() {
+        var text: String?
+        if currentUserIsSharing == false && targetUserIsSharing == false {
+            text = "Me: OFF   Friend: OFF"
+        } else if currentUserIsSharing == false && targetUserIsSharing == true {
+            text = "Me: OFF   Friend: ON"
+        } else if currentUserIsSharing == true && targetUserIsSharing == false {
+            text = "Me: ON    Friend: OFF"
+        } else if currentUserIsSharing == true && targetUserIsSharing == true {
+            text = "Me: ON    Friend: ON"
         }
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        statusTextLabel.text = text
     }
-    
-    @objc fileprivate func changeStatus(sender: UIButton) {
-        
-    
-    }
-    
-    
+
     fileprivate func setupCollectionView() {
         collectionView?.backgroundColor = .groupTableViewBackground
         collectionView?.alwaysBounceVertical = true
@@ -360,26 +407,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
     }
-    
-    /*fileprivate func setupLocatePopoverVC() {
-        locatePopoverVC.delegate = self
-        locatePopoverVC.user = user
-        locatePopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
 
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-            guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
-                return
-            }
-            if value {
-                self.change(state: true)
-            } else {
-                self.change(state: false)
-            }
-        })
-    }*/
     
     fileprivate func observeMessages() {
         Database.database().reference().child("conversations").child(conversationID!).observe(.childAdded, with: { (snapshot) in
@@ -662,21 +690,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         
         return label
     }()
-    
-    
-    fileprivate func changeStatusText() {
-        var text: String?
-        if currentUserIsSharing == false && targetUserIsSharing == false {
-            text = "Me: OFF   Friend: OFF"
-        } else if currentUserIsSharing == false && targetUserIsSharing == true {
-            text = "Me: OFF   Friend: ON"
-        } else if currentUserIsSharing == true && targetUserIsSharing == false {
-            text = "Me: ON    Friend: OFF"
-        } else if currentUserIsSharing == true && targetUserIsSharing == true {
-            text = "Me: ON    Friend: ON"
-        }
-        statusTextLabel.text = text
-    }
+
     
     let onSharingButton: UIButton = {
         let button = UIButton()

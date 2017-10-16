@@ -95,7 +95,7 @@ class MapViewController: UIViewController {
                         _ in
                         self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
                     })
-                }
+                }   
             }
         }
         
