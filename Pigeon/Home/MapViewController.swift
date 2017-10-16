@@ -255,8 +255,13 @@ class MapViewController: UIViewController {
             DispatchQueue.main.async {
                 for targetUserAnnotation in targetUserAnnotations {
                     UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                        if let coordinate = self.targetUserLocations![targetUserAnnotations.index(of: targetUserAnnotation)!].location?.coordinate {
-                            targetUserAnnotation.coordinate = coordinate
+                        guard let targetUserLocations = self.targetUserLocations else { return }
+                        for targetUserLocation in targetUserLocations {
+                            if targetUserLocation.annotationIndex == targetUserAnnotations.index(of: targetUserAnnotation) {
+                                if let coordinate = targetUserLocation.location?.coordinate {
+                                    targetUserAnnotation.coordinate = coordinate
+                                }
+                            }
                         }
                     }, completion: nil)
                 }
