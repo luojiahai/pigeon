@@ -2,10 +2,9 @@
 //  LocatePopoverViewController.swift
 //  Pigeon
 //
-//  Created by Pei Yun Sun on 2017/9/4.
+//  Created by Tina Luan on 5/10/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
-
 import UIKit
 import Firebase
 
@@ -13,168 +12,89 @@ protocol LocationSharingStateDelegate {
     func change(state: Bool)
 }
 
-class LocatePopoverViewController: UITableViewController {
+class LocatePopoverViewController: UIViewController {
     
     var delegate: LocationSharingStateDelegate?
     
     var user: User?
     
+    var targetUserIsSharing: Bool!
+    var currentUserIsSharing: Bool!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tableView.isScrollEnabled = false
-        tableView.tableFooterView = UIView()
-        tableView.register(SwitchTableViewCell.self, forCellReuseIdentifier: "Switch Cell")
+        setupView()
+	    // targetUserIsSharing = false
+	    // currentUserIsSharing = false
+        setupButtons()
     }
-    
-    // MARK: - Table view data source
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+    fileprivate func setupView() {
+        //view.backgroundColor = .blue
+        view.addSubview(blurryView)
+        //setupCenterWindow()
+        //setupButtons()
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Switch Cell", for: indexPath)
-        
-        switch indexPath.row {
-        case 0:
-            cell.textLabel?.text = "Share My Location"
-            cell.selectionStyle = .none
-            if let cell = cell as? SwitchTableViewCell {
-                cell.switchControl.addTarget(self, action: #selector(switchIsChanged), for: .valueChanged)
-                
-                guard let currentUser = Auth.auth().currentUser else { break }
-                guard let targetUser = user else { break }
-                
-                cell.switchControl.isEnabled = false
-                
-                Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                    guard let value = dataSnapshot.childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: "sharing").value as? Bool else {
-                        cell.switchControl.isEnabled = true
-                        return
-                    }
-                    if value == true {
-                        cell.switchControl.isOn = true
-                    } else {
-                        cell.switchControl.isOn = false
-                    }
-                    
-                    DispatchQueue.main.async(execute: {
-                        cell.switchControl.isEnabled = true
-                    })
-                })
-            }
-        case 1:
-            cell.textLabel?.text = "Request Location"
-            if let cell = cell as? SwitchTableViewCell {
-                cell.switchControl.isHidden = true
-            }
-        case 2:
-            cell.textLabel?.text = "Present Map"
-            if let cell = cell as? SwitchTableViewCell {
-                cell.switchControl.isHidden = true
-            }
-        default:
-            break
-        }
-        
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        switch indexPath.row {
-        case 1:
-            requestLocation()
-        case 2:
-            presentMap()
-        default:
-            break
-        }
-    }
-    
-    @objc fileprivate func switchIsChanged(switchControl: UISwitch) {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        guard let targetUser = user else { return }
-        
-        switchControl.isEnabled = false
-        
-        if switchControl.isOn {
-            let values = ["sharing": true]
-            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    switchControl.isEnabled = true
-                }
-                
-                DispatchQueue.main.async(execute: {
-                    switchControl.isEnabled = true
-                    self.delegate?.change(state: true)
-                })
-            })
-        } else {
-            let values = ["sharing": false]
-            Database.database().reference().child("locations").child(currentUser.uid).child(targetUser.uid!).updateChildValues(values, withCompletionBlock: { (error, ref) in
-                if let error = error {
-                    let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                    switchControl.isEnabled = true
-                }
-                
-                DispatchQueue.main.async(execute: {
-                    switchControl.isEnabled = true
-                    self.delegate?.change(state: false)
-                })
-            })
-        }
-    }
-    
-    fileprivate func requestLocation() {
-        let alert = UIAlertController(title: "Location Sharing", message: "Feature coming soon...", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
-        present(alert, animated: true, completion: nil)
-    }
-    
-    fileprivate func presentMap() {
-        let mapVC = MapViewController()
-        mapVC.user = user
-        let vc = UINavigationController(rootViewController: mapVC)
-        present(vc, animated: true, completion: nil)
-    }
-    
-}
-
-class SwitchTableViewCell: UITableViewCell {
-    
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        setupViews()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    fileprivate func setupViews() {
-        addSubview(switchControl)
-        
-        switchControl.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        switchControl.rightAnchor.constraint(equalTo: rightAnchor, constant: -8).isActive = true
-    }
-    
-    let switchControl: UISwitch = {
-        let switchControl = UISwitch()
-        switchControl.translatesAutoresizingMaskIntoConstraints = false
-        return switchControl
+    let blurryView: UIVisualEffectView = {
+        let blurry = UIVisualEffectView()
+        blurry.effect = UIBlurEffect(style: .prominent)
+        return blurry
     }()
     
+    fileprivate func setupCenterWindow() {
+        view.addSubview(centerWindow)
+        centerWindow.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        centerWindow.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        centerWindow.backgroundColor = .red
+    }
+    fileprivate func setupButtons() {
+        view.addSubview(presentMapButton)
+        presentMapButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        presentMapButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        presentMapButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        presentMapButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        presentMapButton.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        presentMapButton.bottomAnchor.constraint(equalTo: view.topAnchor, constant: 85).isActive = true
+        
+        view.addSubview(friendSettingButton)
+        friendSettingButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        friendSettingButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        friendSettingButton.topAnchor.constraint(equalTo: presentMapButton.bottomAnchor).isActive = true
+        friendSettingButton.bottomAnchor.constraint(equalTo: friendSettingButton.topAnchor, constant: 85).isActive = true        
+        
+        view.addSubview(searchChatHistoryButton)
+        searchChatHistoryButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        searchChatHistoryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        searchChatHistoryButton.topAnchor.constraint(equalTo: friendSettingButton.bottomAnchor).isActive = true
+        searchChatHistoryButton.bottomAnchor.constraint(equalTo: searchChatHistoryButton.topAnchor, constant: 85).isActive = true
+	}
+    
+    let centerWindow: UIView = {
+        let centerWindow = UIView()
+        return centerWindow
+    }()
+    
+    let presentMapButton: UIButton = {
+        let button = UIButton()
+        
+        button.setTitle("Present Map", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.gray, for: .normal)
+        return button
+    }()
+    
+    let friendSettingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Friend Setting", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.gray, for: .normal)
+        return button
+    }()
+    
+    let searchChatHistoryButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Search Chat History", for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.gray, for: .normal)
+        return button
+    }()
 }

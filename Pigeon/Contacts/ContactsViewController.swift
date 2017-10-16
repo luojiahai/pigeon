@@ -5,7 +5,6 @@
 //  Created by Meng Yuan on 27/8/17.
 //  Copyright © 2017 El Root. All rights reserved.
 //
-
 import UIKit
 import Firebase
 
@@ -78,6 +77,7 @@ class ContactsViewController: UITableViewController {
     
     fileprivate func fetchContacts() {
         guard let currentUser = Auth.auth().currentUser else { return }
+        
         
         Database.database().reference().child("user-friends").child(currentUser.uid).observe(.childAdded) { (dataSnapshot) in
             Database.database().reference().child("friends").child(dataSnapshot.key).observeSingleEvent(of: .value, with: { (dataSnapshot) in
