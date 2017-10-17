@@ -821,6 +821,11 @@ extension ChatLogCollectionViewController {
                         self.onSharingButton.isEnabled = true
                         self.offSharingButton.isEnabled = true
                         self.presentMapButton.isEnabled = true
+                        
+                        self.change(state: self.currentUserIsSharing)
+                        
+                        self.changeStatusText()
+                        
                         return
                     }
                     
