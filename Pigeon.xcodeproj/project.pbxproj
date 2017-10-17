@@ -716,9 +716,9 @@
 			projectRoot = "";
 			targets = (
 				006F19F01F3DA27B004C20B3 /* Pigeon */,
+				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 				006F1A071F3DA288004C20B3 /* PigeonTests */,
 				006F1A121F3DA28A004C20B3 /* PigeonUITests */,
-				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 				00F78C101F7B70D1001912F3 /* PigeonTestsNew */,
 			);
 		};
