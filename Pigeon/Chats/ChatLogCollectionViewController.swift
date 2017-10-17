@@ -468,6 +468,7 @@ extension ChatLogCollectionViewController: CLLocationManagerDelegate {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
+                    return
                 }
             })
         } else if users != nil {
@@ -483,6 +484,7 @@ extension ChatLogCollectionViewController: CLLocationManagerDelegate {
                     let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                     self.present(alert, animated: true, completion: nil)
+                    return
                 }
             })
         }
