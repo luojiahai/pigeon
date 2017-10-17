@@ -553,6 +553,7 @@ extension ChatLogCollectionViewController {
                             let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                             self.present(alert, animated: true, completion: nil)
+                            return
                         }
                         
                         // Initialise the sharing status for current user and target user in this viewcontroller
@@ -589,6 +590,7 @@ extension ChatLogCollectionViewController {
                             let alert = UIAlertController(title: "Error", message: "Database failure\n" + String(describing: error), preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                             self.present(alert, animated: true, completion: nil)
+                            return
                         }
                         
                         // Initialise the sharing status for current user and target user in this viewcontroller
@@ -630,6 +632,7 @@ extension ChatLogCollectionViewController {
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                         self.onSharingButton.isEnabled = true
+                        return
                     }
                     
                     DispatchQueue.main.async(execute: {
@@ -664,6 +667,7 @@ extension ChatLogCollectionViewController {
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                         self.onSharingButton.isEnabled = true
+                        return
                     }
                     
                     DispatchQueue.main.async(execute: {
@@ -702,6 +706,7 @@ extension ChatLogCollectionViewController {
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                         self.offSharingButton.isEnabled = true
+                        return
                     }
                     
                     DispatchQueue.main.async(execute: {
@@ -735,6 +740,7 @@ extension ChatLogCollectionViewController {
                         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
                         self.present(alert, animated: true, completion: nil)
                         self.offSharingButton.isEnabled = true
+                        return
                     }
                     
                     DispatchQueue.main.async(execute: {
