@@ -42,7 +42,7 @@ class MapViewController: UIViewController {
         setupViews()
         setupLocationManager()
         setupMapView()
-        setupLocationSharing()
+//        setupLocationSharing()
         renderFootprint()
     }
     
@@ -83,6 +83,12 @@ class MapViewController: UIViewController {
             annotation.subtitle = footprint.footprintID
             mapView.addAnnotation(annotation)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupLocationSharing()
     }
     
     fileprivate func setupLocationSharing() {
@@ -253,13 +259,13 @@ class MapViewController: UIViewController {
         
         if let targetUserAnnotations = targetUserAnnotations {
             DispatchQueue.main.async {
-                for targetUserAnnotation in targetUserAnnotations {
+                for annotation in targetUserAnnotations {
                     UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                         guard let targetUserLocations = self.targetUserLocations else { return }
                         for targetUserLocation in targetUserLocations {
-                            if targetUserLocation.annotationIndex == targetUserAnnotations.index(of: targetUserAnnotation) {
+                            if targetUserLocation.annotationIndex == targetUserAnnotations.index(of: annotation) {
                                 if let coordinate = targetUserLocation.location?.coordinate {
-                                    targetUserAnnotation.coordinate = coordinate
+                                    annotation.coordinate = coordinate
                                 }
                                 break
                             }

@@ -60,13 +60,6 @@ class ChatLogCollectionViewController: UICollectionViewController {
         setupLocateBar()
     }
     
-    // Before the view disappear
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        manager.stopUpdatingLocation()
-    }
-    
     // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         if user != nil {
