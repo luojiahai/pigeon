@@ -11,7 +11,13 @@ import MapKit
 import CoreLocation
 import Firebase
 
+protocol ARListener {
+    func dismissAR()
+}
+
 class MapViewController: UIViewController {
+    
+    var listener: ARListener?
     
     var manager: CLLocationManager!
     
@@ -307,6 +313,7 @@ class MapViewController: UIViewController {
         } else {
             let arVC = ARViewController()
             arVC.delegate = self
+            listener = arVC
             arVC.targetLocation = targetLocation
             arVC.footprints = footprints
             let vc = UINavigationController(rootViewController: arVC)
@@ -417,11 +424,15 @@ extension MapViewController: UIPopoverPresentationControllerDelegate {
 extension MapViewController: LocationSharingStatusListener {
     
     func dismissMap() {
-        let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
+        if listener != nil {
+            self.listener?.dismissAR()
+        } else {
+            let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
 }

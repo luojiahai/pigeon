@@ -345,3 +345,15 @@ class ARViewController: UIViewController {
     }()
     
 }
+
+extension ARViewController: ARListener {
+    
+    func dismissAR() {
+        let alert = UIAlertController(title: "Exit From AR", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.handleCancel()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+}
