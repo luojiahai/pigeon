@@ -272,7 +272,7 @@ class MapViewController: UIViewController {
                 if self.centerMapOnUserLocation {
                     UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
                         //                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
-                        self.mapView.setCenter(self.currentLocation!.coordinate, animated: false)
+                        self.mapView.setCenter(currentLocation.coordinate, animated: false)
                     }, completion: {
                         _ in
                         self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -378,11 +378,14 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         }
         
         if let pointAnnotation = annotation as? MKPointAnnotation {
+            
             let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
             
-            if pointAnnotation == self.currentUserAnnotation {
-                marker.displayPriority = .required
-                marker.glyphImage = UIImage(named: "user")
+            marker.isEnabled = false  // not touchable
+            
+            if pointAnnotation == self.currentUserAnnotation {  // no more currentUserAnnotation
+//                marker.displayPriority = .required
+//                marker.glyphImage = UIImage(named: "user")
             } else if pointAnnotation == self.targetUserAnnotation {
                 marker.displayPriority = .required
                 marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
@@ -400,7 +403,6 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
                 marker.addGestureRecognizer(gesture)
                 
             }
-            
             return marker
         }
         
