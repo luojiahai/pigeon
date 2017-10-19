@@ -14,6 +14,12 @@ class AppNotification: NSObject {
     
     static let shared = AppNotification()
     
+    /*
+     * This function will be called when a new message is sent to a user
+     * from currentUser by creating a JSON entry
+     * and making a request through onesignal
+     */
+    
     func sendMessageNotification(sender: String, receiver: String) {
         Database.database().reference().child("users").child(sender).child("username").observeSingleEvent(of: .value) { (dataSnapshot) in
             guard let username = dataSnapshot.value as? String else { return }
@@ -24,6 +30,7 @@ class AppNotification: NSObject {
             request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
+            //the JSON entry for a new message notification
             let jsonObject: [String: Any] = [
                 "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
@@ -74,6 +81,7 @@ class AppNotification: NSObject {
             request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
+            //the JSON entry for a new friend request notification
             let jsonObject: [String: Any] = [
                 "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
@@ -124,6 +132,7 @@ class AppNotification: NSObject {
             request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
+            //the JSON entry for a request result notification
             let jsonObject: [String: Any] = [
                 "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
@@ -174,6 +183,7 @@ class AppNotification: NSObject {
             request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
+            //the JSON entry for a like notification
             let jsonObject: [String: Any] = [
                 "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
@@ -224,6 +234,7 @@ class AppNotification: NSObject {
             request.setValue("Basic MGRkNDU1YjUtYzNkMy00ODYwLWIxNDctMTQ4MjAyOWI4MjI2", forHTTPHeaderField: "Authorization")
             request.setValue("application/json", forHTTPHeaderField: "Content-Type")
             
+            //the JSON entry for a comment notification
             let jsonObject: [String: Any] = [
                 "app_id": "eb1565de-1624-4ab0-8392-ff39800489d2",
                 "filters": [
