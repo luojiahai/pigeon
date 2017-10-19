@@ -10,6 +10,15 @@ import Foundation
 import OneSignal
 import Firebase
 
+/*
+ * five types of notification supported
+ * - new message
+ * - friend request
+ * - friend request approve
+ * - footprint like
+ * - footprint like
+ */
+
 class AppNotification: NSObject {
     
     static let shared = AppNotification()
