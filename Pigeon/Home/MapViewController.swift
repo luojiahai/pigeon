@@ -33,7 +33,7 @@ class MapViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         setupNavigation()
         setupViews()
         setupLocationManager()
@@ -160,9 +160,9 @@ class MapViewController: UIViewController {
             let route = response.routes[0]  // 0 for the fastest route
             self.mapView.add(route.polyline, level: .aboveRoads)
             
-//            // set region
-//            let rect = route.polyline.boundingMapRect
-//            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+            //            // set region
+            //            let rect = route.polyline.boundingMapRect
+            //            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
         })
     }
     
@@ -314,7 +314,7 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
                 marker.glyphImage = UIImage(named: "icons8-Cat Footprint Filled-50")
                 let gesture = UITapGestureRecognizer(target: self, action: #selector(handleAnnotationTap))
                 marker.addGestureRecognizer(gesture)
-
+                
             }
             
             return marker
@@ -326,7 +326,7 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
 }
 
 extension MapViewController: ARViewControllerDelegate {
-
+    
     func updateLocation() -> CLLocation? {
         return targetLocation
     }
@@ -343,4 +343,15 @@ extension MapViewController: UIPopoverPresentationControllerDelegate {
         return UIModalPresentationStyle.none
     }
     
+}
+
+
+extension MapViewController: LocationSharingStatusListener {
+    func dismissMap() {
+        let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// The view for the login page of the app
 class LoginView: UIView {
     
     override init(frame: CGRect) {
@@ -22,6 +22,7 @@ class LoginView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Set up the layout of the whole view
     fileprivate func setupViews() {
         addSubview(logo)
         logo.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -30,6 +31,8 @@ class LoginView: UIView {
         setupInputsContainerView()
         setupLoginAndRegisterButton()
     }
+    
+    // Set up the layout of the container(a rectangle) of two textfields
     fileprivate func setupInputsContainerView() {
         addSubview(inputsContainerView)
         inputsContainerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -59,6 +62,7 @@ class LoginView: UIView {
         
     }
     
+    // Set up the layout of two buttons: Login and Resister
     fileprivate func setupLoginAndRegisterButton() {
         addSubview(loginButton)
         loginButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
@@ -73,6 +77,7 @@ class LoginView: UIView {
         registerButton.heightAnchor.constraint(equalToConstant: 25).isActive = true
     }
     
+    // A container (rectangle) contains two textfields: email and password
     let inputsContainerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -83,6 +88,7 @@ class LoginView: UIView {
         return view
     }()
     
+    // A button to loginw
     let loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -96,7 +102,7 @@ class LoginView: UIView {
         return button
     }()
     
-    // The line between the email text field and password text field
+    // A text field which allows users to type in email address
     let emailTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -108,6 +114,7 @@ class LoginView: UIView {
         return textField
     }()
     
+    // A black line to seperate the email textfield and password textfield
     let emailSeparatorView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -115,6 +122,7 @@ class LoginView: UIView {
         return view
     }()
     
+    // A text field which allows users to type in password
     let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -124,6 +132,7 @@ class LoginView: UIView {
         return textField
     }()
     
+    // A button which allows users to switch to the register page
     let registerButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -134,6 +143,7 @@ class LoginView: UIView {
         return button
     }()
     
+    // Pigeon Logo
     let logo: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
