@@ -41,6 +41,7 @@ class MapViewController: UIViewController {
         renderFootprint()
     }
     
+    /*------------------------------- view setup starts here -------------------------------------- */
     @objc fileprivate func handleAnnotationTap(_ gesture: UITapGestureRecognizer) {
         print("Annotation Tapped")
         let marker = gesture.view as? MKMarkerAnnotationView
@@ -174,6 +175,35 @@ class MapViewController: UIViewController {
         return renderer
     }
     
+    lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.frame = self.view.frame
+        mapView.delegate = self
+        mapView.mapType = .standard
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.showsUserLocation = true
+        mapView.showsScale = true
+        mapView.showsCompass = true
+        mapView.showsBuildings = true
+        return mapView
+    }()
+    
+    let myLocationButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitle("myLocation", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = lineColor.cgColor
+        button.layer.borderWidth = linePixel
+        button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
+        return button
+    }()
+    
+    /*------------------------------- view setup ends here -------------------------------------- */
+    
+    //action called constantly to update locations
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
@@ -240,6 +270,7 @@ class MapViewController: UIViewController {
         }
     }
     
+    //action when AR mode is on
     @objc fileprivate func handleAR() {
         let arVC = ARViewController()
         arVC.delegate = self
@@ -249,6 +280,7 @@ class MapViewController: UIViewController {
         present(vc, animated: false, completion: nil)
     }
     
+    //action when my location button is clicked
     @objc fileprivate func handleMyLocation() {
         centerMapOnUserLocation = false
         guard let location = currentLocation else { return }
@@ -258,31 +290,6 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    lazy var mapView: MKMapView = {
-        let mapView = MKMapView()
-        mapView.frame = self.view.frame
-        mapView.delegate = self
-        mapView.mapType = .standard
-        mapView.isZoomEnabled = true
-        mapView.isScrollEnabled = true
-        mapView.showsUserLocation = true
-        mapView.showsScale = true
-        mapView.showsCompass = true
-        mapView.showsBuildings = true
-        return mapView
-    }()
-    
-    let myLocationButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("myLocation", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.layer.borderColor = lineColor.cgColor
-        button.layer.borderWidth = linePixel
-        button.addTarget(self, action: #selector(handleMyLocation), for: .touchUpInside)
-        return button
-    }()
     
 }
 

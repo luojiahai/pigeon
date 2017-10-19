@@ -296,34 +296,6 @@ class ARViewController: UIViewController {
         }
     }
     
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        super.touchesBegan(touches, with: event)
-    //
-    //        if let touch = touches.first {
-    //            if touch.view != nil {
-    ////                if (mapView == touch.view! ||
-    ////                    mapView.recursiveSubviews().contains(touch.view!)) {
-    ////                    centerMapOnUserLocation = false
-    ////                } else {
-    //
-    //                    let location = touch.location(in: self.view)
-    //
-    //                    if location.x <= 40 && adjustNorthByTappingSidesOfScreen {
-    //                        print("left side of the screen")
-    //                        sceneLocationView.moveSceneHeadingAntiClockwise()
-    //                    } else if location.x >= view.frame.size.width - 40 && adjustNorthByTappingSidesOfScreen {
-    //                        print("right side of the screen")
-    //                        sceneLocationView.moveSceneHeadingClockwise()
-    //                    } else {
-    //                        //                        let image = UIImage(named: "pin")!
-    //                        //                        let annotationNode = LocationAnnotationNode(location: nil, image: image)
-    //                        //                        annotationNode.scaleRelativeToDistance = true
-    //                        //                        sceneLocationView.addLocationNodeForCurrentPosition(locationNode: annotationNode)
-    //                    }
-    ////                }
-    //            }
-    //        }
-    //    }
     
     let debugLabel: UILabel = {
         let label = UILabel()
