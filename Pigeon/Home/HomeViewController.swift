@@ -38,6 +38,8 @@ class HomeViewController: UICollectionViewController {
         setupRefreshControl()
     }
     
+    /*------------------------------- view setup starts here -------------------------------------- */
+    
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -64,6 +66,10 @@ class HomeViewController: UICollectionViewController {
         collectionView?.alwaysBounceVertical = true
     }
     
+    /*------------------------------- view setup ends here -------------------------------------- */
+    
+    
+    //fetch footprints from database if there's any
     fileprivate func fetchFootprints() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -138,6 +144,7 @@ class HomeViewController: UICollectionViewController {
         }
     }
     
+    //action triggered when sliding down
     @objc fileprivate func handleReloadCollection() {
         DispatchQueue.main.async(execute: {
             self.collectionView?.reloadData()
@@ -145,6 +152,7 @@ class HomeViewController: UICollectionViewController {
         })
     }
     
+    //action when map button is pressed
     @objc fileprivate func handlePresentMap() {
         let mapVC = MapViewController()
         mapVC.footprints = footprints
@@ -155,6 +163,7 @@ class HomeViewController: UICollectionViewController {
         }
     }
     
+    //action when footprint button is pressed
     @objc fileprivate func handlePostFootprint() {
         let vc = UINavigationController(rootViewController: PostFootprintViewController())
         navigationItem.rightBarButtonItem?.isEnabled = false
@@ -163,6 +172,7 @@ class HomeViewController: UICollectionViewController {
         }
     }
     
+    //action when images are clicked
     @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
         let fullscreenPhoto = UIImageView(frame: UIScreen.main.bounds)
@@ -175,22 +185,16 @@ class HomeViewController: UICollectionViewController {
         navigationController?.isNavigationBarHidden = true
         tabBarController?.tabBar.isHidden = true
         
-//        UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseIn, animations: {
-//            fullscreenPhoto.frame = UIScreen.main.bounds
-//            fullscreenPhoto.alpha = 1
-//            fullscreenPhoto.layoutSubviews()
-//        }, completion: { (_) in
-//            self.navigationController?.isNavigationBarHidden = true
-//            self.tabBarController?.tabBar.isHidden = true
-//        })
     }
     
+    //action when images are clicked in imageView
     @objc fileprivate func dismissFullImage(_ sender: UITapGestureRecognizer) {
         navigationController?.isNavigationBarHidden = false
         tabBarController?.tabBar.isHidden = false
         sender.view?.removeFromSuperview()
     }
     
+    //action when clicking like for a footprint item
     @objc fileprivate func handleLike(_ sender: UIButton) {
         sender.isEnabled = false
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -217,6 +221,7 @@ class HomeViewController: UICollectionViewController {
         }
     }
     
+    //action when a new comment is entered
     @objc fileprivate func handleComment(_ sender: UIButton) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
@@ -253,6 +258,8 @@ class HomeViewController: UICollectionViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    
+    //action when user name is clicked
     @objc fileprivate func handleShowUserProfile(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
         let vc = UserProfileViewController()
@@ -322,10 +329,11 @@ extension HomeViewController: UICollectionViewDelegateFlowLayout {
 
 extension HomeViewController: LoginViewControllerDelegate {
     
+    //remove old footprint list before fetching again
     @objc func reloadData() {
         footprints.removeAll()
         collectionView?.reloadData()
-        
+        //could be improved by a more smooth way of feeding data
         fetchFootprints()
         
         refreshControl?.endRefreshing()
