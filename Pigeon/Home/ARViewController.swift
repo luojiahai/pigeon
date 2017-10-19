@@ -139,11 +139,15 @@ class ARViewController: UIViewController {
         
         sceneLocationView.locationDelegate = self
         
-        sceneLocationView.addSubview(infoLabel)
+//        sceneLocationView.addSubview(infoLabel)
         
-        view.addSubview(debugLabel)
-        debugLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
-        debugLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+//        view.addSubview(debugLabel)
+//        debugLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
+//        debugLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        
+        view.addSubview(distanceLabel)
+        distanceLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
+        distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
     }
     
     @objc fileprivate func handleCancel() {
@@ -220,7 +224,7 @@ class ARViewController: UIViewController {
         }
     }
     
-    fileprivate func updateTarget() {  // ???
+    fileprivate func updateTarget() {
         
         targetLocation = delegate?.updateLocation()
         
@@ -238,7 +242,11 @@ class ARViewController: UIViewController {
         
         guard let currentLocation = sceneLocationView.currentLocation() else { return }
         guard let targetLocation = targetLocation else { return }
+
+        
         let distance = currentLocation.distance(from: targetLocation)
+        
+        distanceLabel.text = "Target distance: " + String(Int(distance)) + " metres\n"
         
         var debugText = String()
         debugText += "target distance: " + String(Int(distance)) + " metres\n"
@@ -313,6 +321,16 @@ class ARViewController: UIViewController {
         label.textAlignment = .left
         label.textColor = UIColor.white
         label.numberOfLines = 0
+        return label
+    }()
+    
+    var distanceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.sizeToFit()
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .white
         return label
     }()
     
