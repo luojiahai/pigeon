@@ -48,7 +48,7 @@ class MapViewController: UIViewController {
         setupViews()
         setupLocationManager()
         setupMapView()
-//        setupLocationSharing()
+        //        setupLocationSharing()
         renderFootprint()
     }
     
@@ -260,18 +260,19 @@ class MapViewController: UIViewController {
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
-                if self.currentUserAnnotation == nil {
-                    self.currentUserAnnotation = MKPointAnnotation()
-                    self.mapView.addAnnotation(self.currentUserAnnotation!)
-                }
+                //                if self.currentUserAnnotation == nil {
+                //                    self.currentUserAnnotation = MKPointAnnotation()
+                //                    self.mapView.addAnnotation(self.currentUserAnnotation!)
+                //                }
                 
-                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                    self.currentUserAnnotation?.coordinate = currentLocation.coordinate
-                }, completion: nil)
+                //                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                //                    self.currentUserAnnotation?.coordinate = currentLocation.coordinate
+                //                }, completion: nil)
                 
                 if self.centerMapOnUserLocation {
                     UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
+                        //                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
+                        self.mapView.setCenter(self.currentLocation!.coordinate, animated: false)
                     }, completion: {
                         _ in
                         self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -443,3 +444,4 @@ extension MapViewController: LocationSharingStatusListener {
     }
     
 }
+
