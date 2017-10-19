@@ -194,7 +194,7 @@ class MapViewController: UIViewController {
             let directionRequest = MKDirectionsRequest()
             directionRequest.source = sourceItem
             directionRequest.destination = destItem
-            directionRequest.transportType = .any  // can modify transport type
+            directionRequest.transportType = MKDirectionsTransportType.walking  // can modify transport type
             let directions = MKDirections(request: directionRequest) // computes directions and travel time
             
             // Find direction and draw route
