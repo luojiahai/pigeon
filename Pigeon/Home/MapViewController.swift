@@ -381,21 +381,21 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
             
             let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
             
-            marker.isEnabled = false  // not touchable
-            
             if pointAnnotation == self.currentUserAnnotation {  // no more currentUserAnnotation
 //                marker.displayPriority = .required
 //                marker.glyphImage = UIImage(named: "user")
             } else if pointAnnotation == self.targetUserAnnotation {
                 marker.displayPriority = .required
-                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
-                marker.glyphImage = UIImage(named: "compass")
+//                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
+                marker.glyphImage = UIImage(named: "user")
             } else if users != nil {
                 marker.displayPriority = .required
-                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
-                marker.glyphImage = UIImage(named: "compass")
+//                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
+                marker.glyphImage = UIImage(named: "user")
             } else {
                 // footprints
+                marker.isEnabled = false  // not touchable
+                
                 marker.displayPriority = .required
                 marker.markerTintColor = .gray
                 marker.glyphImage = UIImage(named: "icons8-Cat Footprint Filled-50")
