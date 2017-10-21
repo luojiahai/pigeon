@@ -31,6 +31,23 @@ class testContactUI: XCTestCase {
     func testExample() {
         
         let app = XCUIApplication()
+        
+        //logout of pigeon
+        let tabBarsQuery = app.tabBars
+        tabBarsQuery.buttons["Me"].tap()
+        app.navigationBars["Me"].buttons["icons8 More Filled 50"].tap()
+        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Log Out"]/*[[".cells.staticTexts[\"Log Out\"]",".staticTexts[\"Log Out\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.alerts["Warning"].buttons["Yes"].tap()
+        
+        // enter email on login
+        let emailTextField = app.textFields["Email"]
+        emailTextField.tap()
+        emailTextField.typeText("demo@gmail.com")
+        // enter password
+        let passwordSecureTextField = app.secureTextFields["Password"]
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("123123")
+        app.buttons["Login"].tap()
         app.tabBars.buttons["Contacts"].tap()
         
         let tablesQuery = app.tables
@@ -43,7 +60,7 @@ class testContactUI: XCTestCase {
         let contactsButton = navigationBarsQuery.buttons["Contacts"]
         contactsButton.tap()
         
-        tablesQuery.staticTexts["@abby"].tap()
+        tablesQuery.staticTexts["@jeffrey"].tap()
         contactsButton.tap()
         tablesQuery.searchFields["Search"].tap()
         app.buttons["Cancel"].tap()

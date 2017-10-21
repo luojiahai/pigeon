@@ -31,16 +31,33 @@ class testChatUI: XCTestCase {
     func testExample() {
        
         let app = XCUIApplication()
+        
+        //logout of pigeon
+        let tabBarsQuery = app.tabBars
+        tabBarsQuery.buttons["Me"].tap()
+        app.navigationBars["Me"].buttons["icons8 More Filled 50"].tap()
+        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Log Out"]/*[[".cells.staticTexts[\"Log Out\"]",".staticTexts[\"Log Out\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.alerts["Warning"].buttons["Yes"].tap()
+        
+        // enter email on login
+        let emailTextField = app.textFields["Email"]
+        emailTextField.tap()
+        emailTextField.typeText("demo@gmail.com")
+        // enter password
+        let passwordSecureTextField = app.secureTextFields["Password"]
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("123123")
+        app.buttons["Login"].tap()
         app.tabBars.buttons["Chats"].tap()
         
         let tablesQuery = app.tables
-        tablesQuery.staticTexts["Dun Dun   @ssswww4444"].tap()
+        tablesQuery.staticTexts["JEFFREY   @jeffrey"].tap()
    
         let textField = app.children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .other).element.children(matching: .textField).element
         textField.tap()
         textField.typeText("This is a UI test")
         app.buttons["Send"].tap()
-        app.navigationBars["ssswww4444"].buttons["Chats"].tap()
+        app.navigationBars["jeffrey"].buttons["Chats"].tap()
         app.navigationBars.children(matching: .button).element.tap()
     }
     
