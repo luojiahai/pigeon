@@ -25,7 +25,7 @@ class NewGroupChatTableViewController: UITableViewController {
         
         fetchUsers()
     }
-    
+    // Setup layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -34,14 +34,14 @@ class NewGroupChatTableViewController: UITableViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleDismiss))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "createGroup", style: .plain, target: self, action: #selector(handleCreateGroup))
     }
-    
+    // table
     fileprivate func setupTableView() {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(NewChatTableViewCell.self, forCellReuseIdentifier: "NewChatCell")
         tableView.tableFooterView = UIView()
         tableView.allowsMultipleSelection = true
     }
-    
+    // Fetch all users (friends) from db that can be target user in group chat
     fileprivate func fetchUsers() {
         var friendIds = [String]()
         
@@ -92,11 +92,16 @@ class NewGroupChatTableViewController: UITableViewController {
         dismiss(animated: true, completion: nil)
     }
     
+    // Creat group chat with the users have been selected
+    // Update database 
     @objc fileprivate func handleCreateGroup() {
+        // The group must contain over two people
         if targetUsers.count < 2 {
             let alert = UIAlertController(title: "Create Group", message: "number of group members must be greater than 2", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
+        
+        // Create the group (owner and members) and update database
         } else {
             dismiss(animated: true) {
                 guard let currentUser = Auth.auth().currentUser else { return }
@@ -156,7 +161,8 @@ class NewGroupChatTableViewController: UITableViewController {
             }
         }
     }
-    
+
+//-------------------Table of all friends (potential group members)------------------------
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }

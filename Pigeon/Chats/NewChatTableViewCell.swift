@@ -25,7 +25,7 @@ class NewChatTableViewCell: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // Information of a user
     fileprivate func setupUser() {
         nameLabel.text = user?.name
         
@@ -37,7 +37,7 @@ class NewChatTableViewCell: UITableViewCell {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
     }
-    
+//--------------------All subviews--------------------------------------    
     fileprivate func setupViews() {
         addSubview(nameLabel)
         addSubview(usernameLabel)

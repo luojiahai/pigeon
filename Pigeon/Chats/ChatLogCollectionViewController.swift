@@ -195,11 +195,13 @@ class ChatLogCollectionViewController: UICollectionViewController {
         })
     }
     
+    // Make sure always display the latest conversation messages
     fileprivate func scrollToBottom(animated: Bool) {
         let indexPath = NSIndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView?.scrollToItem(at: indexPath as IndexPath, at: .bottom, animated: animated)  
     }
     
+//-----------------Collections of messages--------------------    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return messages.count
     }
@@ -218,7 +220,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         collectionView?.collectionViewLayout.invalidateLayout()
     }
-    
+    // A message
     fileprivate func setupCell(_ cell: ChatLogCollectionViewCell, _ message: Message) {
         if let targetUser = user {
             if let url = targetUser.profilePhotoURL {
@@ -296,6 +298,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
         view.endEditing(true)
     }
     
+    // When the send button has been touched
+    // Send the msg and update database
     @objc fileprivate func handleSend() {
         if let text = inputTextField.text, text != "" {
             sendButton.isEnabled = false
@@ -345,7 +349,8 @@ class ChatLogCollectionViewController: UICollectionViewController {
             }
         }
     }
-    
+    // When the members button on nav bar has been touched.
+    // Show all members in that group chat
     @objc fileprivate func handleShowMembers() {
         let vc = UserListTableViewController()
         vc.navigationItem.title = "Members"
@@ -353,6 +358,7 @@ class ChatLogCollectionViewController: UICollectionViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+//----------------------All subviews------------------------------    
     lazy var inputTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = ""
@@ -446,7 +452,7 @@ extension ChatLogCollectionViewController: LocationSharingStateDelegate {
 }
 
 extension ChatLogCollectionViewController: CLLocationManagerDelegate {
-    
+    // Update location to manager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if user != nil {
             guard let currentUser = Auth.auth().currentUser else { return }

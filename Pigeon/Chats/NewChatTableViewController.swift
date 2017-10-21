@@ -28,7 +28,7 @@ class NewChatTableViewController: UITableViewController {
         
         fetchUsers()
     }
-    
+    // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         //        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         //
@@ -42,13 +42,14 @@ class NewChatTableViewController: UITableViewController {
         navigationItem.title = "newChat"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleDismiss))
     }
-    
+    // table
     fileprivate func setupTableView() {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(NewChatTableViewCell.self, forCellReuseIdentifier: "NewChatCell")
         tableView.tableFooterView = UIView()
     }
     
+    // Fetch all the users(friends) that can be target user in a new chat
     fileprivate func fetchUsers() {
         var friendIds = [String]()
         
@@ -98,7 +99,7 @@ class NewChatTableViewController: UITableViewController {
     @objc fileprivate func handleDismiss() {
         dismiss(animated: true, completion: nil)
     }
-    
+//---------------Table of all friends (potential target user)    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
@@ -116,7 +117,7 @@ class NewChatTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
-    
+    // Select one user as target user and then start the conversation
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         dismiss(animated: true) {

@@ -26,6 +26,7 @@ class ChatsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Information about current user and target user
     fileprivate func setupChat() {
         if let targetUser = message?.targetUser {
             let attributedText = NSMutableAttributedString(string: targetUser.name!, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
@@ -64,7 +65,7 @@ class ChatsTableViewCell: UITableViewCell {
             }
         }
     }
-    
+    // Setup the layout of all subviews
     fileprivate func setupViews() {
         addSubview(profilePhotoImageView)
         addSubview(nameLabel)
@@ -90,6 +91,7 @@ class ChatsTableViewCell: UITableViewCell {
         lastUpdatedMessageLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -12).isActive = true
     }
     
+//--------------------All subviews-------------------------------------------    
     let profilePhotoImageView: CustomImageView = {
         let imageView = CustomImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
