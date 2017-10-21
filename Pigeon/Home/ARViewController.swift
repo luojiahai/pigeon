@@ -139,11 +139,15 @@ class ARViewController: UIViewController {
         
         sceneLocationView.locationDelegate = self
         
-        sceneLocationView.addSubview(infoLabel)
+//        sceneLocationView.addSubview(infoLabel)
         
-        view.addSubview(debugLabel)
-        debugLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
-        debugLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+//        view.addSubview(debugLabel)
+//        debugLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 16).isActive = true
+//        debugLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true
+        
+        view.addSubview(distanceLabel)
+        distanceLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -8).isActive = true
+        distanceLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
     }
     
     @objc fileprivate func handleCancel() {
@@ -220,7 +224,7 @@ class ARViewController: UIViewController {
         }
     }
     
-    fileprivate func updateTarget() {  // ???
+    fileprivate func updateTarget() {
         
         targetLocation = delegate?.updateLocation()
         
@@ -238,7 +242,11 @@ class ARViewController: UIViewController {
         
         guard let currentLocation = sceneLocationView.currentLocation() else { return }
         guard let targetLocation = targetLocation else { return }
+
+        
         let distance = currentLocation.distance(from: targetLocation)
+        
+        distanceLabel.text = "Target distance: " + String(Int(distance)) + " metres\n"
         
         var debugText = String()
         debugText += "target distance: " + String(Int(distance)) + " metres\n"
@@ -296,34 +304,6 @@ class ARViewController: UIViewController {
         }
     }
     
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        super.touchesBegan(touches, with: event)
-    //
-    //        if let touch = touches.first {
-    //            if touch.view != nil {
-    ////                if (mapView == touch.view! ||
-    ////                    mapView.recursiveSubviews().contains(touch.view!)) {
-    ////                    centerMapOnUserLocation = false
-    ////                } else {
-    //
-    //                    let location = touch.location(in: self.view)
-    //
-    //                    if location.x <= 40 && adjustNorthByTappingSidesOfScreen {
-    //                        print("left side of the screen")
-    //                        sceneLocationView.moveSceneHeadingAntiClockwise()
-    //                    } else if location.x >= view.frame.size.width - 40 && adjustNorthByTappingSidesOfScreen {
-    //                        print("right side of the screen")
-    //                        sceneLocationView.moveSceneHeadingClockwise()
-    //                    } else {
-    //                        //                        let image = UIImage(named: "pin")!
-    //                        //                        let annotationNode = LocationAnnotationNode(location: nil, image: image)
-    //                        //                        annotationNode.scaleRelativeToDistance = true
-    //                        //                        sceneLocationView.addLocationNodeForCurrentPosition(locationNode: annotationNode)
-    //                    }
-    ////                }
-    //            }
-    //        }
-    //    }
     
     let debugLabel: UILabel = {
         let label = UILabel()
@@ -343,5 +323,27 @@ class ARViewController: UIViewController {
         label.numberOfLines = 0
         return label
     }()
+    
+    var distanceLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.sizeToFit()
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = .white
+        return label
+    }()
+    
+}
+
+extension ARViewController: ARListener {
+    
+    func dismissAR() {
+        let alert = UIAlertController(title: "Exit From AR", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+            self.handleCancel()
+        }))
+        self.present(alert, animated: true, completion: nil)
+    }
     
 }

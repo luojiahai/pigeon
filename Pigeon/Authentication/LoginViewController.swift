@@ -22,7 +22,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
     // All delegates for LoginViewController
     var delegates: [LoginViewControllerDelegate]?
     
-    // View
+    // View 
     let loginView = LoginView()
     
     override func viewDidLoad() {
@@ -32,13 +32,14 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         
         supportViews()
     }
-    
+	
+    // Dismiss the keyboard
     @objc fileprivate func dismissKeyboard() {
         loginView.emailTextField.resignFirstResponder()
         loginView.passwordTextField.resignFirstResponder()
     }
     
-    
+    // Add cooresponding functions to different subviews
     fileprivate func supportViews() {
 	    loginView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard)))
         
@@ -47,7 +48,7 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         loginView.registerButton.addTarget(self, action: #selector(switchToRegister), for: .touchUpInside)
     }
     
-    
+    // When cancel button has been touched up, dismiss the whole view
     @objc fileprivate func cancel() {
         dismiss(animated: true, completion: nil)
     }
@@ -75,9 +76,9 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
             loginView.registerButton.isEnabled = true
             return
         }
-        
+		
+        // Send an alert for invalid email address
         if !isValidEmail(email) {
-            // Send an alert
             let alert = UIAlertController(title: "Error", message: "Invalid email address format", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
@@ -90,6 +91,8 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
         loginToDatabase(email: email, password: password)
     }
     
+    // Using the given email and password to login to the firebase
+	// Pop out an alert if it fails 
     func loginToDatabase(email: String, password: String) {
         
         // The completion closure will be handled by the background thread
@@ -112,7 +115,8 @@ class LoginViewController: UIViewController, RegisterViewControllerDelegate, UIT
                 })
                 
                 self.dismiss(animated: true, completion: nil)
-                
+				
+                // Clear up
                 self.loginView.emailTextField.text = ""
                 self.loginView.passwordTextField.text = ""
                 self.loginView.loginButton.isEnabled = true

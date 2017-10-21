@@ -224,6 +224,8 @@ class UserProfileViewController: UIViewController {
                 return
             }
             
+            AppNotification.shared.sendRequestNotification(sender: currentUser.uid, receiver: targetUser.uid!)
+            
             DispatchQueue.main.async(execute: {
                 sender.isEnabled = false
             })

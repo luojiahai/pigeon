@@ -29,6 +29,7 @@
 		006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */; };
 		006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */; };
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
+		007C13B91F94D75700C0061A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C13B81F94D75700C0061A /* UserLocation.swift */; };
 		008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */; };
 		008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628B1F5E513700705787 /* ChatsTableViewCell.swift */; };
 		008662931F5E513A00705787 /* NewChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628C1F5E513900705787 /* NewChatTableViewController.swift */; };
@@ -174,6 +175,7 @@
 		006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonUITests.swift; sourceTree = "<group>"; };
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		007C13B81F94D75700C0061A /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatLogCollectionViewCell.swift; sourceTree = "<group>"; };
 		0086628B1F5E513700705787 /* ChatsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsTableViewCell.swift; sourceTree = "<group>"; };
 		0086628C1F5E513900705787 /* NewChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChatTableViewController.swift; sourceTree = "<group>"; };
@@ -418,6 +420,7 @@
 				0086629A1F5E51E400705787 /* Message.swift */,
 				00CF101E1F6532FE00BD906B /* Footprint.swift */,
 				00B33D891F6A968B00926229 /* FootprintComment.swift */,
+				007C13B81F94D75700C0061A /* UserLocation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -713,9 +716,9 @@
 			projectRoot = "";
 			targets = (
 				006F19F01F3DA27B004C20B3 /* Pigeon */,
+				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 				006F1A071F3DA288004C20B3 /* PigeonTests */,
 				006F1A121F3DA28A004C20B3 /* PigeonUITests */,
-				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
 				00F78C101F7B70D1001912F3 /* PigeonTestsNew */,
 			);
 		};
@@ -1036,6 +1039,7 @@
 				00C73E5A1F6E6E1E00FAF85A /* UserFriendsData.swift in Sources */,
 				008662971F5E513A00705787 /* NewChatTableViewCell.swift in Sources */,
 				008662921F5E513A00705787 /* ChatsTableViewCell.swift in Sources */,
+				007C13B91F94D75700C0061A /* UserLocation.swift in Sources */,
 				00962C781F5944B900B4B7C0 /* PendingFriendsViewController.swift in Sources */,
 				00962C7A1F59453400B4B7C0 /* PendingFriendsTableViewCell.swift in Sources */,
 				00B33D8C1F6AA45100926229 /* FootprintCommentsTableViewCell.swift in Sources */,

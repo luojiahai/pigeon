@@ -152,6 +152,7 @@ extension AddContactsViewController {
                 cell.requestButton.backgroundColor = .lightGray
             } else {
                 cell.requestButton.isEnabled = true
+                cell.requestButton.backgroundColor = .black
             }
             cell.requestButton.tag = indexPath.row
             cell.requestButton.addTarget(self, action: #selector(handleRequest), for: .touchUpInside)

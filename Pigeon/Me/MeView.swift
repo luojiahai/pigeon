@@ -8,6 +8,7 @@
 
 import UIKit
 
+// The view seen under the Me tab
 class MeView: UIView {
 	
     override init(frame: CGRect) {
@@ -20,6 +21,7 @@ class MeView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Set up the layout of the view
     fileprivate func setupViews() {
         backgroundColor = .groupTableViewBackground
         
@@ -50,6 +52,8 @@ class MeView: UIView {
         editProfileButton.bottomAnchor.constraint(equalTo: nameCardView.bottomAnchor, constant: -16).isActive = true
         editProfileButton.heightAnchor.constraint(equalToConstant: 24)
     }
+    
+    // The view as a name card containing profile photo, name, username and edit button
     let nameCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +63,7 @@ class MeView: UIView {
         return view
     }()
     
+    // Name (can be changed)
     let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -68,6 +73,7 @@ class MeView: UIView {
         return label
     }()
     
+    // Username (ID in database, can't be changed)
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -78,6 +84,7 @@ class MeView: UIView {
         return label
     }()
     
+    // Profile photo
     let profilePhotoImageView: CustomImageView = {
         let imageView = CustomImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +94,7 @@ class MeView: UIView {
         return imageView
     }()
     
+    // The button to edit the profile
     let editProfileButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false

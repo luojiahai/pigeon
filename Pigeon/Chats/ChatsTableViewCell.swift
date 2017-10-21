@@ -44,8 +44,11 @@ class ChatsTableViewCell: UITableViewCell {
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 lastUpdatedTimeLabel.text = dateFormatter.string(from: timestampDate)
             }
-        } else if let _ = message?.targetUsers {
-            let attributedText = NSMutableAttributedString(string: "Group \(String(describing: (message?.conversationID)!))", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
+        } else if let users = message?.targetUsers {
+            let user1 = users[0]
+            let user2 = users[1]
+            let groupname = "Group: \(String(describing: user1.name!)), \(String(describing: user2.name!)) ..."
+            let attributedText = NSMutableAttributedString(string: groupname, attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 16)])
             nameLabel.attributedText = attributedText
             
             profilePhotoImageView.loadImageUsingCache(with: "https://firebasestorage.googleapis.com/v0/b/pigeon-d90d7.appspot.com/o/logo-100.jpg?alt=media&token=4d528b52-d3b7-48b6-a7b3-d859f584b200")
