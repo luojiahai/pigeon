@@ -43,7 +43,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLayoutSubviews() {
         scrollView.contentSize = CGSize(width: view.frame.width, height: 1000)
     }
-    
+    // Information contained in a footprint
     fileprivate func setupFootprint() {
         if let url = footprint?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -111,7 +111,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOption))
     }
-    
+    // Setup the layout of all subviews
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
@@ -223,7 +223,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         numLikesCommentsLabel.leftAnchor.constraint(equalTo: verticalLineView.leftAnchor).isActive = true
         numLikesCommentsLabel.centerYAnchor.constraint(equalTo: likeButton.centerYAnchor).isActive = true
     }
-    
+    // Setup the layout of map view
     fileprivate func setupMapView() {
         guard let footprint = footprint else { return }
         
@@ -236,7 +236,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         annotation.coordinate = coordinate
         mapView.addAnnotation(annotation)
     }
-    
+    // Setup functions related to subviews
     fileprivate func supportViews() {
         footprintImageViews.forEach { (imageView) in
             footprintContainerView.addSubview(imageView)
@@ -250,6 +250,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         mapView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleMap)))
     }
     
+    // Fetch likes from db
     fileprivate func fetchLikes() {
         Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
             self.footprint?.likes?.forEach({ (uid) in
@@ -259,7 +260,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             })
         })
     }
-    
+    // Fetch comments from db
     fileprivate func fetchComments() {
         let footprintID = footprint?.footprintID
         Database.database().reference().child("footprints").child(footprintID!).child("comments").observe(.childAdded) { (dataSnapshot) in
@@ -282,12 +283,14 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    // When the option button has been touched up
     @objc fileprivate func handleOption() {
         let alert = UIAlertController(title: "Option", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
     }
     
+    // When the image has been touched
     @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
         let fullscreenPhoto = UIImageView(frame: UIScreen.main.bounds)
@@ -316,6 +319,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         sender.view?.removeFromSuperview()
     }
     
+    // When a user gives a like to a footprint
     @objc fileprivate func handleLike(_ sender: UIButton) {
         sender.isEnabled = false
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -352,12 +356,13 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             })
         }
     }
-    
+    // When a user gives comments to a footprint
     @objc fileprivate func handleComment(_ sender: UIButton) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         let footprintID = footprint?.footprintID
         
+        // Write comments in an alert
         let alert = UIAlertController(title: "Comment", message: "", preferredStyle: .alert)
         alert.addTextField(configurationHandler: nil)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -403,7 +408,7 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
         let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
         return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 18)], context: nil)
     }
-    
+//----------Functions related to subview-------------------------------------    
     @objc fileprivate func handleShowLikes() {
         let vc = UserListTableViewController()
         vc.navigationItem.title = "Likes"
@@ -445,7 +450,8 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
-    
+//-----------Ends of functions--------------------------------------------------
+//---------- All subviews----------------------------------------------------------    
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: self.view.bounds)
         return scrollView
@@ -610,13 +616,14 @@ class FootprintViewController: UIViewController, MKMapViewDelegate {
     }()
     
 }
+//---------- Ends of all subviews----------------------------------------------------------
 
 extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return comments.count
     }
-    
+    // Each footprint is a cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CommentsCell", for: indexPath)
         
@@ -628,7 +635,7 @@ extension FootprintViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
-    
+    // Can comment when select a footprint
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         

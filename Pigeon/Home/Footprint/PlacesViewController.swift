@@ -47,7 +47,7 @@ class PlacesViewController: UITableViewController {
             }
         })
     }
-    
+    // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -55,11 +55,12 @@ class PlacesViewController: UITableViewController {
         navigationItem.title = "Select Place"
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
     }
-    
+    //When cancel button has been touched up
     @objc fileprivate func handleCancel() {
         dismiss(animated: true, completion: nil)
     }
     
+//--------------The table of all places that can be chose----------------    
     fileprivate func setupTableView() {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(PlacesTableViewCell.self, forCellReuseIdentifier: "PlacesCell")

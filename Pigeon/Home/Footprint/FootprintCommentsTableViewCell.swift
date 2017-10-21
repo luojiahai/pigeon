@@ -26,6 +26,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Information contained in a comment
     fileprivate func setupComment() {
         if let url = comment?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -48,6 +49,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         }
     }
     
+    // Setup the layout of subviews
     fileprivate func setupViews() {
         addSubview(profilePhotoImageView)
         addSubview(nameLabel)
@@ -74,6 +76,7 @@ class FootprintCommentsTableViewCell: UITableViewCell {
         commentTextLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 4).isActive = true
     }
     
+//------------All subviews---------------------------------------    
     let profilePhotoImageView: CustomImageView = {
         let imageView = CustomImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false

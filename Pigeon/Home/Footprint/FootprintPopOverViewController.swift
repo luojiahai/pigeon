@@ -22,6 +22,7 @@ class FootprintopoverViewController: UIViewController {
         setupViews()
     }
     
+    // Get information contained in a footprint
     fileprivate func setupFootprint() {
         if let url = footprint?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -44,6 +45,7 @@ class FootprintopoverViewController: UIViewController {
         }
     }
     
+//--------------------Views-------------------------------------------    
     fileprivate func setupViews() {
         // gray
         view.backgroundColor = UIColor(white: 0.8, alpha: 0.5)

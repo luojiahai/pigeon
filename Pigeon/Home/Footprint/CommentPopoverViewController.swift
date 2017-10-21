@@ -21,7 +21,7 @@ class CommentPopoverViewController: UIViewController {
 
         setupViews()
     }
-    
+    // Get all information contained in a comment
     fileprivate func setupComment() {
         if let url = comment?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -43,7 +43,7 @@ class CommentPopoverViewController: UIViewController {
             timeLabel.text = dateFormatter.string(from: timestampDate)
         }
     }
-    
+ //------------------Views-------------------------------------------------------   
     fileprivate func setupViews() {
         view.addSubview(profilePhotoImageView)
         view.addSubview(nameLabel)
