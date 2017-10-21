@@ -33,16 +33,10 @@ class ChatsViewController: UITableViewController {
         
         setupNavigation()
         setupTableView()
-        //        setupRefreshControl()
         setupNewChatPopoverVC()
     }
     
     fileprivate func setupNavigation() {
-//        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-//
-//        navigationController?.navigationBar.barTintColor = UIColor(red: 11/255, green: 41/255, blue: 51/255, alpha: 1)
-//        navigationController?.navigationBar.tintColor = .white
-//        navigationController?.navigationBar.titleTextAttributes = [NSAttributedStringKey(rawValue: NSAttributedStringKey.foregroundColor.rawValue): UIColor.white]
         
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -50,7 +44,7 @@ class ChatsViewController: UITableViewController {
         navigationItem.title = "Chats"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-Add New Filled-50"), style: .plain, target: self, action: #selector(handleNewChat))
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
+
     }
     
     fileprivate func setupTableView() {
