@@ -213,6 +213,7 @@ extension PendingFriendsViewController {
                 cell.approveButton.backgroundColor = .lightGray
             } else {
                 cell.approveButton.isEnabled = true
+                cell.approveButton.backgroundColor = .black
             }
             cell.approveButton.tag = indexPath.row
             cell.approveButton.addTarget(self, action: #selector(handleApprove), for: .touchUpInside)
