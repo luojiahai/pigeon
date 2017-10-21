@@ -8,6 +8,11 @@
 
 import Foundation
 
+/*
+ * The footprint class that defines all the attributes of a footprint.
+ * Each attribute corresponds to a child node in database.
+ */
+
 class Footprint: NSObject {
     
     var footprintID: String?

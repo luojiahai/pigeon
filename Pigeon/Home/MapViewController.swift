@@ -11,21 +11,31 @@ import MapKit
 import CoreLocation
 import Firebase
 
+protocol ARListener {
+    func dismissAR()
+}
+
 class MapViewController: UIViewController {
+    
+    var listener: ARListener?
     
     var manager: CLLocationManager!
     
     var currentLocation: CLLocation?
     var targetLocation: CLLocation?
+    var targetUserLocations: [UserLocation]?
     
     var currentUserAnnotation: MKPointAnnotation?
     var targetUserAnnotation: MKPointAnnotation?
+    var targetUserAnnotations: [MKPointAnnotation]?
     
     var centerMapOnUserLocation: Bool = true
     
     var updateUserLocationTimer: Timer?
     
+    var conversationID: String?
     var user: User?
+    var users: [User]?
     
     var footprints: [Footprint]?
     
@@ -38,6 +48,7 @@ class MapViewController: UIViewController {
         setupViews()
         setupLocationManager()
         setupMapView()
+        //        setupLocationSharing()
         renderFootprint()
     }
     
@@ -63,7 +74,6 @@ class MapViewController: UIViewController {
         vc.popoverPresentationController?.delegate = self
         
         present(vc, animated: true, completion: nil)
-        
     }
     
     fileprivate func renderFootprint() {
@@ -79,6 +89,47 @@ class MapViewController: UIViewController {
             annotation.title = footprint.user?.name
             annotation.subtitle = footprint.footprintID
             mapView.addAnnotation(annotation)
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupLocationSharing()
+    }
+    
+    fileprivate func setupLocationSharing() {
+        if user != nil {
+            if let currentUser = Auth.auth().currentUser, let targetUser = user {
+                Database.database().reference().child("locations").child(targetUser.uid!).child(currentUser.uid).child("location").observe(.value, with: { (dataSnapshot) in
+                    guard let dictionary = dataSnapshot.value as? [String: Double] else { return }
+                    self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
+                })
+            }
+        } else if let users = users {
+            guard let currentUser = Auth.auth().currentUser else { return }
+            guard let groupID = conversationID else { return }
+            targetUserLocations = [UserLocation]()
+            targetUserAnnotations = [MKPointAnnotation]()
+            for targetUser in users {
+                if targetUser.uid! == currentUser.uid {
+                    continue
+                }
+                let annotation = MKPointAnnotation()
+                annotation.title = targetUser.username
+                targetUserAnnotations?.append(annotation)
+                mapView.addAnnotation(annotation)
+                let userLocation = UserLocation((targetUserAnnotations?.index(of: annotation))!, user: targetUser, location: nil)
+                targetUserLocations?.append(userLocation)
+            }
+            
+            guard let targetUserLocations = targetUserLocations else { return }
+            for targetUserLocation in targetUserLocations {
+                Database.database().reference().child("locations").child("group").child(groupID).child((targetUserLocation.user?.uid)!).child("location").observe(.value, with: { (dataSnapshot) in
+                    guard let dictionary = dataSnapshot.value as? [String: Double] else { return }
+                    targetUserLocation.location = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
+                })
+            }
         }
     }
     
@@ -122,49 +173,51 @@ class MapViewController: UIViewController {
     }
     
     func setRoute() {
-        // get coordinates
-        let sourceCoordinate = currentLocation?.coordinate
-        let destCoordinate = targetLocation?.coordinate
-        
-        // create Placemarks
-        let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate!)
-        let destPlaceMark = MKPlacemark(coordinate: destCoordinate!)
-        
-        // create MapItems
-        let sourceItem = MKMapItem(placemark: sourcePlaceMark)  // POI on map
-        let destItem = MKMapItem(placemark: destPlaceMark)
-        
-        // Name the MapItems
-        sourceItem.name = "Source"
-        destItem.name = "Destination"
-        
-        // Create a direction request
-        let directionRequest = MKDirectionsRequest()
-        directionRequest.source = sourceItem
-        directionRequest.destination = destItem
-        directionRequest.transportType = .any  // can modify transport type
-        let directions = MKDirections(request: directionRequest) // computes directions and travel time
-        
-        // Find direction and draw route
-        directions.calculate(completionHandler: {
-            response, error in
+        if user != nil {
+            // get coordinates
+            let sourceCoordinate = currentLocation?.coordinate
+            let destCoordinate = targetLocation?.coordinate
             
-            // check response
-            guard let response = response else {
-                if error != nil {
-                    print("Error during calculation of directions")
+            // create Placemarks
+            let sourcePlaceMark = MKPlacemark(coordinate: sourceCoordinate!)
+            let destPlaceMark = MKPlacemark(coordinate: destCoordinate!)
+            
+            // create MapItems
+            let sourceItem = MKMapItem(placemark: sourcePlaceMark)  // POI on map
+            let destItem = MKMapItem(placemark: destPlaceMark)
+            
+            // Name the MapItems
+            sourceItem.name = "Source"
+            destItem.name = "Destination"
+            
+            // Create a direction request
+            let directionRequest = MKDirectionsRequest()
+            directionRequest.source = sourceItem
+            directionRequest.destination = destItem
+            directionRequest.transportType = MKDirectionsTransportType.walking  // can modify transport type
+            let directions = MKDirections(request: directionRequest) // computes directions and travel time
+            
+            // Find direction and draw route
+            directions.calculate(completionHandler: {
+                response, error in
+                
+                // check response
+                guard let response = response else {
+                    if error != nil {
+                        print("Error during calculation of directions")
+                    }
+                    return
                 }
-                return
-            }
-            
-            // draw route
-            let route = response.routes[0]  // 0 for the fastest route
-            self.mapView.add(route.polyline, level: .aboveRoads)
-            
-            //            // set region
-            //            let rect = route.polyline.boundingMapRect
-            //            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
-        })
+                
+                // draw route
+                let route = response.routes[0]  // 0 for the fastest route
+                self.mapView.add(route.polyline, level: .aboveRoads)
+                
+                //            // set region
+                //            let rect = route.polyline.boundingMapRect
+                //            self.mapView.setRegion(MKCoordinateRegionForMapRect(rect), animated: true)
+            })
+        }
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -207,18 +260,19 @@ class MapViewController: UIViewController {
     @objc func updateUserLocation() {
         if let currentLocation = currentLocation {
             DispatchQueue.main.async {
-                if self.currentUserAnnotation == nil {
-                    self.currentUserAnnotation = MKPointAnnotation()
-                    self.mapView.addAnnotation(self.currentUserAnnotation!)
-                }
+                //                if self.currentUserAnnotation == nil {
+                //                    self.currentUserAnnotation = MKPointAnnotation()
+                //                    self.mapView.addAnnotation(self.currentUserAnnotation!)
+                //                }
                 
-                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                    self.currentUserAnnotation?.coordinate = currentLocation.coordinate
-                }, completion: nil)
+                //                UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                //                    self.currentUserAnnotation?.coordinate = currentLocation.coordinate
+                //                }, completion: nil)
                 
                 if self.centerMapOnUserLocation {
                     UIView.animate(withDuration: 0.45, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
-                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
+                        //                        self.mapView.setCenter(self.currentUserAnnotation!.coordinate, animated: false)
+                        self.mapView.setCenter(currentLocation.coordinate, animated: false)
                     }, completion: {
                         _ in
                         self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
@@ -240,11 +294,22 @@ class MapViewController: UIViewController {
             }
         }
         
-        if let currentUser = Auth.auth().currentUser, let targetUser = user {
-            Database.database().reference().child("locations").observeSingleEvent(of: .value, with: { (dataSnapshot) in
-                guard let dictionary = dataSnapshot.childSnapshot(forPath: targetUser.uid!).childSnapshot(forPath: currentUser.uid).childSnapshot(forPath: "location").value as? [String: CLLocationDegrees] else { return }
-                self.targetLocation = CLLocation(coordinate: CLLocationCoordinate2D(latitude: dictionary["latitude"]!, longitude: dictionary["longitude"]!), altitude: dictionary["altitude"]!)
-            })
+        if let targetUserAnnotations = targetUserAnnotations {
+            DispatchQueue.main.async {
+                for annotation in targetUserAnnotations {
+                    UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.allowUserInteraction, animations: {
+                        guard let targetUserLocations = self.targetUserLocations else { return }
+                        for targetUserLocation in targetUserLocations {
+                            if targetUserLocation.annotationIndex == targetUserAnnotations.index(of: annotation) {
+                                if let coordinate = targetUserLocation.location?.coordinate {
+                                    annotation.coordinate = coordinate
+                                }
+                                break
+                            }
+                        }
+                    }, completion: nil)
+                }
+            }
         }
         
         // set the route from current location to target location
@@ -272,12 +337,20 @@ class MapViewController: UIViewController {
     
     //action when AR mode is on
     @objc fileprivate func handleAR() {
-        let arVC = ARViewController()
-        arVC.delegate = self
-        arVC.targetLocation = targetLocation
-        arVC.footprints = footprints
-        let vc = UINavigationController(rootViewController: arVC)
-        present(vc, animated: false, completion: nil)
+        if users != nil {
+            let alert = UIAlertController(title: "AR", message: "Group location sharing in AR is not supported. Feature comming soon...", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        } else {
+            let arVC = ARViewController()
+            arVC.delegate = self
+            listener = arVC
+            arVC.targetLocation = targetLocation
+            arVC.footprints = footprints
+            let vc = UINavigationController(rootViewController: arVC)
+            present(vc, animated: false, completion: nil)
+        }
     }
     
     //action when my location button is clicked
@@ -305,17 +378,24 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
         }
         
         if let pointAnnotation = annotation as? MKPointAnnotation {
+            
             let marker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: nil)
             
-            if pointAnnotation == self.currentUserAnnotation {
-                marker.displayPriority = .required
-                marker.glyphImage = UIImage(named: "user")
+            if pointAnnotation == self.currentUserAnnotation {  // no more currentUserAnnotation
+//                marker.displayPriority = .required
+//                marker.glyphImage = UIImage(named: "user")
             } else if pointAnnotation == self.targetUserAnnotation {
                 marker.displayPriority = .required
-                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
-                marker.glyphImage = UIImage(named: "compass")
+//                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
+                marker.glyphImage = UIImage(named: "user")
+            } else if users != nil {
+                marker.displayPriority = .required
+//                marker.markerTintColor = UIColor(hue: 0.267, saturation: 0.67, brightness: 0.77, alpha: 1.0)
+                marker.glyphImage = UIImage(named: "user")
             } else {
                 // footprints
+                marker.isEnabled = false  // not touchable
+                
                 marker.displayPriority = .required
                 marker.markerTintColor = .gray
                 marker.glyphImage = UIImage(named: "icons8-Cat Footprint Filled-50")
@@ -323,7 +403,6 @@ extension MapViewController: MKMapViewDelegate, CLLocationManagerDelegate {
                 marker.addGestureRecognizer(gesture)
                 
             }
-            
             return marker
         }
         
@@ -352,13 +431,19 @@ extension MapViewController: UIPopoverPresentationControllerDelegate {
     
 }
 
-
 extension MapViewController: LocationSharingStatusListener {
+    
     func dismissMap() {
-        let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true, completion: nil)
+        if listener != nil {
+            self.listener?.dismissAR()
+        } else {
+            let alert = UIAlertController(title: "Exit From Map", message: "Your friend turned off Location Sharing", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: { (action) in
+                self.dismiss(animated: true, completion: nil)
+            }))
+            self.present(alert, animated: true, completion: nil)
+        }
     }
+    
 }
+

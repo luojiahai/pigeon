@@ -17,3 +17,18 @@ Build and run on XCode and target on one of the following <b>PHYSICAL</b> device
 * All iPad Pro models
 
 Note: Do not target on XCode simulators, which may not support some functionalities such as ARKit camera component.
+
+## Testings
+
+### Unit Tests
+
+(...)
+
+### UI Tests
+
+(...)
+
+## Third Party Libraries Used
+ARKit-CoreLocation @ProjectDent
+
+License: https://github.com/ProjectDent/ARKit-CoreLocation/blob/master/LICENSE

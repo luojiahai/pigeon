@@ -8,6 +8,10 @@
 
 import Foundation
 
+/*
+ * Footprint commets are seperated from footprint class
+ * to imporve efficiency.
+ */
 class FootprintComment: NSObject {
     
     var footprintID: String?

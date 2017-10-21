@@ -108,7 +108,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         }
     }
     
-    @objc fileprivate func handleDone() {
+    @objc  fileprivate func handleDone() {   //add fileprivate back after testing
         guard let currentUser = Auth.auth().currentUser else { return }
         
         var images: [UIImage]?
@@ -143,6 +143,14 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         
         let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text, "place": place.name] as [String : Any]
+        
+        self.updatePosts(values, location, images)
+
+    }
+    
+    
+    
+    func updatePosts(_ values: [String: Any], _ location: CLLocation, _ images: [UIImage]?){
         Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
             if let error = error {
                 let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
@@ -188,8 +196,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
                 })
             })
             
-            let footprintValues = [ref.key: timestamp]
-            Database.database().reference().child("user-footprints").child(currentUser.uid).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
+            let footprintValues = [ref.key: values["timestamp"]]
+            Database.database().reference().child("user-footprints").child(values["user"] as! String).updateChildValues(footprintValues, withCompletionBlock: { (error, ref) in
                 if let error = error {
                     let alert = UIAlertController(title: "Error", message: String(describing: error), preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -203,7 +211,6 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             })
         }
     }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.first ?? nil
         
