@@ -180,15 +180,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
                 
-//            } else if shortcutItem.type == "com.elroot.Pigeon.map" {  // Map
-//
-//                // Go to view controller where QR Code is shown
-//                let homeVC = tabVC.childViewControllers[0].childViewControllers[0] as! HomeViewController
-//                let mapVC = MapViewController()
-//                mapVC.footprints = homeVC.footprints  // pass footprints to map
-//                let vc = UINavigationController(rootViewController: mapVC)
-//                tabVC.present(vc, animated: true, completion: nil)
-//            }
         }
     }
 }

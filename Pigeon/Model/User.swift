@@ -8,6 +8,11 @@
 
 import Foundation
 
+/*
+ * The user class that defines all the attributes of a user object
+ * All the attributes are optional but will be used as concrete
+ */
+
 class User: NSObject {
     
     var uid: String?

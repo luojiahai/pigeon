@@ -8,6 +8,10 @@
 
 import UIKit
 
+/*
+ * The message class that defines all the attributes of a message object.
+ * All the attributes are optional but will be used as concrete.
+ */
 class Message: NSObject {
     
     var conversationID: String?
