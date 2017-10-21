@@ -30,7 +30,7 @@ class testAuthentication: XCTestCase {
     func testViewLoad() {
         let loginView = loginVC.loginView
         
-        XCTAssertNil(loginView, "view did not load")
+        XCTAssert(loginView != nil, "view did not load")
     }
     
     func testEmailPassword() {
