@@ -37,7 +37,10 @@ class testHome: XCTestCase {
         super.tearDown()
     }
     
-    func testFootprintsTable() {
+    func testNetwork(){
+        XCTAssert(Auth.auth().currentUser?.email == "abigail_yuan@hotmail.com", "cannot post footprint from correct user")
+    }
+        func testFootprintsTable() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         XCTAssert(loginVC != nil, "login view not loaded")
@@ -67,6 +70,8 @@ class testHome: XCTestCase {
         let location = CLLocation(latitude: 1.22334, longitude: 3.343242)
         
         postFootprintVC.updatePosts(values, location, images)
+        
+        XCTAssert(postFootprintVC.captionTextView != nil, "footprint is not showing in the text field.")
     }
     
     func testPerformanceExample() {
