@@ -15,12 +15,6 @@ target 'Pigeon' do
   pod 'OneSignal', '>= 2.5.2', '< 3.0'
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
-
-  target 'PigeonTests' do
-    inherit! :search_paths
-    
-    # Pods for testing
-  end
   
   target 'PigeonTestsNew' do
       inherit! :search_paths
