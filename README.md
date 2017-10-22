@@ -16,12 +16,13 @@ Build and run on XCode and target on one of the following <b>PHYSICAL</b> device
 * iPad (2017)
 * All iPad Pro models
 
-Note: Do not target on XCode simulators, which may not support some functionalities such as ARKit camera component.
+Note: Do not target on XCode simulators, which may not support some functionalities such as ARKit camera component. If your building environment is not satisfied but you have a valid physical device, please read 'TestFlight Beta Software Testing' topic under 'Testings' section to join beta testing for installation of the app.
 
 
 ## Features
 
-* Add friends and chat
+* Chat
+* Add friends (QR code)
 * Group chat
 * Location share
 * Group location share
@@ -66,3 +67,8 @@ This allows other users to install our app on their physical device without buil
 ARKit-CoreLocation @ProjectDent
 
 License: https://github.com/ProjectDent/ARKit-CoreLocation/blob/master/LICENSE
+
+Note: This is <b>NOT</b> a plagiarism. We made a copy of the library source files in our project since we would have minor changes on the original source. According to the permissions of its MIT license, we are able to have modification on the source and to make a copy of the source if neccessary. 
+
+
+
