@@ -34,7 +34,7 @@ class EditProfileTableViewController: UITableViewController {
     func reloadData() {
         observeUserData()
     }
-    
+    // Setup layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationItem.title = "Edit Profile"
     }
@@ -47,6 +47,7 @@ class EditProfileTableViewController: UITableViewController {
         tableView.register(SettingsLabelTableViewCell.self, forCellReuseIdentifier: "SettingsLabelCell")
     }
     
+    // Fetch the current data of the current user
     fileprivate func observeUserData() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -60,7 +61,7 @@ class EditProfileTableViewController: UITableViewController {
             })
         }, withCancel: nil)
     }
-    
+//-----------------------Table of editting--------------------------    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return options.count
     }
@@ -132,7 +133,7 @@ class EditProfileTableViewController: UITableViewController {
             }
         }
     }
-    
+    // Change profile photo
     fileprivate func handleChangeProfilePhoto() {
         delegate?.handleChangeProfilePhoto(completion: {
             self.reloadData()
@@ -140,6 +141,7 @@ class EditProfileTableViewController: UITableViewController {
         })
     }
     
+    // Change name and update databse
     fileprivate func handleChangeName() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -175,7 +177,7 @@ class EditProfileTableViewController: UITableViewController {
         }))
         present(alert, animated: true, completion: nil)
     }
-    
+    // Change user name
     fileprivate func handleChangeUsername() {
         let alert = UIAlertController(title: "Change Username", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))

@@ -25,7 +25,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+    // Information about a footprint
     fileprivate func setupFootprint() {
         if let url = footprint?.user?.profilePhotoURL {
             profilePhotoImageView.loadImageUsingCache(with: url)
@@ -62,6 +62,7 @@ class FootprintSimpleCollectionViewCell: UICollectionViewCell {
         numLikesCommentsLabel.text = numLikesCommentsText
     }
     
+//------------------All Subviews----------------------------    
     fileprivate func setupViews() {
         backgroundColor = .white
         

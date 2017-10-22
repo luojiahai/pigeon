@@ -29,7 +29,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         setupViews()
         setupLocationManager()
     }
-
+	
+    // Setup the layout of navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -37,7 +38,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Post", style: .done, target: self, action: #selector(handleDone))
     }
-    
+    // Setup the layouts of all subviews 
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
@@ -82,6 +83,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         seperatorLine.heightAnchor.constraint(equalToConstant: linePixel).isActive = true
     }
     
+    // Give information to location manager
     fileprivate func setupLocationManager() {
         manager = CLLocationManager()
         manager.delegate = self
@@ -107,7 +109,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             dismiss(animated: true, completion: nil)
         }
     }
-    
+
+    // When done button has been touched
     @objc  fileprivate func handleDone() {   //add fileprivate back after testing
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -118,7 +121,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             }
             images?.append(imageView.image!)
         }
-        
+        // Get data
         guard let text = captionTextView.text, text != "" else {
             let alert = UIAlertController(title: "Post Footprint", message: "text field cannot be empty\nplease write something", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
@@ -143,13 +146,12 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         
         let values = ["user": currentUser.uid, "timestamp": timestamp, "text": text, "place": place.name] as [String : Any]
-        
+        // Update the posts according to new data
         self.updatePosts(values, location, images)
 
     }
     
-    
-    
+    // Post a new footprint
     func updatePosts(_ values: [String: Any], _ location: CLLocation, _ images: [UIImage]?){
         Database.database().reference().child("footprints").childByAutoId().updateChildValues(values) { (error, ref) in
             if let error = error {
@@ -211,6 +213,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             })
         }
     }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         currentLocation = locations.first ?? nil
         
@@ -221,7 +224,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             self.mapView.region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
         })
     }
-    
+    // Add a new image
     fileprivate func addCaptionImageView(_ image: UIImage) {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -254,7 +257,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             addImageButtonConstraint?.constant += 92
         }
     }
-    
+    // Delete the selected image
     fileprivate func deleteCaptionImageView(_ imageView: UIImageView) {
         let alert = UIAlertController(title: "Delete Photo", message: "Feature coming soon...", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
@@ -272,7 +275,7 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
             }
         }
     }
-    
+//-------------------All subviews -------------------------------------    
     lazy var placeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -342,7 +345,8 @@ class PostFootprintViewController: UIViewController, MKMapViewDelegate, CLLocati
     }()
     
 }
-
+// Everything related to adding image to a footprint
+// including pick on from library or take a photo
 extension PostFootprintViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc fileprivate func handleAddImage() {
@@ -401,7 +405,7 @@ extension PostFootprintViewController: UIImagePickerControllerDelegate, UINaviga
     }
     
 }
-
+// Select a place as the venue
 extension PostFootprintViewController: PlacesDataDelegate {
     
     func selectPlace(_ place: GMSPlace) {

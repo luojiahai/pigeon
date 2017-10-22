@@ -43,6 +43,7 @@ class UserProfileViewController: UIViewController {
         setupViews()
     }
     
+    // Information of a user
     fileprivate func setupUser() {
         nameLabel.text = user?.name
         
@@ -71,7 +72,7 @@ class UserProfileViewController: UIViewController {
             }
         }
     }
-
+	// Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -79,7 +80,8 @@ class UserProfileViewController: UIViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 //        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOptions))
     }
-    
+
+	// Setup of the layout of all subviews
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
         
@@ -137,6 +139,7 @@ class UserProfileViewController: UIViewController {
         refreshControl?.endRefreshing()
     }
     
+    // All footprints of the current user
     fileprivate func fetchFootprintsForUser() {
         guard let targetUser = user else { return }
         
@@ -183,6 +186,7 @@ class UserProfileViewController: UIViewController {
         }
     }
     
+    // When the image has been touched
     @objc fileprivate func handleShowFullImage(_ sender: UITapGestureRecognizer) {
         let imageView = sender.view as! UIImageView
         let fullscreenPhoto = UIImageView(frame: UIScreen.main.bounds)
@@ -211,6 +215,7 @@ class UserProfileViewController: UIViewController {
         sender.view?.removeFromSuperview()
     }
     
+    // When add friend button has been touched 
     @objc fileprivate func handleAddFriend(_ sender: UIButton) {
         guard let currentUser = Auth.auth().currentUser else { return }
         guard let targetUser = user else { return }
@@ -244,7 +249,7 @@ class UserProfileViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         })
     }
-    
+//-------------------All subviews-------------------------------    
     let nameCardView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -314,6 +319,7 @@ class UserProfileViewController: UIViewController {
 
 }
 
+// User Profile
 extension UserProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -32,7 +32,7 @@ class FootprintMapViewController: UIViewController {
         setupLocationManager()
         setupMapView()
     }
-    
+    // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -47,6 +47,7 @@ class FootprintMapViewController: UIViewController {
         view.backgroundColor = .groupTableViewBackground
     }
     
+    // Location Manager is to be informed when updates related to location happen
     fileprivate func setupLocationManager() {
         manager = CLLocationManager()
         manager.delegate = self
@@ -54,7 +55,7 @@ class FootprintMapViewController: UIViewController {
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
     }
-    
+    // Setup the layout of the map
     fileprivate func setupMapView() {
         view.addSubview(mapView)
         
@@ -77,7 +78,7 @@ class FootprintMapViewController: UIViewController {
             userInfo: nil,
             repeats: true)
     }
-    
+    // Update users location when timer tells it to
     @objc func updateUserLocation() {
         if let targetLocation = targetLocation {
             DispatchQueue.main.async {
@@ -101,7 +102,7 @@ class FootprintMapViewController: UIViewController {
             }
         }
     }
-    
+    // When a began has been touched, center the map to that began
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
@@ -114,7 +115,7 @@ class FootprintMapViewController: UIViewController {
             }
         }
     }
-    
+//-----------Funtions related to subviews----------------    
     @objc fileprivate func handleAR() {
         let arVC = ARViewController()
         arVC.delegate = self
@@ -141,6 +142,7 @@ class FootprintMapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
+//-------------All subviews-------------------------------------    
     lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.frame = self.view.frame

@@ -20,7 +20,7 @@ class NewChatPopoverViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
     
-    // MARK: - Table view data source
+//----------------New chat and New group chat-----------------------------------------------
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1

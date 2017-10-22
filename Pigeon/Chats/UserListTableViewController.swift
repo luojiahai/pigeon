@@ -18,7 +18,7 @@ class UserListTableViewController: UITableViewController {
         setupNavigation()
         setupTableView()
     }
-    
+    // Setup the layout of navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -26,6 +26,7 @@ class UserListTableViewController: UITableViewController {
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+//---------------------Table of users--------------------------------    
     fileprivate func setupTableView() {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(NewChatTableViewCell.self, forCellReuseIdentifier: "NewChatCell")
@@ -35,7 +36,7 @@ class UserListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users!.count
     }
-    
+    // Each user can be selected to have a new chat with
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "NewChatCell", for: indexPath)
         
@@ -49,7 +50,7 @@ class UserListTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 64
     }
-    
+    // Go to new chat view
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         

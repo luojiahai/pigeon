@@ -56,7 +56,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         activityIndicator.center = view.center
         view.addSubview(activityIndicator)
     }
-    
+    // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -79,6 +79,8 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                     if prefix == "pigeon://" {
                         activityIndicator.startAnimating()
                         video.session?.stopRunning()
+                        
+                        // Find the user with the given QRcode in databse
                         Database.database().reference().child("users").observeSingleEvent(of: .value, with: { (dataSnapshot) in
                             if dataSnapshot.hasChild(String(suffix)) {
                                 self.activityIndicator.stopAnimating()
@@ -87,6 +89,8 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                                 let vc = UserProfileViewController()
                                 vc.user = user
                                 self.navigationController?.pushViewController(vc, animated: true)
+                            
+                            // Pop over aler if no user matches
                             } else {
                                 self.activityIndicator.stopAnimating()
                                 self.video.session?.startRunning()
@@ -95,6 +99,7 @@ class QRScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
                                 self.present(alert, animated: true, completion: nil)
                             }
                         })
+                    // Only pigeon QRcode can be allowed    
                     } else {
                         let alert = UIAlertController(title: "QR Scan", message: "The QR Code is not associated with Pigeon\nPlease try again", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))

@@ -8,6 +8,8 @@
 
 import Foundation
 
+// The relationship between two users
+// pending friends or friends
 class UserFriendsData: NSObject {
     
     static let shared = UserFriendsData()

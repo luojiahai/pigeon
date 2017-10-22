@@ -35,7 +35,7 @@ class ChatsViewController: UITableViewController {
         setupTableView()
         setupNewChatPopoverVC()
     }
-    
+//-----------setup the layout of views----------------------------------
     fileprivate func setupNavigation() {
         
         navigationController?.navigationBar.isTranslucent = false
@@ -64,7 +64,7 @@ class ChatsViewController: UITableViewController {
         newChatPopoverVC.modalPresentationStyle = UIModalPresentationStyle.popover
         newChatPopoverVC.preferredContentSize = CGSize(width: 165, height: 44 * newChatPopoverVC.tableView.numberOfRows(inSection: 0))
     }
-    
+    // Fetch all chats from db
     fileprivate func fetchChats() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -134,14 +134,14 @@ class ChatsViewController: UITableViewController {
             })
         })
     }
-    
+    // Reload
     @objc fileprivate func handleReloadTable() {
         DispatchQueue.main.async(execute: {
             self.tableView.reloadData()
             self.refreshControl?.endRefreshing()
         })
     }
-    
+    // When tha new chat button on navigation bar has been touched
     @objc fileprivate func handleNewChat() {
         newChatPopoverVC.popoverPresentationController?.delegate = self
         newChatPopoverVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
@@ -149,7 +149,8 @@ class ChatsViewController: UITableViewController {
         
         present(newChatPopoverVC, animated: true, completion: nil)
     }
-    
+
+//---------------Table-----------------------------------------
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
@@ -186,7 +187,7 @@ class ChatsViewController: UITableViewController {
     }
     
 }
-
+// Go to a new chat
 extension ChatsViewController: NewChatTableViewControllerDelegate {
     
     func showChatLog(_ id: String, forUser user: User) {

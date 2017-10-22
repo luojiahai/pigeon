@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+// The chat log (conversation) collection of all msg
 class ChatLogCollectionViewCell: UICollectionViewCell {
     
     var bubbleWidthAnchor: NSLayoutConstraint?
@@ -23,7 +23,7 @@ class ChatLogCollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+//----------------------All subviews---------------------------    
     fileprivate func setupViews() {
         addSubview(bubbleView)
         addSubview(textView)
