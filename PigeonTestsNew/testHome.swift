@@ -27,6 +27,7 @@ class testHome: XCTestCase {
         homeVC = HomeViewController(collectionViewLayout: UICollectionViewFlowLayout())
         postFootprintVC = PostFootprintViewController(nibName: "PostFootprint", bundle: Bundle.main)
         placeVC = PlacesViewController(nibName: "Places", bundle: Bundle.main)
+        
     }
     
     override func tearDown() {
@@ -38,7 +39,14 @@ class testHome: XCTestCase {
     }
     
     func testNetwork(){
-        XCTAssert(Auth.auth().currentUser?.email == "abigail_yuan@hotmail.com", "cannot post footprint from correct user")
+        
+        //To pass this test, need to login on the simulator first
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+            
+            XCTAssert(Auth.auth().currentUser?.email == "abigail_yuan@hotmail.com", "cannot post footprint from correct user")
+            
+        })
+        
     }
         func testFootprintsTable() {
         // This is an example of a functional test case.
@@ -46,6 +54,8 @@ class testHome: XCTestCase {
         XCTAssert(loginVC != nil, "login view not loaded")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(4), execute: {
+            
+            
             XCTAssert(self.homeVC.footprints.count != 0, "footprints not loaded") //should not be 0
         })
     }

@@ -27,7 +27,6 @@
 		006F19FD1F3DA284004C20B3 /* Pigeon.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 006F19FB1F3DA282004C20B3 /* Pigeon.xcdatamodeld */; };
 		006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 006F19FE1F3DA284004C20B3 /* Assets.xcassets */; };
 		006F1A021F3DA285004C20B3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 006F1A001F3DA285004C20B3 /* LaunchScreen.storyboard */; };
-		006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */; };
 		006F1A181F3DA28C004C20B3 /* PigeonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */; };
 		007C13B91F94D75700C0061A /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007C13B81F94D75700C0061A /* UserLocation.swift */; };
 		008662911F5E513A00705787 /* ChatLogCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0086628A1F5E513700705787 /* ChatLogCollectionViewCell.swift */; };
@@ -48,7 +47,6 @@
 		00B33D881F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */; };
 		00B33D8A1F6A968B00926229 /* FootprintComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D891F6A968B00926229 /* FootprintComment.swift */; };
 		00B33D8C1F6AA45100926229 /* FootprintCommentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */; };
-		00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F691F6017AF006508EA /* testAuthentication.swift */; };
 		00C49F6D1F6192D7006508EA /* EditProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */; };
 		00C49F6F1F6192FB006508EA /* SettingsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */; };
 		00C73E541F6CA37700FAF85A /* UserProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */; };
@@ -73,7 +71,6 @@
 		7A4878031F5295380018A715 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878021F5295380018A715 /* LoginViewController.swift */; };
 		7A4878051F529B540018A715 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878041F529B540018A715 /* Extensions.swift */; };
 		7A4878071F52AE0C0018A715 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4878061F52AE0C0018A715 /* RegisterViewController.swift */; };
-		7A4E71EF1F77E9B000FB15CE /* testQuickAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */; };
 		7A596EC11F7E222D0046ABE2 /* testHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC01F7E222D0046ABE2 /* testHome.swift */; };
 		7A596EC31F7E223B0046ABE2 /* testMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC21F7E223B0046ABE2 /* testMe.swift */; };
 		7A596EC51F7E22470046ABE2 /* testChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A596EC41F7E22470046ABE2 /* testChat.swift */; };
@@ -91,7 +88,6 @@
 		7CE5BD491F6CE28C002FA29E /* QRScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5BD481F6CE28C002FA29E /* QRScanViewController.swift */; };
 		7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7CF607F21F77A0B6000802C5 /* infoPlist.strings */; };
 		93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */; };
-		E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */; };
 		EFC7EC42A8B5827FE21C9BDD /* Pods_PigeonTestsNew.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 724ADF7CB329E89E288DBC92 /* Pods_PigeonTestsNew.framework */; };
 		FF74B2231F7F7AB300EF7590 /* testHomeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF74B2221F7F7AB300EF7590 /* testHomeUI.swift */; };
 		FF8825451F8548D3005BA929 /* testChatUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8825441F8548D3005BA929 /* testChatUI.swift */; };
@@ -106,13 +102,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 00052B8F1F502D4300E9A27B;
 			remoteInfo = OneSignalNotificationServiceExtension;
-		};
-		006F1A091F3DA288004C20B3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 006F19E91F3DA27A004C20B3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 006F19F01F3DA27B004C20B3;
-			remoteInfo = Pigeon;
 		};
 		006F1A141F3DA28A004C20B3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -169,9 +158,6 @@
 		006F19FE1F3DA284004C20B3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		006F1A011F3DA285004C20B3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		006F1A031F3DA287004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		006F1A081F3DA288004C20B3 /* PigeonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonTests.swift; sourceTree = "<group>"; };
-		006F1A0E1F3DA28A004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		006F1A171F3DA28C004C20B3 /* PigeonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonUITests.swift; sourceTree = "<group>"; };
 		006F1A191F3DA28E004C20B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,7 +181,6 @@
 		00B33D871F6A13F300926229 /* FootprintSimpleCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintSimpleCollectionViewCell.swift; sourceTree = "<group>"; };
 		00B33D891F6A968B00926229 /* FootprintComment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintComment.swift; sourceTree = "<group>"; };
 		00B33D8B1F6AA45100926229 /* FootprintCommentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootprintCommentsTableViewCell.swift; sourceTree = "<group>"; };
-		00C49F691F6017AF006508EA /* testAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testAuthentication.swift; sourceTree = "<group>"; };
 		00C49F6C1F6192D6006508EA /* EditProfileTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTableViewController.swift; sourceTree = "<group>"; };
 		00C49F6E1F6192FB006508EA /* SettingsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTableViewCell.swift; sourceTree = "<group>"; };
 		00C73E531F6CA37700FAF85A /* UserProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileViewController.swift; sourceTree = "<group>"; };
@@ -213,13 +198,10 @@
 		00F78C111F7B70D1001912F3 /* PigeonTestsNew.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PigeonTestsNew.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00F78C131F7B70D1001912F3 /* PigeonTestsNew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PigeonTestsNew.swift; sourceTree = "<group>"; };
 		00F78C151F7B70D1001912F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.debug.xcconfig"; sourceTree = "<group>"; };
 		1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pigeon.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pigeon/Pods-Pigeon.debug.xcconfig"; sourceTree = "<group>"; };
 		1E7FFC711DCC1EE78FECC27F /* Pods-PigeonTestsNew.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTestsNew.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew.release.xcconfig"; sourceTree = "<group>"; };
 		260C73CF1F56D4460032E26E /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.release.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.release.xcconfig"; sourceTree = "<group>"; };
-		29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PigeonTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests.release.xcconfig"; sourceTree = "<group>"; };
 		66FB4F90629D42B188E2409C /* Pods-OneSignalNotificationServiceExtension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OneSignalNotificationServiceExtension/Pods-OneSignalNotificationServiceExtension.debug.xcconfig"; sourceTree = "<group>"; };
 		724ADF7CB329E89E288DBC92 /* Pods_PigeonTestsNew.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PigeonTestsNew.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A4877FA1F5290770018A715 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -228,7 +210,6 @@
 		7A4878021F5295380018A715 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		7A4878041F529B540018A715 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7A4878061F52AE0C0018A715 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testQuickAction.swift; sourceTree = "<group>"; };
 		7A596EC01F7E222D0046ABE2 /* testHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testHome.swift; sourceTree = "<group>"; };
 		7A596EC21F7E223B0046ABE2 /* testMe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testMe.swift; sourceTree = "<group>"; };
 		7A596EC41F7E22470046ABE2 /* testChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = testChat.swift; sourceTree = "<group>"; };
@@ -272,14 +253,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				93958807089E1A1EFC88AFEF /* Pods_Pigeon.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		006F1A051F3DA288004C20B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E361272BEFC2CF501BA6789F /* Pods_PigeonTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,10 +305,9 @@
 			isa = PBXGroup;
 			children = (
 				006F19F31F3DA27B004C20B3 /* Pigeon */,
-				006F1A0B1F3DA288004C20B3 /* PigeonTests */,
+				00F78C121F7B70D1001912F3 /* PigeonTestsNew */,
 				006F1A161F3DA28A004C20B3 /* PigeonUITests */,
 				00052B911F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
-				00F78C121F7B70D1001912F3 /* PigeonTestsNew */,
 				006F19F21F3DA27B004C20B3 /* Products */,
 				8CA86DE5DA9DEE66A6F0F184 /* Pods */,
 				657584C0AD11FE3EE2F67BB0 /* Frameworks */,
@@ -346,7 +318,6 @@
 			isa = PBXGroup;
 			children = (
 				006F19F11F3DA27B004C20B3 /* Pigeon.app */,
-				006F1A081F3DA288004C20B3 /* PigeonTests.xctest */,
 				006F1A131F3DA28A004C20B3 /* PigeonUITests.xctest */,
 				00052B901F502D4300E9A27B /* OneSignalNotificationServiceExtension.appex */,
 				00F78C111F7B70D1001912F3 /* PigeonTestsNew.xctest */,
@@ -373,17 +344,6 @@
 				006F1A251F3DA2D3004C20B3 /* Supporting Files */,
 			);
 			path = Pigeon;
-			sourceTree = "<group>";
-		};
-		006F1A0B1F3DA288004C20B3 /* PigeonTests */ = {
-			isa = PBXGroup;
-			children = (
-				7A4E71EE1F77E9B000FB15CE /* testQuickAction.swift */,
-				00C49F691F6017AF006508EA /* testAuthentication.swift */,
-				006F1A0C1F3DA288004C20B3 /* PigeonTests.swift */,
-				006F1A0E1F3DA28A004C20B3 /* Info.plist */,
-			);
-			path = PigeonTests;
 			sourceTree = "<group>";
 		};
 		006F1A161F3DA28A004C20B3 /* PigeonUITests */ = {
@@ -515,9 +475,8 @@
 			children = (
 				916CF702174E595049C8157C /* Pods_OneSignalNotificationServiceExtension.framework */,
 				F0AD57B0C9FCDEC092967240 /* Pods_Pigeon.framework */,
-				29339CCBAC6382358DC9233B /* Pods_PigeonTests.framework */,
-				E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */,
 				724ADF7CB329E89E288DBC92 /* Pods_PigeonTestsNew.framework */,
+				E64258CBD0FAD415D82165A2 /* Pods_PigeonUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -545,12 +504,10 @@
 				26B428455C7FE1F960795474 /* Pods-OneSignalNotificationServiceExtension.release.xcconfig */,
 				1AF12D19D90083EB85B0FC05 /* Pods-Pigeon.debug.xcconfig */,
 				939F1ED540968BC9471B32AF /* Pods-Pigeon.release.xcconfig */,
-				0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */,
-				32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */,
-				94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */,
-				A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */,
 				DBA60CF7C6A602BDC6FF252A /* Pods-PigeonTestsNew.debug.xcconfig */,
 				1E7FFC711DCC1EE78FECC27F /* Pods-PigeonTestsNew.release.xcconfig */,
+				94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */,
+				A9C70C9D1E3A3A28D66BEF69 /* Pods-PigeonUITests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -598,27 +555,6 @@
 			productName = Pigeon;
 			productReference = 006F19F11F3DA27B004C20B3 /* Pigeon.app */;
 			productType = "com.apple.product-type.application";
-		};
-		006F1A071F3DA288004C20B3 /* PigeonTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 006F1A1F1F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "PigeonTests" */;
-			buildPhases = (
-				0B5FEE9C0721B82F02212729 /* [CP] Check Pods Manifest.lock */,
-				006F1A041F3DA288004C20B3 /* Sources */,
-				006F1A051F3DA288004C20B3 /* Frameworks */,
-				006F1A061F3DA288004C20B3 /* Resources */,
-				DE0B73E7A6DBE56CC45FC79E /* [CP] Embed Pods Frameworks */,
-				31AB50B212E120FCF917CEC5 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				006F1A0A1F3DA288004C20B3 /* PBXTargetDependency */,
-			);
-			name = PigeonTests;
-			productName = PigeonTests;
-			productReference = 006F1A081F3DA288004C20B3 /* PigeonTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		006F1A121F3DA28A004C20B3 /* PigeonUITests */ = {
 			isa = PBXNativeTarget;
@@ -687,10 +623,6 @@
 							};
 						};
 					};
-					006F1A071F3DA288004C20B3 = {
-						CreatedOnToolsVersion = 9.0;
-						TestTargetID = 006F19F01F3DA27B004C20B3;
-					};
 					006F1A121F3DA28A004C20B3 = {
 						CreatedOnToolsVersion = 9.0;
 						TestTargetID = 006F19F01F3DA27B004C20B3;
@@ -717,9 +649,8 @@
 			targets = (
 				006F19F01F3DA27B004C20B3 /* Pigeon */,
 				00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */,
-				006F1A071F3DA288004C20B3 /* PigeonTests */,
-				006F1A121F3DA28A004C20B3 /* PigeonUITests */,
 				00F78C101F7B70D1001912F3 /* PigeonTestsNew */,
+				006F1A121F3DA28A004C20B3 /* PigeonUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -741,13 +672,6 @@
 				006F19FF1F3DA284004C20B3 /* Assets.xcassets in Resources */,
 				006F19FA1F3DA280004C20B3 /* Main.storyboard in Resources */,
 				7CF607F31F77A0B6000802C5 /* infoPlist.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		006F1A061F3DA288004C20B3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,24 +707,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0B5FEE9C0721B82F02212729 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PigeonTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		0D044EE7DD78421183F77C03 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -819,21 +725,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTestsNew/Pods-PigeonTestsNew-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		31AB50B212E120FCF917CEC5 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		3A540EDD8FEE786CF1EFB42E /* [CP] Check Pods Manifest.lock */ = {
@@ -978,21 +869,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonUITests/Pods-PigeonUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DE0B73E7A6DBE56CC45FC79E /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PigeonTests/Pods-PigeonTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		E5B81B08FE6936007BF9991D /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1101,16 +977,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		006F1A041F3DA288004C20B3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A4E71EF1F77E9B000FB15CE /* testQuickAction.swift in Sources */,
-				006F1A0D1F3DA288004C20B3 /* PigeonTests.swift in Sources */,
-				00C49F6A1F6017AF006508EA /* testAuthentication.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		006F1A0F1F3DA28A004C20B3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1143,11 +1009,6 @@
 			isa = PBXTargetDependency;
 			target = 00052B8F1F502D4300E9A27B /* OneSignalNotificationServiceExtension */;
 			targetProxy = 00052B951F502D4300E9A27B /* PBXContainerItemProxy */;
-		};
-		006F1A0A1F3DA288004C20B3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 006F19F01F3DA27B004C20B3 /* Pigeon */;
-			targetProxy = 006F1A091F3DA288004C20B3 /* PBXContainerItemProxy */;
 		};
 		006F1A151F3DA28A004C20B3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1356,54 +1217,6 @@
 			};
 			name = Release;
 		};
-		006F1A201F3DA28E004C20B3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0944985B79E7B0B94B067296 /* Pods-PigeonTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
-				HEADER_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"${PODS_ROOT}/Firebase/Core/Sources",
-					"$(SRCROOT)/Pods/**",
-				);
-				INFOPLIST_FILE = PigeonTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.PigeonTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pigeon.app/Pigeon";
-			};
-			name = Debug;
-		};
-		006F1A211F3DA28E004C20B3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32F7574EDD7DE09788750011 /* Pods-PigeonTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
-				DEVELOPMENT_TEAM = ZUAQ7M5VNP;
-				HEADER_SEARCH_PATHS = (
-					"<Multiple",
-					"values>",
-					"${PODS_ROOT}/Firebase/Core/Sources",
-					"$(SRCROOT)/Pods/**",
-				);
-				INFOPLIST_FILE = PigeonTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.elroot.PigeonTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pigeon.app/Pigeon";
-			};
-			name = Release;
-		};
 		006F1A231F3DA28E004C20B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 94DA70E6CE5BBE34A2F3F2CF /* Pods-PigeonUITests.debug.xcconfig */;
@@ -1496,15 +1309,6 @@
 			buildConfigurations = (
 				006F1A1D1F3DA28E004C20B3 /* Debug */,
 				006F1A1E1F3DA28E004C20B3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		006F1A1F1F3DA28E004C20B3 /* Build configuration list for PBXNativeTarget "PigeonTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				006F1A201F3DA28E004C20B3 /* Debug */,
-				006F1A211F3DA28E004C20B3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

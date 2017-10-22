@@ -34,12 +34,14 @@ class testHomeUI: XCTestCase {
         
         let app = XCUIApplication()
         
-        //logout of pigeon
-        let tabBarsQuery = app.tabBars
-        tabBarsQuery.buttons["Me"].tap()
-        app.navigationBars["Me"].buttons["icons8 More Filled 50"].tap()
-        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Log Out"]/*[[".cells.staticTexts[\"Log Out\"]",".staticTexts[\"Log Out\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-        app.alerts["Warning"].buttons["Yes"].tap()
+        if (app.navigationBars["Pigeon"].exists) {
+            //logout of pigeon
+            let tabBarsQuery = app.tabBars
+            tabBarsQuery.buttons["Me"].tap()
+            app.navigationBars["Me"].buttons["icons8 More Filled 50"].tap()
+            app.tables/*@START_MENU_TOKEN@*/.staticTexts["Log Out"]/*[[".cells.staticTexts[\"Log Out\"]",".staticTexts[\"Log Out\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+            app.alerts["Warning"].buttons["Yes"].tap()
+        }
         
         // enter email on login
         let emailTextField = app.textFields["Email"]
@@ -50,7 +52,7 @@ class testHomeUI: XCTestCase {
         passwordSecureTextField.tap()
         passwordSecureTextField.typeText("123123")
         app.buttons["Login"].tap()
-        tabBarsQuery.buttons["Home"].tap()
+        app.tabBars.buttons["Home"].tap()
 
         //begin testing
         let pigeonNavigationBar = app.navigationBars["Pigeon"]
