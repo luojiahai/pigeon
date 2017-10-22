@@ -7,7 +7,7 @@
 //
 
 import XCTest
-
+import Firebase
 @testable import Pigeon
 
 class testHomeUI: XCTestCase {
@@ -33,17 +33,37 @@ class testHomeUI: XCTestCase {
     func testExample() {
         
         let app = XCUIApplication()
-    
+        
+        //logout of pigeon
+        let tabBarsQuery = app.tabBars
+        tabBarsQuery.buttons["Me"].tap()
+        app.navigationBars["Me"].buttons["icons8 More Filled 50"].tap()
+        app.tables/*@START_MENU_TOKEN@*/.staticTexts["Log Out"]/*[[".cells.staticTexts[\"Log Out\"]",".staticTexts[\"Log Out\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.alerts["Warning"].buttons["Yes"].tap()
+        
+        // enter email on login
+        let emailTextField = app.textFields["Email"]
+        emailTextField.tap()
+        emailTextField.typeText("demo@gmail.com")
+        // enter password
+        let passwordSecureTextField = app.secureTextFields["Password"]
+        passwordSecureTextField.tap()
+        passwordSecureTextField.typeText("123123")
+        app.buttons["Login"].tap()
+        tabBarsQuery.buttons["Home"].tap()
+
+        //begin testing
         let pigeonNavigationBar = app.navigationBars["Pigeon"]
         pigeonNavigationBar.buttons["icons8 Map Marker Filled 50"].tap()
         app.navigationBars["Map"].buttons["Cancel"].tap()
         
         pigeonNavigationBar.buttons["icons8 Cat Footprint Filled 50"].tap()
         app.navigationBars["Post Footprint"].buttons["Cancel"].tap()
-        app.collectionViews.cells.containing(.staticText, identifier:"00:23 05/10/2017").buttons["icons8 Heart 50"].tap()
+        app.collectionViews.cells.containing(.staticText, identifier:"15:10 30/09/2017").buttons["icons8 Heart 50"].tap()
         
         let navigationBarsQuery = app.navigationBars["Footprint"]
         navigationBarsQuery.buttons["Pigeon"].tap()
+        
     }
     
 }
