@@ -36,7 +36,7 @@ Note: Do not target on XCode simulators, which may not support some functionalit
 
 ### Unit Tests
 
-Unit testing includes tests for all models components and functionalities. To check the tests, open the project in xcode and do command + U. If it does not compile, try click the title of the unit test directory. If tests pass, a green tick will show after the title of each test case.
+Unit testing includes tests for all models components and functionalities. To check the tests, open the project in xcode and do command + U. If it does not compile, try click the title of the unit test directory. To run a single test, click the start button on the test under its directory. If tests pass, a green tick will show after the title of each test case.
 
 We have made tests for:
 
