@@ -24,7 +24,7 @@ Note: Do not target on XCode simulators, which may not support some functionalit
 * Add friends and chat
 * Group chat
 * Location share
-* Group llocation share
+* Group location share
 * Post footprint
 * View footprints by feeding into home page
 * View footprints on map
