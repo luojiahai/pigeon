@@ -27,6 +27,7 @@ class testHome: XCTestCase {
         homeVC = HomeViewController(collectionViewLayout: UICollectionViewFlowLayout())
         postFootprintVC = PostFootprintViewController(nibName: "PostFootprint", bundle: Bundle.main)
         placeVC = PlacesViewController(nibName: "Places", bundle: Bundle.main)
+        
     }
     
     override func tearDown() {
@@ -38,6 +39,8 @@ class testHome: XCTestCase {
     }
     
     func testNetwork(){
+        
+        //To pass this test, need to login on the simulator first
         XCTAssert(Auth.auth().currentUser?.email == "abigail_yuan@hotmail.com", "cannot post footprint from correct user")
     }
         func testFootprintsTable() {
