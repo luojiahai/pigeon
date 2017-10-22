@@ -38,7 +38,7 @@ class ContactsViewController: UITableViewController {
         setupTableView()
         //        setupRefreshControl()
     }
-    
+    // Setup the layout of navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -49,6 +49,7 @@ class ContactsViewController: UITableViewController {
 //        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(reloadData))
     }
     
+//--------------------All subviews---------------------    
     fileprivate func setupViews() {
         view.backgroundColor = .groupTableViewBackground
     }
@@ -75,6 +76,7 @@ class ContactsViewController: UITableViewController {
         tableView.addSubview(refreshControl!)
     }
     
+    // Fetch all contacts of the current user from database
     fileprivate func fetchContacts() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -118,7 +120,7 @@ class ContactsViewController: UITableViewController {
     }
 
 }
-
+//--------------------Table of all contacts----------------------------
 extension ContactsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {

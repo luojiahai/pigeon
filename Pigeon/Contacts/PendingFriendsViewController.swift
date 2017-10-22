@@ -45,7 +45,7 @@ class PendingFriendsViewController: UITableViewController {
         
         fetchPendingFriends()
     }
-    
+//-------------Setup layout of views-------------------------------    
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -62,6 +62,7 @@ class PendingFriendsViewController: UITableViewController {
         tableView.register(PendingFriendsTableViewCell.self, forCellReuseIdentifier: "PendingFriendsCell")
     }
     
+    // Fetch all pending friends of the current user
     fileprivate func fetchPendingFriends() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -120,7 +121,10 @@ class PendingFriendsViewController: UITableViewController {
         }
     }
     
+    // When the user approves the friend request
+    // Update database
     @objc fileprivate func handleApprove(sender: UIButton) {
+        // Create new friends
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
         let values = ["from": pendingFriends[sender.tag].uid!, "to": currentUser.uid, "timestamp": timestamp] as [String : Any]
@@ -131,9 +135,10 @@ class PendingFriendsViewController: UITableViewController {
                 self.present(alert, animated: true, completion: nil)
                 return
             }
-            
+            // Send notification
             AppNotification.shared.sendApproveNotification(sender: currentUser.uid, receiver: self.pendingFriends[sender.tag].uid!)
             
+            // Update the friends list of the current user
             let values = [ref.key: timestamp]
             Database.database().reference().child("user-friends").child(currentUser.uid).updateChildValues(values, withCompletionBlock: { (err, _) in
                 if let err = err {
@@ -143,6 +148,7 @@ class PendingFriendsViewController: UITableViewController {
                     return
                 }
             })
+            // Update the friends list of the target user
             Database.database().reference().child("user-friends").child(self.pendingFriends[sender.tag].uid!).updateChildValues(values, withCompletionBlock: { (err, _) in
                 if let err = err {
                     let alert = UIAlertController(title: "Error", message: String(describing: err), preferredStyle: .alert)
@@ -151,7 +157,7 @@ class PendingFriendsViewController: UITableViewController {
                     return
                 }
             })
-            
+            // Create (potential) conversations
             let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
             Database.database().reference().child("conversations").childByAutoId().updateChildValues(["timestamp": timestamp], withCompletionBlock: { (error, ref) in
                 if let error = error {
@@ -191,13 +197,13 @@ class PendingFriendsViewController: UITableViewController {
     }
     
 }
-
+//--------------Table of all pending friends-----------
 extension PendingFriendsViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pendingFriends.count
     }
-    
+    // Each cell is a pending friend cell
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PendingFriendsCell", for: indexPath)
         

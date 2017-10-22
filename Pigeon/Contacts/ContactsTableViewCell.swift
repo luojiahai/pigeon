@@ -26,6 +26,7 @@ class ContactsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // Information about a user
     fileprivate func setupUser() {
         nameLabel.text = contact?.name
         
@@ -38,6 +39,7 @@ class ContactsTableViewCell: UITableViewCell {
         }
     }
     
+//---------------All subviews-----------------------------------------
     fileprivate func setupViews() {
         addSubview(nameLabel)
         addSubview(usernameLabel)

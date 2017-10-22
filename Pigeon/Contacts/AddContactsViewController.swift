@@ -35,6 +35,7 @@ class AddContactsViewController: UITableViewController {
         setupTableView()
     }
     
+    // Setup the layout of navigation bar, views and table
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -51,6 +52,7 @@ class AddContactsViewController: UITableViewController {
         tableView.register(AddContactsTableViewCell.self, forCellReuseIdentifier: "AddContactsCell")
     }
     
+    // Search bar for search a user to add as a contact
     fileprivate func setupSearchController() {
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -60,7 +62,7 @@ class AddContactsViewController: UITableViewController {
         definesPresentationContext = true
         tableView.tableHeaderView = searchController.searchBar
     }
-    
+    // Fetch users (potential contacts) from database
     fileprivate func fetchUsers() {
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("users").observeSingleEvent(of: .value) { (dataSnapshot) in
@@ -92,7 +94,8 @@ class AddContactsViewController: UITableViewController {
             })
         }
     }
-    
+    // When the request button has been touched
+    // Send a friend request to that user
     @objc fileprivate func handleRequest(_ sender: UIButton) {
         guard let currentUser = Auth.auth().currentUser else { return }
         let timestamp: NSNumber = NSNumber(value: Int(NSDate().timeIntervalSince1970))
@@ -116,7 +119,7 @@ class AddContactsViewController: UITableViewController {
     }
 
 }
-
+//-----------------Table for all potential contacts-----------------------------------
 extension AddContactsViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
