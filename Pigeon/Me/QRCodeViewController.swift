@@ -27,7 +27,7 @@ class QRCodeViewController: UIViewController, QRScanViewControllerDelegate {
         setupNavigation()
         setupViews()
     }
-    
+    // Setup the layout of navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -48,6 +48,7 @@ class QRCodeViewController: UIViewController, QRScanViewControllerDelegate {
         qrCodeImageView.heightAnchor.constraint(equalToConstant: 256).isActive = true
     }
     
+    // Scan other people's QRcode
     @objc fileprivate func handleScan() {
         let scanVC = QRScanViewController()
         scanVC.delegate = self
@@ -59,6 +60,7 @@ class QRCodeViewController: UIViewController, QRScanViewControllerDelegate {
         dismiss(animated: true, completion: nil)
     }
     
+    // Generate QRcode for current user
     fileprivate func generateQRCode(from string: String) -> CIImage? {
         let data = string.data(using: String.Encoding.ascii)
         

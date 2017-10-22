@@ -7,7 +7,8 @@
 //
 
 import UIKit
-
+// All settings table view cell
+// Used when there's need to edit profile table
 class SettingsTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -19,7 +20,7 @@ class SettingsTableViewCell: UITableViewCell {
     }
     
 }
-
+// Label
 class SettingsLabelTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -45,7 +46,7 @@ class SettingsLabelTableViewCell: UITableViewCell {
     }()
     
 }
-
+// Image
 class SettingsImageTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {

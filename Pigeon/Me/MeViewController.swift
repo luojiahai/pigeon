@@ -61,7 +61,7 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
         
         refreshControl?.endRefreshing()
     }
-    
+    // Setup the layout of navigation bar
     fileprivate func setupNavigation() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.tintColor = .black
@@ -71,14 +71,14 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-QR Code Filled-50"), style: .plain, target: self, action: #selector(handleQRCode))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icons8-More Filled-50"), style: .plain, target: self, action: #selector(handleOptions))
     }
-    
+    // When QRcode button has been touched
     @objc fileprivate func handleQRCode() {
         let qrVC = QRCodeViewController()
         qrVC.user = user
         let vc = UINavigationController(rootViewController: qrVC)
         present(vc, animated: true, completion: nil)
     }
-    
+    // Functions related to subviews
     fileprivate func supportViews() {
         meView.editProfileButton.addTarget(self, action: #selector(handleEditProfile), for: .touchUpInside)
         
@@ -93,6 +93,7 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
         collectionView.addSubview(refreshControl!)
     }
     
+    // Fetch the information about the current user
     fileprivate func fetchUser() {
         guard let currentUser = Auth.auth().currentUser else { return }
         Database.database().reference().child("users").child(currentUser.uid).observeSingleEvent(of: .value) { (dataSnapshot) in
@@ -103,13 +104,14 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
             self.meView.profilePhotoImageView.loadImageUsingCache(with: (self.user?.profilePhotoURL)!)
         }
     }
-    
+    // When option button has been touched
     @objc fileprivate func handleOptions() {
         let vc = OptionsTableViewController(style: .grouped)
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // When signout button has been touched
     func handleSignOut(completion: (() -> Void)?) {
         let alert = UIAlertController(title: "Warning", message: "Are you sure want to sign out?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { (action) in
@@ -133,7 +135,7 @@ class MeViewController: UIViewController, OptionsViewControllerDelegate, EditPro
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
-    
+    // Footprints posted by the current user
     fileprivate func fetchFootprintsForMe() {
         guard let currentUser = Auth.auth().currentUser else { return }
         
@@ -194,7 +196,7 @@ extension MeViewController: LoginViewControllerDelegate {
     }
     
 }
-
+// Each cell in collections can be opened and seen as a footprint
 extension MeViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -231,7 +233,7 @@ extension MeViewController: UICollectionViewDataSource, UICollectionViewDelegate
     }
     
 }
-
+// Give the profile a image (take a photo or pick one from library)
 extension MeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     func handleChangeProfilePhoto(completion: (() -> Void)? = nil) {

@@ -12,7 +12,7 @@ protocol OptionsViewControllerDelegate {
     func handleEditProfile()
     func handleSignOut(completion: (() -> Void)?)
 }
-
+// Options when editing profile (edit or logout)
 class OptionsTableViewController: UITableViewController {
 
     var delegate: OptionsViewControllerDelegate?
@@ -25,12 +25,13 @@ class OptionsTableViewController: UITableViewController {
         setupNavigation()
         setupTableView()
     }
-    
+    // Setup the layout of the navigation bar
     fileprivate func setupNavigation() {
         navigationItem.title = "Options"
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+//------------------Table of options----------------------    
     fileprivate func setupTableView() {
         tableView.backgroundColor = .groupTableViewBackground
         tableView.register(SettingsTableViewCell.self, forCellReuseIdentifier: "SettingsCell")
