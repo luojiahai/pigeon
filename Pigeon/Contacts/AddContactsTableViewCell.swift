@@ -36,7 +36,7 @@ class AddContactsTableViewCell: UITableViewCell {
             profilePhotoImageView.loadImageUsingCache(with: url)
         }
     }
-//-----------------------    
+//-----------------------All subviews------------------------------------    
     fileprivate func setupViews() {
         addSubview(nameLabel)
         addSubview(usernameLabel)
